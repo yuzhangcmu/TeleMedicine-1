@@ -57,7 +57,7 @@ public class RegisterActivity extends Activity {
 				user.signUpInBackground(new SignUpCallback() {
 				  public void done(ParseException e) {
 				    if (e == null) {
-				      // Hooray! Let them use the app now.
+				        // Hooray! Let them use the app now.
 				    	Intent intent = new Intent(RegisterActivity.this,
 				    			ContactActivity.class);
 						startActivity(intent);
@@ -67,8 +67,8 @@ public class RegisterActivity extends Activity {
 						newUserTable.put("friend_username", username);		// A user is his own friend in the beginning
 						newUserTable.saveInBackground();
 				    } else {
-				      // Sign up didn't succeed. Look at the ParseException
-				      // to figure out what went wrong
+				        // Sign up didn't succeed. Look at the ParseException
+				        // to figure out what went wrong
 				    	Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
 				    }
 				  }
