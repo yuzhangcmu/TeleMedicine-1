@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="edu.cmu.smartphone.telemedicine"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="false" >
+    </supports-screens>
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="19" />
+    
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:name="TeleMedicineApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.Black.NoTitleBar" >
+        <activity
+            android:name="edu.cmu.smartphone.telemedicine.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="edu.cmu.smartphone.telemedicine.AddActivity" >
+        </activity>
+        <activity android:name="edu.cmu.smartphone.telemedicine.ChatActivity" >
+        </activity>
+        <activity android:name="edu.cmu.smartphone.telemedicine.ContactActivity" >
+        </activity>
+        <activity android:name="edu.cmu.smartphone.telemedicine.InfoActivity" >
+        </activity>
+        <activity android:name="edu.cmu.smartphone.telemedicine.LoginActivity" >
+        </activity>
+        <activity android:name="edu.cmu.smartphone.telemedicine.RegisterActivity" >
+        </activity>
+        <activity android:name="edu.cmu.smartphone.telemedicine.SettingActivity" >
+        </activity>
+    </application>
+
+</manifest>
