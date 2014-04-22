@@ -9,7 +9,6 @@
         android:layout_height="wrap_content"
         android:background="#fff" >
 
-        <!-- Registration Form -->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -17,8 +16,21 @@
             android:orientation="vertical"
             android:padding="10dip" >
 
-            <!-- Full Name Label -->
 
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="User Name"
+                android:textColor="#372c24" />
+
+            <EditText
+                android:id="@+id/reg_username"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dip"
+                android:layout_marginTop="5dip"
+                android:singleLine="true" />
+            
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -32,7 +44,6 @@
                 android:layout_marginBottom="20dip"
                 android:layout_marginTop="5dip"
                 android:singleLine="true" />
-            <!-- Email Label -->
 
             <TextView
                 android:layout_width="fill_parent"
