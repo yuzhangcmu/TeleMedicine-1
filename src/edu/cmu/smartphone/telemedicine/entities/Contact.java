@@ -18,13 +18,25 @@ public class Contact {
     private int age;
     private String passWord;
     
+    /** 
+     * The sorted character.
+     */  
+    private String sortKey;
+    
     // this constract a contact which only has name and loginID to show it 
     // on the screen. detail profile can be fatched from the database.
     public Contact (String name, String loginID) {
         this.name = name;
         this.userID = loginID;
+        
+        // set the sort key
+        this.sortKey = name;
     }
     
+    public Contact() {
+        // TODO Auto-generated constructor stub
+    }
+
     public String getUserID() {
         return userID;
     }
@@ -75,6 +87,18 @@ public class Contact {
     
     public String getPassword() {
         return passWord;
+    }
+
+    public String getSortKey() {
+        return sortKey;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSortKey(String sortKey2) {
+        sortKey = sortKey2;
     }
     
 }

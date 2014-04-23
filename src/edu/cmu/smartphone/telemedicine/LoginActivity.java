@@ -24,6 +24,18 @@ public class LoginActivity extends Activity {
 	
 	// added by yu zhang for register login.
 	TextView registerTextView;
+	
+	// added by yu zhang. for userID manage.
+	private static String userID;
+	
+	public static String getUserID() {
+	    return userID;
+	}
+	
+	public static void setUserID(String userID1) {
+	    userID = userID1;
+	}
+	// added by yu zhang. for userID manage.
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +49,7 @@ public class LoginActivity extends Activity {
 
 		loginButton = (Button) findViewById(R.id.login_loginBtn);
 		
-		// added by yuzhang 
+		// added by yu zhang. 
 		registerTextView = (TextView)findViewById(R.id.login_link_to_register);
 		
 		// added by yu zhang for set the on clike of the button "Go to register."
@@ -60,14 +72,6 @@ public class LoginActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-			    // First should contact the server to check if the user exit.
-			    // ...
-			    
-			    // if the user exit, LOGIN and CREATE A DATABASE.
-			    // if the database exit, ignore.
-			    Dao_Sqlite dao = new Dao_Sqlite(LoginActivity.this);
-				// TODO Auto-generated method stub
-
 				ParseUser.logInInBackground(username, password,
 						new LogInCallback() {
 							public void done(ParseUser user, ParseException e) {
@@ -77,6 +81,13 @@ public class LoginActivity extends Activity {
 											LoginActivity.this,
 											ContactActivity.class);
 									startActivity(intent);
+									
+									// added by yu zhang. setup the userid.
+									userID = username;
+									
+									// added by yu zhang:
+									// create a database, the name is the username.
+					                Dao_Sqlite dao = new Dao_Sqlite(LoginActivity.this, username, null, 1);
 								} else {
 									// Signup failed. Look at the ParseException
 									// to see what happened.

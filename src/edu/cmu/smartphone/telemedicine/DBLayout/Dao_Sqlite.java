@@ -2,7 +2,13 @@ package edu.cmu.smartphone.telemedicine.DBLayout;
 
 import java.util.Formatter;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
+
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import edu.cmu.smartphone.telemedicine.entities.Contact;
 import android.content.ContentValues;
@@ -16,7 +22,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 // reference: http://www.androidhive.info/2013/09/android-sqlite-database-with-multiple-tables/
-public class Dao_Sqlite   extends SQLiteOpenHelper {
+public class Dao_Sqlite extends SQLiteOpenHelper {
     // Logcat tag
     private static final String LOG = "DatabaseHelper";
  
@@ -41,9 +47,16 @@ public class Dao_Sqlite   extends SQLiteOpenHelper {
     private static final String KEY_INTRO = "Intro";
     private static final String KEY_HEADPORTRAIT = "headportrait";
     
+    // parse.com database.
+    private static final String KEY_FULLNAME = "fullname";
+    
+    private static final String KEY_FRIENDNAME = "friend_username";
+    
     public Dao_Sqlite(Context context, String name, CursorFactory factory,
             int version) {
         super(context, name, factory, version);
+        SQLiteDatabase db = this.getWritableDatabase();
+        onCreate(db);
     }
     
     public Dao_Sqlite(Context context) {
@@ -74,6 +87,61 @@ public class Dao_Sqlite   extends SQLiteOpenHelper {
         return contactList;
     }
     
+    public Cursor addContactToArrayList(List<Contact> contacts) {
+        SQLiteDatabase myDB = this.getWritableDatabase();
+        
+        String sql = "SELECT * FROM " + TABLE_CONTACT;
+        Log.e(LOG, sql);
+        
+        Cursor c = myDB.rawQuery(sql, null);
+        
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+                String name = c.getString(c.getColumnIndex("Name"));
+                String userID = c.getString(c.getColumnIndex("UserID"));
+                
+                Contact contact = new Contact(name, userID);
+                
+                contact.setName(name);
+                contact.setSortKey(name);
+                
+                // adding to contact list.
+                contacts.add(contact);
+            } while (c.moveToNext());
+        }
+        
+        return c;
+    }
+    
+    // load a user's data to the database.
+    public void loadDataFromCloud(String userName) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(userName);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> contactList, ParseException e) {
+                if (e == null) {
+                    Log.d("contacts", "Retrieved " + contactList.size() + " contacts");
+                    
+                    for (ParseObject o: contactList) {
+                        //String name = o.getString(KEY_FULLNAME);
+                        String userID = o.getString(KEY_FRIENDNAME);
+                        
+                        // need to change to name.
+                        Contact contact = new Contact(userID, userID);
+                        contact.setSortKey(userID);
+                        
+                        addContact(contact);
+                    }
+                } else {
+                    Log.d("contacts", "Error: " + e.getMessage());
+                }
+            }
+            
+        });
+        
+    }
+    
     public int updateContact(Contact contact) {
         SQLiteDatabase myDB = this.getWritableDatabase();
         
@@ -93,7 +161,7 @@ public class Dao_Sqlite   extends SQLiteOpenHelper {
     }
     
     public void addContact(Contact contact) { 
-        String tableContact = "TableContact";
+        String tableContact = TABLE_CONTACT;
  
         try {
             // Get the database if database is not exists create new database 
@@ -105,32 +173,32 @@ public class Dao_Sqlite   extends SQLiteOpenHelper {
             // Send all output to the Appendable object sb
             Formatter formatter = new Formatter(sb, Locale.US);
             
-            // Create contact table
-            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + tableContact
-                    + " (Id INTEGER not NULL AUTO_INCREMENT, "
-                    + "Type VARCHAR(50), Email VARCHAR(255), Phone VARCHAR(30),"
-                    + "Name VARCHAR(255), UserID VARCHAR(255)"
-                    + "intro varchar(300), HeadPortrait VARCHAR(255), "
-                    + "Age integer, Password VARCHAR(255), PRIMARY KEY ( Id ));");
-
             // Explicit argument indices may be used to re-order output.
-            formatter.format("REPLACE INTO %s (Type, Email, Phone, Name, UserID, Intro,"
-                    + "HeadPortrait, Age, Password) "
-                    + "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s');",
+//            formatter.format("REPLACE INTO %s (Type, Email, Phone, Name, UserID, Intro,"
+//                    + "HeadPortrait, Age, Password) "
+//                    + "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s');",
+//                    tableContact,
+//                    contact.getType(),
+//                    contact.getEmail(),
+//                    contact.getPhone(),
+//                    contact.getName(),
+//                    contact.getUserID(),
+//                    contact.getIntro(),
+//                    contact.getHeadPortrait(),
+//                    contact.getAge(),
+//                    contact.getPassword()
+//                    );
+            
+            formatter.format("REPLACE INTO %s (Name, UserID) VALUES ('%s', '%s');",
                     tableContact,
-                    contact.getType(),
-                    contact.getEmail(),
-                    contact.getPhone(),
                     contact.getName(),
-                    contact.getUserID(),
-                    contact.getIntro(),
-                    contact.getHeadPortrait(),
-                    contact.getAge(),
-                    contact.getPassword()
+                    contact.getUserID()
                     );
+            
             formatter.close();
-     
-            myDB.execSQL(sb.toString());
+            String sql = sb.toString();
+            myDB.execSQL(sql);
+            Log.d(LOG, sql);
  
         } catch (Exception e) {
             Log.e("Error", "Error", e);
@@ -148,41 +216,45 @@ public class Dao_Sqlite   extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase myDB) {
         try {
             // Create contact table
+            /*
             myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CONTACT
-                    + " (Id INTEGER not NULL AUTO_INCREMENT, "
-                    + "UserID integer, Type VARCHAR(50), Email VARCHAR(255), Phone VARCHAR(30),"
+                    + " (UserID VARCHAR(50), Type VARCHAR(50), Email VARCHAR(255), Phone VARCHAR(30),"
                     + "Nation VARCHAR(255), Province VARCHAR(255),"
-                    + "City VARCHAR(255), Name VARCHAR(255), LoginID VARCHAR(255), "
+                    + "City VARCHAR(255), Name VARCHAR(255), "
                     + "Intro VARCHAR(300), HeadPortrait VARCHAR(255), "
-                    + "Age integer, Password VARCHAR(255), PRIMARY KEY ( Id ));");
+                    + "Age integer, Password VARCHAR(255), PRIMARY KEY ( UserID ));");
+                    */
+            String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_CONTACT
+                    + " (" + KEY_USERID + " VARCHAR PRIMARY KEY, Name VARCHAR);";
+            myDB.execSQL(sql);
             
-            // create chatRecord table.
-            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CHATRECORD
-                    + " (Id INTEGER not NULL AUTO_INCREMENT, "
-                    + "Message varchar(max), Status bit, Time datetime, UserID integer,"
-                    + "Direction bit,"
-                    + "MessageTypeID integer, "
-                    + "PRIMARY KEY ( Id )), FOREIGN KEY (UserID) REFERENCES " 
-                    + TABLE_CONTACT + "(id) ON DELETE CASCADE;");
-            
-            // create recentChat table.
-            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_RECENTCHAT
-                    + " (Id INTEGER not NULL AUTO_INCREMENT, "
-                    + "userID integer, Time datetime"
-                    + "PRIMARY KEY ( Id )), FOREIGN KEY (userID) REFERENCES " 
-                    + TABLE_CONTACT + "(id) ON DELETE CASCADE;");
-            
-            // create patient table.
-            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_PATIENT
-                    + " (Id INTEGER not NULL AUTO_INCREMENT, "
-                    + "UserID integer, Symptom varchar(300),"
-                    + "PRIMARY KEY ( Id ));");
-            
-            // create doctor table.
-            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_DOCTOR
-                    + " (Id INTEGER not NULL AUTO_INCREMENT, "
-                    + "UserID integer, Department varchar(255), Title varchar(255)"
-                    + "PRIMARY KEY ( Id ));");
+//            // create chatRecord table.
+//            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CHATRECORD
+//                    + " (Id INTEGER not NULL AUTO_INCREMENT, "
+//                    + "Message varchar(max), Status bit, Time datetime, UserID integer,"
+//                    + "Direction bit,"
+//                    + "MessageTypeID integer, "
+//                    + "PRIMARY KEY ( Id )), FOREIGN KEY (UserID) REFERENCES " 
+//                    + TABLE_CONTACT + "(id) ON DELETE CASCADE;");
+//            
+//            // create recentChat table.
+//            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_RECENTCHAT
+//                    + " (Id INTEGER not NULL AUTO_INCREMENT, "
+//                    + "userID integer, Time datetime"
+//                    + "PRIMARY KEY ( Id )), FOREIGN KEY (userID) REFERENCES " 
+//                    + TABLE_CONTACT + "(id) ON DELETE CASCADE;");
+//            
+//            // create patient table.
+//            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_PATIENT
+//                    + " (Id INTEGER not NULL AUTO_INCREMENT, "
+//                    + "UserID integer, Symptom varchar(300),"
+//                    + "PRIMARY KEY ( Id ));");
+//            
+//            // create doctor table.
+//            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_DOCTOR
+//                    + " (Id INTEGER not NULL AUTO_INCREMENT, "
+//                    + "UserID integer, Department varchar(255), Title varchar(255)"
+//                    + "PRIMARY KEY ( Id ));");
             
  
         } catch (Exception e) {

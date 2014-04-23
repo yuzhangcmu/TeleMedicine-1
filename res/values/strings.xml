@@ -4,5 +4,7 @@
     <string name="app_name">TeleMedicine</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <color name="white">#FFFFFF</color>
+    <string name="tm_search">Search</string>
 
 </resources>
