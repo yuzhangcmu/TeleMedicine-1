@@ -59,6 +59,7 @@ public class ContactActivity extends Activity{
     }
     
     private void readDataFromLocalDb() {
+        
         // this is just fixed for testing. display the contact list of yuzhang
         Dao_Sqlite dao = new Dao_Sqlite(ContactActivity.this, "yuzhang", null, 1);
         

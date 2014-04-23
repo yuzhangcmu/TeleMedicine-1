@@ -12,6 +12,7 @@ public class TeleMedicineApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		
 
 		// Add your initialization code here
 		Parse.initialize(this, "L8Xc3uTHMYHbwGyhwVyi5L9nUJtRtLvYIHGOJa0V", "KlrarH9V0OWEkCr0FjIBpqiKaVfs6o9supWTt2wc");
