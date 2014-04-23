@@ -5,40 +5,74 @@
     android:layout_height="match_parent" >
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:orientation="vertical" >
+        
+        <RelativeLayout 
+	        android:layout_width="fill_parent"
+	        android:layout_height="42dp">
+        
+            <!-- added by yu zhang for the navigation bar -->
+        
+	        <imagebutton android:id="@+id/a" 
+		        android:layout_width="36dp" 
+		        android:layout_height="27dp"
+		        android:src="@drawable/ic_action_back"
+		        android:layout_marginTop="10dp"/>
+	        
+		    
+	
+	        <imagebutton android:id="@+id/add_contact_button" 
+	            android:layout_width="48dp" 
+	            android:layout_height="27dp"
+	            android:src="@drawable/ic_action_add_person"
+	            android:layout_marginTop="10dp"/>
+	    </RelativeLayout>
+         
+   
 
-        <!--added by yu zhang  -->
+ 
+
+        
+        
         <EditText
 	        android:id="@+id/contactSearchEditText"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:hint="@string/tm_search">
         </EditText>
-        
-        <LinearLayout  
-            android:id="@+id/title_layout"  
-            android:layout_width="fill_parent"  
-            android:layout_height="18dip"  
-            android:background="#303030" >  
 
-            <TextView  
-                android:id="@+id/title"  
-                android:layout_width="wrap_content"  
-                android:layout_height="wrap_content"  
-                android:layout_gravity="center_horizontal"  
-                android:layout_marginLeft="10dip"  
-                android:textColor="#ffffff"  
-                android:textSize="13sp" />  
-        </LinearLayout>  
-        
-        <ListView  
-		      android:id="@+id/contactSearchListView"  
-		      android:layout_width="fill_parent"  
-		      android:layout_height="wrap_content"  
-		      android:fadingEdge="none" >  
-        </ListView>  
+        <!--added by yu zhang  -->
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+	        
+	        <LinearLayout  
+	            android:id="@+id/title_layout"  
+	            android:layout_width="fill_parent"  
+	            android:layout_height="18dip"  
+	            android:background="#303030" >  
+	
+	            <TextView  
+	                android:id="@+id/title"  
+	                android:layout_width="wrap_content"  
+	                android:layout_height="wrap_content"  
+	                android:layout_gravity="center_horizontal"  
+	                android:layout_marginLeft="10dip"  
+	                android:textColor="#ffffff"  
+	                android:textSize="13sp" />  
+	        </LinearLayout>  
+	        
+	        <ListView  
+			      android:id="@+id/contactSearchListView"  
+			      android:layout_width="fill_parent"  
+			      android:layout_height="wrap_content"  
+			      android:fadingEdge="none" >  
+	        </ListView>
+	          
+	    </FrameLayout>    
         <!--added by yu zhang  -->
 
         <LinearLayout

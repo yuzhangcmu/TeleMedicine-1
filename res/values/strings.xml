@@ -6,5 +6,5 @@
     <string name="action_settings">Settings</string>
     <color name="white">#FFFFFF</color>
     <string name="tm_search">Search</string>
-
+    <string name="add_contact">add a contact</string>
 </resources>
