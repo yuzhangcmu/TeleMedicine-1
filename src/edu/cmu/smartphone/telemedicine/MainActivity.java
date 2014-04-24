@@ -48,7 +48,7 @@ public class MainActivity extends Activity {
 				
 				// added by yu zhang: for test the contact view.
                 Intent intent = new Intent(MainActivity.this,
-                        ContactActivity.class);
+                        LoginActivity.class);
                 startActivity(intent);
 			}
 		});

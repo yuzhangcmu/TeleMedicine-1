@@ -32,6 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:contentDescription="@string/add_contact"
+                android:onClick="goToAddContactView"
                 android:src="@drawable/ic_action_add_person" />
 	            
         </RelativeLayout>

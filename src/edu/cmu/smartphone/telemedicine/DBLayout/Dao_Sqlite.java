@@ -10,16 +10,15 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import edu.cmu.smartphone.telemedicine.LoginActivity;
 import edu.cmu.smartphone.telemedicine.entities.Contact;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.widget.Toast;
 
 // reference: http://www.androidhive.info/2013/09/android-sqlite-database-with-multiple-tables/
 public class Dao_Sqlite extends SQLiteOpenHelper {
@@ -49,8 +48,9 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     
     // parse.com database.
     private static final String KEY_FULLNAME = "fullname";
-    
     private static final String KEY_FRIENDNAME = "friend_username";
+    
+    public static final String KEY_USERTABLE = "User"; // this table stored all the users.
     
     public Dao_Sqlite(Context context, String name, CursorFactory factory,
             int version) {
@@ -60,7 +60,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     }
     
     public Dao_Sqlite(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        super(context, LoginActivity.getCurrentUserID(), null, DATABASE_VERSION);
     }
     
     public LinkedList<Contact> getContactList() {
@@ -140,6 +140,36 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
             
         });
         
+    }
+    
+    // search the cloud to get if the contact exit.    
+    public int searchContactCloud(String key) {
+        // open the user table.
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(KEY_USERTABLE);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> contactList, ParseException e) {
+                if (e == null) {
+                    Log.d("contacts", "Retrieved " + contactList.size() + " contacts");
+                    
+                    for (ParseObject o: contactList) {
+                        //String name = o.getString(KEY_FULLNAME);
+                        String userID = o.getString(KEY_FRIENDNAME);
+                        
+                        // need to change to name.
+                        Contact contact = new Contact(userID, userID);
+                        contact.setSortKey(userID);
+                        
+                        addContact(contact);
+                    }
+                } else {
+                    Log.d("contacts", "Error: " + e.getMessage());
+                }
+            }
+            
+        });
+        
+        return -1;
     }
     
     public int updateContact(Contact contact) {

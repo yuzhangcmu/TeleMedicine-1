@@ -1,17 +1,17 @@
 package edu.cmu.smartphone.telemedicine;
 
-
-
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.cmu.smartphone.telemedicine.DBLayout.Dao_Sqlite;
 import edu.cmu.smartphone.telemedicine.entities.Contact;
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.view.View;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
@@ -37,6 +37,11 @@ public class ContactActivity extends Activity{
     private String alphabet = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     private int lastFirstVisibleItem = -1;
+    
+    public void goToAddContactView(View view) {
+        Intent intent = new Intent(ContactActivity.this, AddActivity.class);
+        startActivity(intent);
+    }
     
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -28,8 +28,12 @@ public class LoginActivity extends Activity {
 	// added by yu zhang. for userID manage.
 	private static String userID;
 	
-	public static String getUserID() {
-	    return userID;
+	// get the current userid.
+	public static String getCurrentUserID() {
+	    //return userID;
+	    
+	    // add this does not work now.
+	    return "yuzhang";
 	}
 	
 	public static void setUserID(String userID1) {
@@ -64,14 +68,16 @@ public class LoginActivity extends Activity {
         });
 
 		loginButton.setOnClickListener(new OnClickListener() {
-
-			String username = loginUsernameEditText.getEditableText()
-					.toString();
-			String password = loginPasswordEditText.getEditableText()
-					.toString();
-
+		    String username = null;
+		    String password = null;
+		    
 			@Override
 			public void onClick(View v) {
+			    username = loginUsernameEditText.getEditableText()
+	                    .toString();
+	            password = loginPasswordEditText.getEditableText()
+	                    .toString();
+			    
 				ParseUser.logInInBackground(username, password,
 						new LogInCallback() {
 							public void done(ParseUser user, ParseException e) {
