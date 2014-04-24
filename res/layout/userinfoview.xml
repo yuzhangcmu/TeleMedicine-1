@@ -18,8 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="224dp"
         android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:textColor="#372c24" >
+        android:layout_centerVertical="true" >
     </ListView>
 
     <ImageView
@@ -30,7 +29,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="21dp"
         android:src="@drawable/ic_launcher"
-	android:textColor="#372c24"  />
+	    android:textColor="#372c24"  />
 
     <ImageButton
         android:id="@+id/userinfoAddFriendButton"

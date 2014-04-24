@@ -7,4 +7,5 @@
     <color name="white">#FFFFFF</color>
     <string name="tm_search">Search</string>
     <string name="add_contact">add a contact</string>
+    <string name="search_user_hint">Please input user id to search</string>
 </resources>

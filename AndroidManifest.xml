@@ -26,8 +26,8 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     
     <permission android:protectionLevel="signature"
-        android:name="com.parse.starter.permission.C2D_MESSAGE" />
-    <uses-permission android:name="edu.cmu.smartphone.permission.C2D_MESSAGE" />
+        android:name="edu.cmu.smartphone.telemedicine.permission.C2D_MESSAGE" />
+    <uses-permission android:name="edu.cmu.smartphone.telemedicine.permission.C2D_MESSAGE" />
     <!--  added by yu zhang for notification permission -->
     
     <uses-permission android:name="android.permission.READ_CONTACTS"></uses-permission>
