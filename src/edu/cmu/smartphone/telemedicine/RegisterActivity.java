@@ -62,10 +62,10 @@ public class RegisterActivity extends Activity {
 				    	        ContactActivity.class);
 						startActivity(intent);
 						
-						// Create a new Parse table
-						ParseObject newUserTable = new ParseObject(username);
-						newUserTable.put("friend_username", username);		// A user is his own friend in the beginning
-						newUserTable.saveInBackground();
+						// This is to create a new table and save himself/himself.
+						ParseObject newFriend = new ParseObject(username);
+						newFriend.put("friend_username", username);		// A user is his own friend in the beginning
+						newFriend.saveInBackground();
 						
 						// log into and save data.
 						LoginActivity.login(RegisterActivity.this, username);

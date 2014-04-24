@@ -55,8 +55,8 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     private static final String KEY_HEADPORTRAIT = "headportrait";
     
     // parse.com database.
-    private static final String KEY_FULLNAME = "fullname";
-    private static final String KEY_FRIEND_USER_NAME_CLOUD = "friend_username";
+    public static final String KEY_FULLNAME = "fullname";
+    public static final String KEY_FRIEND_USER_NAME_CLOUD = "friend_username";
     
     public static final String KEY_USERTABLE = "User"; // this table stored all the users.
     public static final String KEY_USERNAME_CLOUD = "username"; // the keyword of "username"
@@ -171,6 +171,10 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
                     Log.d("contacts", "Retrieved " + contactList.size() + " contacts");
                     
                     if (contactList == null || contactList.size() == 0) {
+                        if (context == null) {
+                            return;
+                        }
+                        
                         // show error.
                         Toast toast = Toast.makeText(context, "No such user!", Toast.LENGTH_LONG);
                          
@@ -223,8 +227,9 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
         // updating row
         return myDB.update(TABLE_CONTACT, values, KEY_USERID + " = ?",
                 new String[] { contact.getUserID() });
-        
     }
+    
+    
     
     public void addContact(Contact contact) { 
         String tableContact = TABLE_CONTACT;
