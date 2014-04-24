@@ -1,10 +1,15 @@
 package edu.cmu.smartphone.telemedicine;
 
+import java.util.Set;
+
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,6 +18,7 @@ import android.widget.Toast;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.PushService;
 
 import edu.cmu.smartphone.telemedicine.DBLayout.Dao_Sqlite;
 
@@ -30,16 +36,33 @@ public class LoginActivity extends Activity {
 	
 	// get the current userid.
 	public static String getCurrentUserID() {
-	    //return userID;
-	    
-	    // add this does not work now.
-	    return "yuzhang";
+	    return userID;
 	}
 	
 	public static void setUserID(String userID1) {
 	    userID = userID1;
 	}
 	// added by yu zhang. for userID manage.
+	
+	public static void login(Context context, String username) {
+	    // remove from other channels
+	    Set<String> setOfAllSubscriptions = PushService.getSubscriptions(context);
+	    for (String s: setOfAllSubscriptions) {
+	        if (!s.equals(username)) {
+	            PushService.unsubscribe(context, s);
+	        }
+	    }
+	    
+	    // When users indicate they are Giants fans, we subscribe them to that channel.
+	    PushService.subscribe(context, username, ContactActivity.class);
+	    
+	    // added by yu zhang. setup the userid.
+        userID = username;
+        
+        // added by yu zhang:
+        // create a database, the name is the username.
+        Dao_Sqlite dao = new Dao_Sqlite(context, username, null, 1);
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +100,11 @@ public class LoginActivity extends Activity {
 	                    .toString();
 	            password = loginPasswordEditText.getEditableText()
 	                    .toString();
+	            
+	            // hide the keyboard.
+                InputMethodManager imm = (InputMethodManager)getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(loginUsernameEditText.getWindowToken(), 0);
 			    
 				ParseUser.logInInBackground(username, password,
 						new LogInCallback() {
@@ -88,18 +116,18 @@ public class LoginActivity extends Activity {
 											ContactActivity.class);
 									startActivity(intent);
 									
-									// added by yu zhang. setup the userid.
-									userID = username;
+									// login and prepare data.
+									login(LoginActivity.this, username);
 									
-									// added by yu zhang:
-									// create a database, the name is the username.
-					                Dao_Sqlite dao = new Dao_Sqlite(LoginActivity.this, username, null, 1);
 								} else {
 									// Signup failed. Look at the ParseException
 									// to see what happened.
-									Toast.makeText(getApplicationContext(),
-											e.getMessage(), Toast.LENGTH_LONG)
-											.show();
+								    Toast toast = Toast.makeText(getApplicationContext(),
+                                            e.getMessage(), Toast.LENGTH_LONG);
+								    
+								    // change the position to show the message.
+								    toast.setGravity(Gravity.CENTER|Gravity.CENTER, 0, 0);
+								    toast.show();
 								}
 							}
 						});

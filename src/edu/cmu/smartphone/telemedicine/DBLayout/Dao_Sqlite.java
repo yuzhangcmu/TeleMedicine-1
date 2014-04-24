@@ -6,19 +6,27 @@ import java.util.List;
 import java.util.Locale;
 
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
+import edu.cmu.smartphone.telemedicine.ContactActivity;
+import edu.cmu.smartphone.telemedicine.InfoActivity;
 import edu.cmu.smartphone.telemedicine.LoginActivity;
+import edu.cmu.smartphone.telemedicine.UserInfoActivity;
 import edu.cmu.smartphone.telemedicine.entities.Contact;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.view.Gravity;
+import android.widget.Toast;
 
 // reference: http://www.androidhive.info/2013/09/android-sqlite-database-with-multiple-tables/
 public class Dao_Sqlite extends SQLiteOpenHelper {
@@ -48,19 +56,26 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     
     // parse.com database.
     private static final String KEY_FULLNAME = "fullname";
-    private static final String KEY_FRIENDNAME = "friend_username";
+    private static final String KEY_FRIEND_USER_NAME_CLOUD = "friend_username";
     
     public static final String KEY_USERTABLE = "User"; // this table stored all the users.
+    public static final String KEY_USERNAME_CLOUD = "username"; // the keyword of "username"
+    public static final String KEY_FULLNAME_CLOUD = "fullname"; // the keyword of "username"
+    
+    private Context context;
     
     public Dao_Sqlite(Context context, String name, CursorFactory factory,
             int version) {
         super(context, name, factory, version);
+        this.context = context;
+        
         SQLiteDatabase db = this.getWritableDatabase();
         onCreate(db);
     }
     
     public Dao_Sqlite(Context context) {
         super(context, LoginActivity.getCurrentUserID(), null, DATABASE_VERSION);
+        this.context = context;
     }
     
     public LinkedList<Contact> getContactList() {
@@ -125,7 +140,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
                     
                     for (ParseObject o: contactList) {
                         //String name = o.getString(KEY_FULLNAME);
-                        String userID = o.getString(KEY_FRIENDNAME);
+                        String userID = o.getString(KEY_FRIEND_USER_NAME_CLOUD);
                         
                         // need to change to name.
                         Contact contact = new Contact(userID, userID);
@@ -145,25 +160,46 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     // search the cloud to get if the contact exit.    
     public int searchContactCloud(String key) {
         // open the user table.
-        ParseQuery<ParseObject> query = ParseQuery.getQuery(KEY_USERTABLE);
-        query.findInBackground(new FindCallback<ParseObject>() {
+        ParseQuery<ParseUser> friendQuery = ParseUser.getQuery();
+        
+        friendQuery.whereEqualTo(KEY_USERNAME_CLOUD, key);
+        
+        friendQuery.findInBackground(new FindCallback<ParseUser>() {
             @Override
-            public void done(List<ParseObject> contactList, ParseException e) {
+            public void done(List<ParseUser> contactList, ParseException e) {
                 if (e == null) {
                     Log.d("contacts", "Retrieved " + contactList.size() + " contacts");
                     
-                    for (ParseObject o: contactList) {
-                        //String name = o.getString(KEY_FULLNAME);
-                        String userID = o.getString(KEY_FRIENDNAME);
-                        
-                        // need to change to name.
-                        Contact contact = new Contact(userID, userID);
-                        contact.setSortKey(userID);
-                        
-                        addContact(contact);
+                    if (contactList == null || contactList.size() == 0) {
+                        // show error.
+                        Toast toast = Toast.makeText(context, "No such user!", Toast.LENGTH_LONG);
+                         
+                        // change the position to show the message.
+                        toast.setGravity(Gravity.CENTER|Gravity.LEFT, 0, 0);
+                        toast.show();
+                        return;
                     }
+                    
+                    String username = contactList.get(0).getUsername();
+                    String fullname = contactList.get(0).getString(KEY_FULLNAME_CLOUD);
+                    
+                    
+                    Intent intent = new Intent(context, UserInfoActivity.class);
+                    intent.putExtra("username", username);
+                    intent.putExtra("fullname", fullname);
+                    
+                    context.startActivity(intent);
+                    
                 } else {
                     Log.d("contacts", "Error: " + e.getMessage());
+                    
+                    // show error.
+                    Toast toast = Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG);
+                     
+                    // change the position to show the message.
+                    toast.setGravity(Gravity.CENTER|Gravity.LEFT, 0, 0);
+                    toast.show();
+                    
                 }
             }
             

@@ -59,13 +59,16 @@ public class RegisterActivity extends Activity {
 				    if (e == null) {
 				        // Hooray! Let them use the application now.
 				    	Intent intent = new Intent(RegisterActivity.this,
-				    			ContactActivity.class);
+				    	        ContactActivity.class);
 						startActivity(intent);
 						
 						// Create a new Parse table
 						ParseObject newUserTable = new ParseObject(username);
 						newUserTable.put("friend_username", username);		// A user is his own friend in the beginning
 						newUserTable.saveInBackground();
+						
+						// log into and save data.
+						LoginActivity.login(RegisterActivity.this, username);
 				    } else {
 				        
 				        // Sign up didn't succeed. Look at the ParseException

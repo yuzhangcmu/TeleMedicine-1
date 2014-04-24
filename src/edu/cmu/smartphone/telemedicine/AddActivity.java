@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.Parse;
@@ -36,9 +37,9 @@ public class AddActivity extends Activity {
 	    String searchText = addviewSearchEditText.getEditableText()
                 .toString();
 	    
-	    // 
+	    // search the cloud database to know if the user exit.
 	    Dao_Sqlite dao = new Dao_Sqlite(AddActivity.this);
-	    //searchContactCloud
+	    dao.searchContactCloud(searchText);
 	    
 	}
 	

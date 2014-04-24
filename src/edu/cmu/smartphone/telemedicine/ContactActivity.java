@@ -6,6 +6,7 @@ import java.util.List;
 import edu.cmu.smartphone.telemedicine.DBLayout.Dao_Sqlite;
 import edu.cmu.smartphone.telemedicine.entities.Contact;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -13,9 +14,12 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
 import android.view.ViewGroup.MarginLayoutParams;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AlphabetIndexer;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,6 +42,8 @@ public class ContactActivity extends Activity{
 
     private int lastFirstVisibleItem = -1;
     
+    private EditText searchContactEditText;
+    
     public void goToAddContactView(View view) {
         Intent intent = new Intent(ContactActivity.this, AddActivity.class);
         startActivity(intent);
@@ -51,25 +57,33 @@ public class ContactActivity extends Activity{
         titleLayout = (LinearLayout) findViewById(R.id.title_layout);
         title = (TextView) findViewById(R.id.title);
         
+        // hide the keyboard.
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        
         // get the view which show the list of contacts.
         contactsListView = (ListView) findViewById(R.id.contactSearchListView);
         
         //readContactFromPhone();
         
+        // load data from www.parse.com and store it in the local database.
         readDataFromLocalDb();
         
         if (contacts.size() > 0) {
             setupContactsListView();
         }
+        
+        searchContactEditText = (EditText) findViewById(R.id.contactSearchEditText);
     }
     
     private void readDataFromLocalDb() {
+        // the database is named by the userID.
+        String userID = LoginActivity.getCurrentUserID();
         
         // this is just fixed for testing. display the contact list of yuzhang
-        Dao_Sqlite dao = new Dao_Sqlite(ContactActivity.this, "yuzhang", null, 1);
+        Dao_Sqlite dao = new Dao_Sqlite(ContactActivity.this, userID, null, 1);
         
-        // load the contact list to the database.
-        dao.loadDataFromCloud("yuzhang");
+        // load the contact list of the specific user to the database.
+        dao.loadDataFromCloud(userID);
         
         Cursor cursor = dao.addContactToArrayList(contacts);
         
