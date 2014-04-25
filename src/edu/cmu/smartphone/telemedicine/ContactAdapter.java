@@ -58,3 +58,4 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
 		mIndexer = indexer;
 	}
 }
+
