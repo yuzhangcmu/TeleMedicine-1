@@ -1,7 +1,12 @@
 package edu.cmu.smartphone.telemedicine;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.parse.ParsePush;
 
+import edu.cmu.smartphone.telemedicine.entities.Contact;
+import edu.cmu.smartphone.telemedicine.ws.remote.Notification;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.ViewGroup;
@@ -60,18 +65,17 @@ public class UserInfoActivity extends Activity {
 		userinfoAddFriendButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+			    String mess = Contact.getCurrentUserFullName() + " request to add you as a friend.";
+			    Notification notify = new Notification(UserInfoActivity.this);
 			    
 			    // send a notification to add the contact.
-			    ParsePush push = new ParsePush();
-			    push.setChannel(username);
-			    push.setMessage("User " + LoginActivity.getCurrentUserID() + " request to add you as friend.");
-			    push.sendInBackground();
+			    notify.sendNotification(username, mess, 0);
 			    
-			    Toast toast = Toast.makeText(getApplicationContext(),
+			    Toast toast = Toast.makeText(UserInfoActivity.this,
 			            "Request sent success", Toast.LENGTH_LONG);
 			          toast.setGravity(Gravity.CENTER, 0, 0);
 			          LinearLayout toastView = (LinearLayout) toast.getView();
-			          ImageView imageCodeProject = new ImageView(getApplicationContext());
+			          ImageView imageCodeProject = new ImageView(UserInfoActivity.this);
 			          imageCodeProject.setImageResource(R.drawable.ic_action_accept);
 			          toastView.addView(imageCodeProject, 0);
 			          toast.show();

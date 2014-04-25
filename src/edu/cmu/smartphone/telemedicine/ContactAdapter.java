@@ -7,6 +7,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.SectionIndexer;
@@ -23,6 +24,8 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
 		super(context, textViewResourceId, objects);
 		resource = textViewResourceId;
 	}
+	
+
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {

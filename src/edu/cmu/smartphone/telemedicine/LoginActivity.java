@@ -21,6 +21,7 @@ import com.parse.ParseUser;
 import com.parse.PushService;
 
 import edu.cmu.smartphone.telemedicine.DBLayout.Dao_Sqlite;
+import edu.cmu.smartphone.telemedicine.entities.Contact;
 
 public class LoginActivity extends Activity {
 
@@ -29,19 +30,8 @@ public class LoginActivity extends Activity {
 	Button loginButton;
 	
 	// added by yu zhang for register login.
-	TextView registerTextView;
+	TextView registerTextView;	
 	
-	// added by yu zhang. for userID manage.
-	private static String userID;
-	
-	// get the current userid.
-	public static String getCurrentUserID() {
-	    return userID;
-	}
-	
-	public static void setUserID(String userID1) {
-	    userID = userID1;
-	}
 	// added by yu zhang. for userID manage.
 	
 	public static void login(Context context, String username) {
@@ -57,7 +47,7 @@ public class LoginActivity extends Activity {
 	    PushService.subscribe(context, username, ContactActivity.class);
 	    
 	    // added by yu zhang. setup the userid.
-        userID = username;
+        Contact.setCurrentUserID(username);
         
         // added by yu zhang:
         // create a database, the name is the username.
