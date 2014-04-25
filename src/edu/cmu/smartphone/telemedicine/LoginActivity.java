@@ -78,6 +78,7 @@ public class LoginActivity extends Activity implements DataLoadCallback{
                 Intent intent = new Intent(LoginActivity.this,
                         RegisterActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -117,7 +118,8 @@ public class LoginActivity extends Activity implements DataLoadCallback{
 //                                              LoginActivity.this,
 //                                              ContactActivity.class);
 //                                    startActivity(intent);
-									
+									finish();
+
 								} else {
 									// Signup failed. Look at the ParseException
 									// to see what happened.
