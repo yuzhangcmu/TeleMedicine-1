@@ -37,8 +37,6 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
  
     // Database Name
-    private static final String DATABASE_NAME = "dbTeleMedicine";
-
     private static final String TABLE_CONTACT = "TableContact";
     private static final String TABLE_CHATRECORD = "TableChatRecord";
     private static final String TABLE_PATIENT = "TablePatient";
@@ -64,24 +62,26 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     
     private Context context;
     
+    SQLiteDatabase myDB;
+    
     public Dao_Sqlite(Context context, String name, CursorFactory factory,
             int version) {
         super(context, name, factory, version);
         this.context = context;
         
-        SQLiteDatabase db = this.getWritableDatabase();
-        onCreate(db);
+        myDB = this.getWritableDatabase();
+        onCreate(myDB);
+        this.context = context;
     }
     
     public Dao_Sqlite(Context context) {
-        super(context, LoginActivity.getCurrentUserID(), null, DATABASE_VERSION);
+        super(context, Contact.getCurrentUserID(), null, DATABASE_VERSION);
         this.context = context;
+        myDB = this.getWritableDatabase();
     }
     
     public LinkedList<Contact> getContactList() {
         LinkedList<Contact> contactList = new LinkedList<Contact>();
-        
-        SQLiteDatabase myDB = this.getWritableDatabase();
         
         String sql = "SELECT * FROM " + TABLE_CONTACT;
         Log.e(LOG, sql);
@@ -103,7 +103,6 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     }
     
     public Cursor addContactToArrayList(List<Contact> contacts) {
-        SQLiteDatabase myDB = this.getWritableDatabase();
         
         String sql = "SELECT * FROM " + TABLE_CONTACT;
         Log.e(LOG, sql);
@@ -129,14 +128,27 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
         return c;
     }
     
+    public void close() {
+        myDB.close();
+    }
+    
     // load a user's data to the database.
     public void loadDataFromCloud(String userName) {
+        // delete the table before add contact.
+        //cleanTable();
+        //onCreate(myDB);
+        
+        //onUpgrade(myDB, 0, 0);
+        
         ParseQuery<ParseObject> query = ParseQuery.getQuery(userName);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> contactList, ParseException e) {
                 if (e == null) {
                     Log.d("contacts", "Retrieved " + contactList.size() + " contacts");
+                    
+                    // delete the local database;
+                    onUpgrade(myDB, 0, 0);
                     
                     for (ParseObject o: contactList) {
                         //String name = o.getString(KEY_FULLNAME);
@@ -148,6 +160,8 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
                         
                         addContact(contact);
                     }
+                    
+                    
                 } else {
                     Log.d("contacts", "Error: " + e.getMessage());
                 }
@@ -179,7 +193,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
                         Toast toast = Toast.makeText(context, "No such user!", Toast.LENGTH_LONG);
                          
                         // change the position to show the message.
-                        toast.setGravity(Gravity.CENTER|Gravity.LEFT, 0, 0);
+                        toast.setGravity(Gravity.CENTER|Gravity.CENTER, 0, 0);
                         toast.show();
                         return;
                     }
@@ -213,7 +227,6 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     }
     
     public int updateContact(Contact contact) {
-        SQLiteDatabase myDB = this.getWritableDatabase();
         
         ContentValues values = new ContentValues();
         
@@ -229,7 +242,16 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
                 new String[] { contact.getUserID() });
     }
     
-    
+    public void cleanTable() {
+        try {
+            // drop the contact table.
+            String sql = "DROP TABLE " + TABLE_CONTACT + ";";
+            myDB.execSQL(sql);
+ 
+        } catch (Exception e) {
+            Log.e("Error", "Error", e);
+        }
+    }
     
     public void addContact(Contact contact) { 
         String tableContact = TABLE_CONTACT;
@@ -237,7 +259,6 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
         try {
             // Get the database if database is not exists create new database 
             // Database name is " test " 
-            SQLiteDatabase myDB = this.getWritableDatabase();
             
             StringBuilder sb = new StringBuilder();
             
@@ -278,13 +299,12 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     }
     
     public void deleteContact(String UserID) { 
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_CONTACT, KEY_USERID + " = ?",
+        myDB.delete(TABLE_CONTACT, KEY_USERID + " = ?",
                 new String[] { UserID });                
     }
 
     @Override
-    public void onCreate(SQLiteDatabase myDB) {
+    public void onCreate(SQLiteDatabase DB) {
         try {
             // Create contact table
             /*
@@ -297,7 +317,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
                     */
             String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_CONTACT
                     + " (" + KEY_USERID + " VARCHAR PRIMARY KEY, Name VARCHAR);";
-            myDB.execSQL(sql);
+            DB.execSQL(sql);
             
 //            // create chatRecord table.
 //            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CHATRECORD

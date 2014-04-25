@@ -23,6 +23,9 @@ public class Contact {
      */  
     private String sortKey;
     
+    private static String currentUserID;
+    private static String currentUserFullName;
+    
     // this constract a contact which only has name and loginID to show it 
     // on the screen. detail profile can be fatched from the database.
     public Contact (String name, String loginID) {
@@ -35,6 +38,23 @@ public class Contact {
     
     public Contact() {
         // TODO Auto-generated constructor stub
+    }
+    
+    public static String getCurrentUserID() {
+        return currentUserID;
+    }
+    
+    public static void setCurrentUserID(String currentUserID1) {
+        currentUserID = currentUserID1;
+    }
+    
+    public static String getCurrentUserFullName() {
+        //return currentUserFullName;
+        return currentUserID;
+    }
+    
+    public static void setCurrentUserFullName(String currentUserFullName1) {
+        currentUserFullName = currentUserFullName1;
     }
 
     public String getUserID() {

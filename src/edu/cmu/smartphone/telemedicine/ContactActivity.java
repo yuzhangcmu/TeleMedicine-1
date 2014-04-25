@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.cmu.smartphone.telemedicine.DBLayout.Dao_Sqlite;
+import edu.cmu.smartphone.telemedicine.DBLayout.Dao_parse;
 import edu.cmu.smartphone.telemedicine.entities.Contact;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -45,23 +48,58 @@ public class ContactActivity extends Activity{
     private EditText searchContactEditText;
     
     public void goToAddContactView(View view) {
+        //loadContact();
+        
         Intent intent = new Intent(ContactActivity.this, AddActivity.class);
         startActivity(intent);
     }
     
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.contactview);
+    // show dialog to the user and let user to determine if he want to add the contact.
+    private void addContactAlert(final String userID, String message) {
+        new AlertDialog.Builder(ContactActivity.this)
+                .setIcon(R.drawable.ic_launcher)
+                .// the icon
+                setTitle("Friend add request")
+                .// title
+                setMessage(message)
+                .// info
+                setPositiveButton("Yes", new DialogInterface.OnClickListener() {// ok
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                // add contact. add contact to local database and cloud.
+                                addContactToLocalAndCloud(ContactActivity.this, userID);
+                                
+                                Notification noti = new Notification(ContactActivity.this);
+                                noti.sendNotification(userID, Contact.getCurrentUserID() +
+                                        " approved your friend request.", 1);
+                            }
+                        })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {// cancel
+                            @Override
+                            public void onClick(DialogInterface arg1, int witch) {
+                                Notification noti = new Notification(ContactActivity.this);
+                                noti.sendNotification(userID, Contact.getCurrentUserID() +
+                                        " rejected your friend request.", 1);
+                            }
+                        }).show();
+    }
+    
+    private void addContactToLocalAndCloud(Context context, String userID) {
+        // add a new friend.
+        Contact contact = new Contact(userID, userID);
+        contact.setSortKey(userID);
         
+        // add the new friend to local database. 
+        Dao_Sqlite dao = new Dao_Sqlite(context);
+        dao.addContact(contact);
+        
+        // also add the new friend to the cloud service.
+        Dao_parse daoparse = new Dao_parse(context);
+        daoparse.addContactCloud(contact);
+    }
+    
+    private void loadContact() {
         adapter = new ContactAdapter(this, R.layout.contact_item, contacts);
-        titleLayout = (LinearLayout) findViewById(R.id.title_layout);
-        title = (TextView) findViewById(R.id.title);
-        
-        // hide the keyboard.
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        
-        // get the view which show the list of contacts.
-        contactsListView = (ListView) findViewById(R.id.contactSearchListView);
         
         //readContactFromPhone();
         
@@ -71,13 +109,51 @@ public class ContactActivity extends Activity{
         if (contacts.size() > 0) {
             setupContactsListView();
         }
+    }
+    
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.contactview);
         
         searchContactEditText = (EditText) findViewById(R.id.contactSearchEditText);
+        
+        titleLayout = (LinearLayout) findViewById(R.id.title_layout);
+        title = (TextView) findViewById(R.id.title);
+        
+        // hide the keyboard.
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        
+        // get the view which show the list of contacts.
+        contactsListView = (ListView) findViewById(R.id.contactSearchListView);
+        
+        /**
+         * added by yu zhang, when another user add this user, I can see a 
+         * alert window to decide whether or not add him/her.
+         */
+        String messType = getIntent().getStringExtra("messType");
+        String userID = getIntent().getStringExtra("username");
+        String message = getIntent().getStringExtra("message");
+        
+        if (messType != null && messType.equals("addContactRequest")) {
+            // add friend request.
+            addContactAlert(userID, message);
+        }
+        
+        // load data to the view.
+        loadContact();
+    }
+    
+    private void cleanLocalDB(String userID) {
+        // this is just fixed for testing. display the contact list of yuzhang
+        Dao_Sqlite dao = new Dao_Sqlite(ContactActivity.this, userID, null, 1);
+        
+        // drop the contact table.
+        dao.cleanTable();
     }
     
     private void readDataFromLocalDb() {
         // the database is named by the userID.
-        String userID = LoginActivity.getCurrentUserID();
+        String userID = Contact.getCurrentUserID();
         
         // this is just fixed for testing. display the contact list of yuzhang
         Dao_Sqlite dao = new Dao_Sqlite(ContactActivity.this, userID, null, 1);
@@ -90,9 +166,14 @@ public class ContactActivity extends Activity{
         //startManagingCursor(cursor);
         indexer = new AlphabetIndexer(cursor, 1, alphabet);
         adapter.setIndexer(indexer);
+        
+        //cursor.close();
+        //dao.close(); 
     }
     
     private void readContactFromPhone() {
+        
+        
         Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
         Cursor cursor = getContentResolver().query(uri,
                 new String[] { "display_name", "sort_key" }, null, null, "sort_key");

@@ -17,13 +17,13 @@ public class Dao_parse {
     // add a friend to cloud service.
     public void addContactCloud(Contact contact) { 
         // save a new friend to the cloud.
-        ParseObject newFriend = new ParseObject(LoginActivity.getCurrentUserID());
+        ParseObject newFriend = new ParseObject(Contact.getCurrentUserID());
         newFriend.put(Dao_Sqlite.KEY_FRIEND_USER_NAME_CLOUD, contact.getUserID());   
         newFriend.saveInBackground();
         
         // also add current to that user's contact list.
         newFriend = new ParseObject(contact.getUserID());
-        newFriend.put(Dao_Sqlite.KEY_FRIEND_USER_NAME_CLOUD, LoginActivity.getCurrentUserID());   
+        newFriend.put(Dao_Sqlite.KEY_FRIEND_USER_NAME_CLOUD, Contact.getCurrentUserID());   
         newFriend.saveInBackground();
     }
     
