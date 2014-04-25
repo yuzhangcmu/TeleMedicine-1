@@ -77,6 +77,7 @@ public class LoginActivity extends Activity {
                 Intent intent = new Intent(LoginActivity.this,
                         RegisterActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -108,7 +109,7 @@ public class LoginActivity extends Activity {
 									
 									// login and prepare data.
 									login(LoginActivity.this, username);
-									
+									finish();
 								} else {
 									// Signup failed. Look at the ParseException
 									// to see what happened.
