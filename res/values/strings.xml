@@ -8,4 +8,6 @@
     <string name="tm_search">Search</string>
     <string name="add_contact">add a contact</string>
     <string name="search_user_hint">Please input user id to search</string>
+    <string name="note_tm">Write note for the friend.</string>
+    <string name="text_tm">text</string>
 </resources>

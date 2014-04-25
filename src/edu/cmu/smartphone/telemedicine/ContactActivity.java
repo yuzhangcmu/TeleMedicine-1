@@ -6,6 +6,7 @@ import java.util.List;
 import edu.cmu.smartphone.telemedicine.DBLayout.Dao_Sqlite;
 import edu.cmu.smartphone.telemedicine.DBLayout.Dao_parse;
 import edu.cmu.smartphone.telemedicine.entities.Contact;
+import edu.cmu.smartphone.telemedicine.ws.remote.Notification;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -21,6 +22,8 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AlphabetIndexer;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -241,6 +244,24 @@ public class ContactActivity extends Activity{
                 
             }
 
+        });
+        
+        
+        contactsListView.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                    long id) {
+                // TODO Auto-generated method stub
+                Contact contact = contacts.get(position);
+                
+                // show the profile of the contact.
+                Intent intent = new Intent(ContactActivity.this, InfoActivity.class);
+                intent.putExtra("username", contact.getUserID());
+                intent.putExtra("fullname", contact.getName());
+                intent.putExtra("email", contact.getEmail());
+                ContactActivity.this.startActivity(intent);
+            }
         });
 
     }

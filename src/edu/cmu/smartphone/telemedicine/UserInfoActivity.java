@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import com.parse.ParsePush;
 
 import edu.cmu.smartphone.telemedicine.entities.Contact;
+import edu.cmu.smartphone.telemedicine.ws.remote.Notification;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.ViewGroup;

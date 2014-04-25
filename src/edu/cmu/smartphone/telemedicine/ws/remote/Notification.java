@@ -1,4 +1,4 @@
-package edu.cmu.smartphone.telemedicine;
+package edu.cmu.smartphone.telemedicine.ws.remote;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.parse.ParsePush;
 
+import edu.cmu.smartphone.telemedicine.R;
+import edu.cmu.smartphone.telemedicine.R.drawable;
 import edu.cmu.smartphone.telemedicine.entities.Contact;
 
 public class Notification {

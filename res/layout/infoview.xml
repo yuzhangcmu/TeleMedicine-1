@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     android:orientation="vertical" >
 
     <ImageView
@@ -16,36 +17,45 @@
         android:layout_width="match_parent"
         android:layout_height="224dp"
         android:layout_marginTop="20dp"
-         >
+        android:layout_weight="0.02" >
     </ListView>
+
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.01"
+        android:ems="10"
+        android:hint="@string/note_tm" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="50dp"
-         >
-
-        <Button
-            android:id="@+id/textInfoButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Text" />
-
-        <Button
+        android:orientation="horizontal" >
+        
+        <ImageButton
+	        android:id="@+id/textInfoButton"
+	        android:layout_width="wrap_content"
+	        android:layout_weight="1"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/ic_action_mail"
+	        android:contentDescription="text" />
+                
+        <ImageButton
             android:id="@+id/audioInfoButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Audio" />
+            android:src="@drawable/ic_action_call" />
 
-        <Button
+        <ImageButton
             android:id="@+id/videoInfoButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Video" />
+            android:src="@drawable/ic_action_video" />
+        
     </LinearLayout>
 
 </LinearLayout>
