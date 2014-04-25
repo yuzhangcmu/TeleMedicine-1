@@ -20,15 +20,22 @@ public class InfoActivity extends Activity {
 	ImageButton audioInfoButton;
 	ImageButton videoInfoButton;
 	
+	ImageButton menuInfoButton;
+	
+	public void contactMenu(View v) {
+	    
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.infoview);
 		
-		
 		textInfoButton = (ImageButton)findViewById(R.id.textInfoButton);
 		audioInfoButton = (ImageButton)findViewById(R.id.audioInfoButton);
 		videoInfoButton = (ImageButton)findViewById(R.id.videoInfoButton);
+		
+		menuInfoButton = (ImageButton)findViewById(R.id.menuInfoButton);
 		
 		String username = getIntent().getStringExtra("username");
         String fullname = getIntent().getStringExtra("fullname");
@@ -82,6 +89,14 @@ public class InfoActivity extends Activity {
 				startActivity(intent);
 			}
 		});
+		
+		// added by yu zhang , for deleting a contact.
+		menuInfoButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
 
 		
 		

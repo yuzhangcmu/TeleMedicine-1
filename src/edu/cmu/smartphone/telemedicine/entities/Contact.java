@@ -121,4 +121,7 @@ public class Contact {
         sortKey = sortKey2;
     }
     
+    public void deleteFriend(Contact fiend) {
+        
+    }
 }
