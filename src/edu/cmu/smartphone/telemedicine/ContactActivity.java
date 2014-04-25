@@ -176,7 +176,6 @@ public class ContactActivity extends Activity{
     
     private void readContactFromPhone() {
         
-        
         Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
         Cursor cursor = getContentResolver().query(uri,
                 new String[] { "display_name", "sort_key" }, null, null, "sort_key");

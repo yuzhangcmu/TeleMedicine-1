@@ -1,6 +1,7 @@
 package edu.cmu.smartphone.telemedicine;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -59,8 +60,8 @@ public class InfoActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
+				Intent intent = new Intent(InfoActivity.this, ChatActivity.class);
+				startActivity(intent);
 			}
 		});
 		
@@ -68,8 +69,8 @@ public class InfoActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
+				Intent intent = new Intent(InfoActivity.this, VideoActivity.class);
+				startActivity(intent);
 			}
 		});
 		
@@ -77,8 +78,8 @@ public class InfoActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
+				Intent intent = new Intent(InfoActivity.this, VideoActivity.class);
+				startActivity(intent);
 			}
 		});
 

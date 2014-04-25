@@ -53,7 +53,7 @@
 	        <LinearLayout  
 	            android:id="@+id/title_layout"  
 	            android:layout_width="fill_parent"  
-	            android:layout_height="18dip"  
+	            android:layout_height="360dip"  
 	            android:background="#303030" >  
 	
 	            <TextView  
