@@ -2,6 +2,8 @@ package edu.cmu.smartphone.telemedicine;
 
 import java.util.List;
 
+import edu.cmu.smartphone.telemedicine.DBLayout.Dao_Sqlite;
+import edu.cmu.smartphone.telemedicine.DBLayout.Dao_parse;
 import edu.cmu.smartphone.telemedicine.entities.Contact;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -24,8 +26,6 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
 		super(context, textViewResourceId, objects);
 		resource = textViewResourceId;
 	}
-	
-
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -57,5 +57,4 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
 	public void setIndexer(SectionIndexer indexer) {
 		mIndexer = indexer;
 	}
-
 }

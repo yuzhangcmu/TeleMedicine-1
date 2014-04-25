@@ -2,6 +2,9 @@ package edu.cmu.smartphone.telemedicine.adapt;
 
 import java.util.LinkedHashMap;
 
+import android.content.Context;
+import edu.cmu.smartphone.telemedicine.DBLayout.Dao_Sqlite;
+import edu.cmu.smartphone.telemedicine.DBLayout.Dao_parse;
 import edu.cmu.smartphone.telemedicine.entities.Contact;
 
 public class ProxyContact {
@@ -13,6 +16,22 @@ public class ProxyContact {
         
         // add a new contact into the hash map list.
         contactHash.put(loginID, contact);
+    }
+    
+    public Contact addContact(Context context, String userID) {
+        // add a new friend.
+        Contact contact = new Contact(userID, userID);
+        contact.setSortKey(userID);
+        
+        // add the new friend to local database. 
+        Dao_Sqlite dao = new Dao_Sqlite(context);
+        dao.addContact(contact);
+        
+        // also add the new friend to the cloud service.
+        Dao_parse daoparse = new Dao_parse(context);
+        daoparse.addContactCloud(contact);
+        
+        return contact;
     }
     
     public void delContact(String loginID) {

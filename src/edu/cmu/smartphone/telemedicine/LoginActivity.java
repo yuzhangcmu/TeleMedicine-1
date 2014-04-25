@@ -21,9 +21,10 @@ import com.parse.ParseUser;
 import com.parse.PushService;
 
 import edu.cmu.smartphone.telemedicine.DBLayout.Dao_Sqlite;
+import edu.cmu.smartphone.telemedicine.DBLayout.DataLoadCallback;
 import edu.cmu.smartphone.telemedicine.entities.Contact;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends Activity implements DataLoadCallback{
 
 	EditText loginUsernameEditText;
 	EditText loginPasswordEditText;
@@ -100,14 +101,22 @@ public class LoginActivity extends Activity {
 						new LogInCallback() {
 							public void done(ParseUser user, ParseException e) {
 								if (user != null) {
-									// Hooray! The user is logged in.
-									Intent intent = new Intent(
-											LoginActivity.this,
-											ContactActivity.class);
-									startActivity(intent);
 									
 									// login and prepare data.
 									login(LoginActivity.this, username);
+									
+									// this is just fixed for testing. display the contact list of yuzhang
+							        Dao_Sqlite dao = new Dao_Sqlite(LoginActivity.this, username, null, 1);
+							        
+							        // logint from here.
+							        // load the contact list of the specific user to the database.
+							        dao.loadDataFromCloud(username, LoginActivity.this);
+							        
+							        // Hooray! The user is logged in.
+//                                    Intent intent = new Intent(
+//                                              LoginActivity.this,
+//                                              ContactActivity.class);
+//                                    startActivity(intent);
 									
 								} else {
 									// Signup failed. Look at the ParseException
@@ -125,5 +134,12 @@ public class LoginActivity extends Activity {
 		});
 
 	}
+
+    @Override
+    public void dataloadCallback() {
+        //Hooray! The user is logged in.
+        Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
+        startActivity(intent);
+    }
 
 }

@@ -133,12 +133,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     }
     
     // load a user's data to the database.
-    public void loadDataFromCloud(String userName) {
-        // delete the table before add contact.
-        //cleanTable();
-        //onCreate(myDB);
-        
-        //onUpgrade(myDB, 0, 0);
+    public void loadDataFromCloud(String userName, final DataLoadCallback callback) {
         
         ParseQuery<ParseObject> query = ParseQuery.getQuery(userName);
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -161,6 +156,9 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
                         addContact(contact);
                     }
                     
+                    if (callback != null) {
+                        callback.dataloadCallback();
+                    }
                     
                 } else {
                     Log.d("contacts", "Error: " + e.getMessage());
