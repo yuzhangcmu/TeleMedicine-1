@@ -2,14 +2,11 @@ package edu.cmu.smartphone.telemedicine;
 
 import java.util.List;
 
-import edu.cmu.smartphone.telemedicine.DBLayout.Dao_Sqlite;
-import edu.cmu.smartphone.telemedicine.DBLayout.Dao_parse;
 import edu.cmu.smartphone.telemedicine.entities.Contact;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.SectionIndexer;

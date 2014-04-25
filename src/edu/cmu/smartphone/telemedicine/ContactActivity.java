@@ -22,7 +22,6 @@ import android.view.View;
 import android.view.View.OnCreateContextMenuListener;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
@@ -78,7 +77,7 @@ public class ContactActivity extends Activity{
                                 BuildContact buildContact = new BuildContact();
                                 Contact contact = buildContact.addContact(ContactActivity.this, userID);
                                 
-                                addItem(contact);
+                                //addItem(contact);
                                 
                                 Notification noti = new Notification(ContactActivity.this);
                                 noti.sendNotification(userID, Contact.getCurrentUserID() +
