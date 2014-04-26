@@ -2,7 +2,8 @@
 <TabHost xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/tabhost"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:background="#ffffff" >
      
     <LinearLayout
         android:layout_width="fill_parent"
@@ -42,7 +43,7 @@
 	            android:id="@+id/title_layout"  
 	            android:layout_width="fill_parent"  
 	            android:layout_height="18dip"  
-	            android:background="#303030" >  
+	            android:background="#FFADD8E6" >  
 	
 	            <TextView  
 	                android:id="@+id/title"  
@@ -50,7 +51,7 @@
 	                android:layout_height="wrap_content"  
 	                android:layout_gravity="center_horizontal"  
 	                android:layout_marginLeft="10dip"  
-	                android:textColor="#ffffff"  
+	                android:textColor="#000000"  
 	                android:textSize="13sp" />  
 	        </LinearLayout>  
 	        
@@ -58,7 +59,8 @@
 			      android:id="@+id/contactSearchListView"  
 			      android:layout_width="fill_parent"  
 			      android:layout_height="wrap_content"  
-			      android:fadingEdge="none" >  
+			      android:fadingEdge="none" 
+			      android:cacheColorHint="#00000000">  
 	        </ListView>
 	          
 	    </FrameLayout>    

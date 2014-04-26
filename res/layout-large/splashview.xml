@@ -2,30 +2,38 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    
-     >
+    android:background="#ffffff"
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@+id/imageView1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="151dp"
         android:text="TeleMedicine"
+        android:textColor="#000000"
         android:textSize="40sp" />
-    
+
     <Button
         android:id="@+id/welcomeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/titleTextView"
+        android:layout_below="@+id/imageView1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dip"
-        android:text="Welcome"
-        android:textSize="30sp" />
+        android:layout_marginTop="75dp"
+        android:text="@string/welcom_TM"
+        android:textColor="#0099cc"
+        android:textSize="25sp"
+        android:background="#ffffff" />
 
-    
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="41dp"
+        android:src="@drawable/welcom" />
 
 </RelativeLayout>
