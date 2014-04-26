@@ -30,6 +30,12 @@ public class ProxyContact {
         return contact;
     }
     
+    public void deleteContactFromLocal(Context context, String userID) {
+        // delete the friend from local database. 
+        Dao_Sqlite dao = new Dao_Sqlite(context);
+        dao.deleteContact(userID);
+    }
+    
     public Contact addContact(Context context, String userID) {
         Contact contact = addContactToLocal(context, userID);
         
@@ -40,8 +46,17 @@ public class ProxyContact {
         return contact;
     }
     
-    public void delContact(String loginID) {
-        contactHash.remove(loginID);
+    /**
+     * delete a contact from local database, also delete it from the cloud.
+     * @param context
+     * @param userID
+     */
+    public void delContact(Context context, String userID) {
+        deleteContactFromLocal(context, userID);
+        
+        // delete a friend from the cloud service.
+        Dao_parse daoparse = new Dao_parse(context);
+        daoparse.deleteContactCloud(userID);
     }
     
     public Contact getContact(String loginID) {

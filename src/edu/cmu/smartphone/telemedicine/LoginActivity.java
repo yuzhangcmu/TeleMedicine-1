@@ -113,13 +113,8 @@ public class LoginActivity extends Activity implements DataLoadCallback{
 							        // load the contact list of the specific user to the database.
 							        dao.loadDataFromCloud(username, LoginActivity.this);
 							        
-							        // Hooray! The user is logged in.
-//                                    Intent intent = new Intent(
-//                                              LoginActivity.this,
-//                                              ContactActivity.class);
-//                                    startActivity(intent);
-									finish();
-
+							        // modified by yuzhang. wait until the new activity to be load.
+							        // this is moved to the callback function to keep a screen to the user.
 								} else {
 									// Signup failed. Look at the ParseException
 									// to see what happened.
@@ -142,6 +137,8 @@ public class LoginActivity extends Activity implements DataLoadCallback{
         //Hooray! The user is logged in.
         Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
         startActivity(intent);
+        
+        finish();
     }
 
 }

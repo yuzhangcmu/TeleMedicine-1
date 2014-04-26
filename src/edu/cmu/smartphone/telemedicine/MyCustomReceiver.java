@@ -39,7 +39,7 @@ public class MyCustomReceiver extends BroadcastReceiver {
             } else {
                 // save contact to local database.
                 BuildContact buildContact = new BuildContact();
-                buildContact.addContact(context, fromUsername);
+                buildContact.addContactToLocal(context, fromUsername);
             }
             
             saveRequestNotification(fromUsername);

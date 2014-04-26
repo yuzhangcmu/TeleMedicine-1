@@ -223,9 +223,16 @@ public class ContactActivity extends Activity{
         int selectedPosition = ((AdapterContextMenuInfo) item.getMenuInfo()).position;
         
         if (item.getItemId() == 0) {
+            Contact contact = contacts.get(selectedPosition);
+            String userID = contact.getUserID();
+            
             contacts.remove(selectedPosition);//选择行的位置
             adapter.notifyDataSetChanged();
             contactsListView.invalidate();
+            
+            // delete contact from local database and the cloud.
+            BuildContact buildContact = new BuildContact();
+            buildContact.delContact(ContactActivity.this, userID);
         }
         
         return super.onContextItemSelected(item);
