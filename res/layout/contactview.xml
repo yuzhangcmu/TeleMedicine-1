@@ -47,13 +47,15 @@
         <!--added by yu zhang  -->
         <FrameLayout
             android:id="@android:id/tabcontent"
+            android:layout_height="0dip"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-	        
+            android:layout_weight="1"
+            android:foregroundGravity="bottom|fill_horizontal" >
+            
 	        <LinearLayout  
 	            android:id="@+id/title_layout"  
 	            android:layout_width="fill_parent"  
-	            android:layout_height="360dip"  
+	            android:layout_height="18dip"  
 	            android:background="#303030" >  
 	
 	            <TextView  

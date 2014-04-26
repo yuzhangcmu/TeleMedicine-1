@@ -135,7 +135,8 @@ public class LoginActivity extends Activity implements DataLoadCallback{
     @Override
     public void dataloadCallback() {
         //Hooray! The user is logged in.
-        Intent intent = new Intent(LoginActivity.this, ContactActivity.class);
+        // modified by yu zhang, display the tab view.
+        Intent intent = new Intent(LoginActivity.this, TabWidget.class);
         startActivity(intent);
         
         finish();
