@@ -9,20 +9,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
         
-        <RelativeLayout
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content" >
-	            
-            <ImageButton
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:contentDescription="@string/add_contact"
-                android:onClick="goToAddContactView"
-                android:src="@drawable/ic_action_add_person" />
-	            
-        </RelativeLayout>
-        
         <EditText
 	        android:id="@+id/contactSearchEditText"
 	        android:layout_width="fill_parent"
@@ -37,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:foregroundGravity="bottom|fill_horizontal" >
-            
+	        
 	        <LinearLayout  
 	            android:id="@+id/title_layout"  
 	            android:layout_width="fill_parent"  

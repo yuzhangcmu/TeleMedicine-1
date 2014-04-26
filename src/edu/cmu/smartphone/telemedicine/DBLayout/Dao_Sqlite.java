@@ -24,6 +24,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
@@ -100,6 +101,21 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
         }
         
         return contactList;
+    }
+    
+    public Cursor getContactCursor() {
+        String sql = "SELECT * FROM " + TABLE_CONTACT;
+        Log.e(LOG, sql);
+        
+        Cursor c = myDB.rawQuery(sql, null);
+        return c;
+    }
+    
+    public long getContactNumber() {
+        String sql = "SELECT COUNT(*) FROM " + TABLE_CONTACT;
+        SQLiteStatement statement = myDB.compileStatement(sql);
+        long count = statement.simpleQueryForLong();
+        return count;
     }
     
     public Cursor addContactToArrayList(List<Contact> contacts) {

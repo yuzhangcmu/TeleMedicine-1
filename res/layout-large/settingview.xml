@@ -22,12 +22,7 @@
                 android:orientation="vertical"
                 >
                 
-                <EditText
-                    android:id="@+id/ContactSearchEditText"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Search" >
-                </EditText>
+                
 
                 <ListView
                     android:id="@+id/historySearchListView"
@@ -43,12 +38,7 @@
                 android:orientation="vertical"
                  >
 
-                <EditText
-                    android:id="@+id/contactSearchEditText"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Search" >
-                </EditText>
+                
 
                 <ListView
                     android:id="@+id/contactSearchListView"

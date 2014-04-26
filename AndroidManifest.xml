@@ -74,9 +74,7 @@
         android:theme="@android:style/Theme.Black.NoTitleBar" >
         <activity
             android:name="edu.cmu.smartphone.telemedicine.MainActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleInstance"
-             >
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -87,7 +85,8 @@
         </activity>
         <activity android:name="edu.cmu.smartphone.telemedicine.ChatActivity" >
         </activity>
-        <activity android:name="edu.cmu.smartphone.telemedicine.ContactActivity" >
+        <activity android:name="edu.cmu.smartphone.telemedicine.ContactActivity"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity android:name="edu.cmu.smartphone.telemedicine.InfoActivity" >
         </activity>
@@ -99,6 +98,20 @@
         </activity>
         <activity android:name="edu.cmu.smartphone.telemedicine.UserInfoActivity" >
         </activity>
+        
+        <!-- Added by Yu Zhang fro display the tabs. -->
+        <!-- add this to make the tab not rise when keyboard exit. -->
+        <activity android:name="TabWidget" 
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:windowSoftInputMode="adjustPan"
+            >
+            
+        </activity>
+        
+        <activity android:name="edu.cmu.smartphone.telemedicine.ChatHistoryActivity"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <!-- Added by Yu Zhang fro display the tabs. end -->
         
         <service android:name="com.parse.PushService" />
         
