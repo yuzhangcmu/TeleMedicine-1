@@ -38,7 +38,6 @@ public class VideoActivity extends Activity {
 	private String groupid;
 	private TextView text_gid;
 	
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
