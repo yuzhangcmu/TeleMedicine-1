@@ -50,7 +50,9 @@ public class MainActivity extends Activity {
                 Intent intent = new Intent(MainActivity.this,
                         LoginActivity.class);
                 startActivity(intent);
-                finish();
+				
+				// deleted by yu zhang. this will make Alert window not pop up.
+                //finish();
 			}
 		});
 		

@@ -59,10 +59,7 @@ public class MyCustomReceiver extends BroadcastReceiver {
         // save the notification to the local database.
     }
     
-    private void sendConfirmNotification(Context context) {
-        //Notification noti = new Notification();
-        //sendNotification();
-    }
+    
 
     // we can not show alert here. need to move to "history"
     // now we just pop up a alert window to do that.

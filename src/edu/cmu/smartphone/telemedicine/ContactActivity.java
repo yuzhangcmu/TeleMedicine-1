@@ -254,6 +254,7 @@ public class ContactActivity extends Activity{
         String userID = getIntent().getStringExtra("username");
         String message = getIntent().getStringExtra("message");
         
+        
         if (messType != null && messType.equals("addContactRequest")) {
             // add friend request.
             addContactAlert(userID, message);
