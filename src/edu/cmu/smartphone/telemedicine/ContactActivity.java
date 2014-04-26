@@ -77,7 +77,7 @@ public class ContactActivity extends Activity{
                                 BuildContact buildContact = new BuildContact();
                                 Contact contact = buildContact.addContact(ContactActivity.this, userID);
                                 
-                                //addItem(contact);
+                                addItem(contact);
                                 
                                 Notification noti = new Notification(ContactActivity.this);
                                 noti.sendNotification(userID, Contact.getCurrentUserID() +
@@ -94,13 +94,23 @@ public class ContactActivity extends Activity{
                         }).show();
     }
     
+    // add a item to the current view list, and refresh the view.
     private void addItem(Contact contact)  
     {  
         if (contact == null) {
             return;
         }
+      
+        Dao_Sqlite dao = new Dao_Sqlite(ContactActivity.this);
+        Cursor cursor = dao.getContactCursor();
         
-        if (! contacts.contains(contact)) {
+        // pay attention to this.
+        startManagingCursor(cursor);
+        indexer = new AlphabetIndexer(cursor, 1, alphabet);
+        adapter.setIndexer(indexer);
+        
+        // must add judge to not add duplicate data.
+        if (dao.getContactNumber() > contacts.size()) {
             contacts.add(contact);  
             adapter.notifyDataSetChanged();  
             contactsListView.invalidate();
