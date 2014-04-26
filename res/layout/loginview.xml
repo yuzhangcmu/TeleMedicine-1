@@ -56,8 +56,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dip"
                 android:text="Login" />
+            
             <!-- Link to Registration Screen -->
-
             <TextView
                 android:id="@+id/login_link_to_register"
                 android:layout_width="fill_parent"
@@ -67,7 +67,7 @@
                 android:gravity="center"
                 android:text="Register here"
                 android:textColor="#0b84aa"
-                android:textSize="20dip" />
+                android:textSize="20sp" />
         </LinearLayout>
         <!-- Login Form Ends -->
     </RelativeLayout>
