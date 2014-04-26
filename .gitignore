@@ -29,7 +29,7 @@ proguard/
 
 .project
 
-*.jar
+#*.jar
 
 .classpath
 
@@ -39,7 +39,7 @@ libs/Parse-1.4.3.jar
 
 libs/Parse-1.4.3.jar
 
-libs/ovx.jar
+#libs/ovx.jar
 
 .classpath
 
