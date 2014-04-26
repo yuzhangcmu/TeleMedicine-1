@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import edu.cmu.smartphone.telemedicine.DBLayout.Dao_Sqlite;
 import edu.cmu.smartphone.telemedicine.DBLayout.Dao_parse;
+import edu.cmu.smartphone.telemedicine.adapt.BuildContact;
 import edu.cmu.smartphone.telemedicine.entities.Contact;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -35,6 +36,10 @@ public class MyCustomReceiver extends BroadcastReceiver {
             
             if (json.getString("messType").equals("0")) {
                 jumpToContactActivity(context, fromUsername, json.getString("alert"));
+            } else {
+                // save contact to local database.
+                BuildContact buildContact = new BuildContact();
+                buildContact.addContact(context, fromUsername);
             }
             
             saveRequestNotification(fromUsername);

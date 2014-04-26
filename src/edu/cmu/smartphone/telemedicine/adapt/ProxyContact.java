@@ -18,7 +18,7 @@ public class ProxyContact {
         contactHash.put(loginID, contact);
     }
     
-    public Contact addContact(Context context, String userID) {
+    public Contact addContactToLocal(Context context, String userID) {
         // add a new friend.
         Contact contact = new Contact(userID, userID);
         contact.setSortKey(userID);
@@ -26,6 +26,12 @@ public class ProxyContact {
         // add the new friend to local database. 
         Dao_Sqlite dao = new Dao_Sqlite(context);
         dao.addContact(contact);
+        
+        return contact;
+    }
+    
+    public Contact addContact(Context context, String userID) {
+        Contact contact = addContactToLocal(context, userID);
         
         // also add the new friend to the cloud service.
         Dao_parse daoparse = new Dao_parse(context);

@@ -76,8 +76,8 @@ public class InfoActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(InfoActivity.this, VideoActivity.class);
-				startActivity(intent);
+//				Intent intent = new Intent(InfoActivity.this, VideoActivity.class);
+//				startActivity(intent);
 			}
 		});
 		
@@ -85,8 +85,8 @@ public class InfoActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(InfoActivity.this, VideoActivity.class);
-				startActivity(intent);
+//				Intent intent = new Intent(InfoActivity.this, VideoActivity.class);
+//				startActivity(intent);
 			}
 		});
 		
