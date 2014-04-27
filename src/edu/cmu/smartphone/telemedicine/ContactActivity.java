@@ -196,6 +196,7 @@ public class ContactActivity extends Activity{
             }
         });
         
+        // long tap the contact item, display a delete window.
         contactsListView.setOnCreateContextMenuListener(new OnCreateContextMenuListener()
         {
             @Override
@@ -318,7 +319,7 @@ public class ContactActivity extends Activity{
     
     
     
-    private String getSortKey(String sortKeyString) {
+    public static String getSortKey(String sortKeyString) {
         String key = sortKeyString.substring(0, 1).toUpperCase();
         if (key.matches("[A-Z]")) {
             return key;

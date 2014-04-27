@@ -104,7 +104,8 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     }
     
     public Cursor getContactCursor() {
-        String sql = "SELECT * FROM " + TABLE_CONTACT;
+        String sql = "SELECT " + KEY_NAME + "," + KEY_USERID +
+                " FROM " + TABLE_CONTACT + " ORDER BY " + KEY_NAME;
         Log.e(LOG, sql);
         
         Cursor c = myDB.rawQuery(sql, null);
@@ -119,22 +120,19 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     }
     
     public Cursor addContactToArrayList(List<Contact> contacts) {
-        
-        String sql = "SELECT * FROM " + TABLE_CONTACT;
-        Log.e(LOG, sql);
-        
-        Cursor c = myDB.rawQuery(sql, null);
+        Cursor c = getContactCursor();
         
         // looping through all rows and adding to list
         if (c.moveToFirst()) {
             do {
-                String name = c.getString(c.getColumnIndex("Name"));
-                String userID = c.getString(c.getColumnIndex("UserID"));
+                String name = c.getString(c.getColumnIndex(KEY_NAME));
+                String userID = c.getString(c.getColumnIndex(KEY_USERID));
                 
                 Contact contact = new Contact(name, userID);
                 
-                contact.setName(name);
-                contact.setSortKey(name);
+                // set the first character to be key.
+                String sortKey = ContactActivity.getSortKey(name);
+                contact.setSortKey(sortKey);
                 
                 // adding to contact list.
                 contacts.add(contact);
@@ -147,6 +145,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     public void close() {
         myDB.close();
     }
+    
     
     // load a user's data to the database.
     public void loadDataFromCloud(String userName, final DataLoadCallback callback) {
@@ -162,10 +161,12 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
                     onUpgrade(myDB, 0, 0);
                     
                     for (ParseObject o: contactList) {
-                        //String name = o.getString(KEY_FULLNAME);
+                        String name = o.getString(KEY_FULLNAME);
                         String userID = o.getString(KEY_FRIEND_USER_NAME_CLOUD);
                         
-                        // need to change to name.
+                        // because we need to check another table, just keep it to be userID now.
+                        // but later we need to modify it.
+                        // later we should use "relation" to realize the feature.
                         Contact contact = new Contact(userID, userID);
                         contact.setSortKey(userID);
                         

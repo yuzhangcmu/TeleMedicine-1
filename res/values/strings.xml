@@ -19,4 +19,5 @@
     <string name="title_activity_main">OVX Example</string>
 	<string name="call_start">Enter Conference</string>
 	<string name="end_call">Exit Conference</string>
+	<string name="welcom_TM">Open</string>
 </resources>

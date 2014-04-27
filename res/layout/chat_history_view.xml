@@ -24,27 +24,12 @@
             android:layout_weight="1"
             android:foregroundGravity="bottom|fill_horizontal" >
 	        
-	        <LinearLayout  
-	            android:id="@+id/title_layout"  
-	            android:layout_width="fill_parent"  
-	            android:layout_height="18dip"  
-	            android:background="#303030" >  
-	
-	            <TextView  
-	                android:id="@+id/title"  
-	                android:layout_width="wrap_content"  
-	                android:layout_height="wrap_content"  
-	                android:layout_gravity="center_horizontal"  
-	                android:layout_marginLeft="10dip"  
-	                android:textColor="#ffffff"  
-	                android:textSize="13sp" />  
-	        </LinearLayout>  
-	        
 	        <ListView  
-			      android:id="@+id/contactSearchListView"  
+			      android:id="@android:id/list"  
 			      android:layout_width="fill_parent"  
 			      android:layout_height="wrap_content"  
-			      android:fadingEdge="none" >  
+			      android:fadingEdge="none" 
+			      android:cacheColorHint="#00000000">
 	        </ListView>
 	          
 	    </FrameLayout>    

@@ -9,7 +9,8 @@
         android:id="@+id/sort_key_layout"
         android:layout_width="fill_parent"
         android:layout_height="18dip"
-        android:background="#303030" >
+        android:background="#FFF0F8FF" >
+        <!-- android:background="#303030"-->
 
         <TextView
             android:id="@+id/sort_key"
@@ -17,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="10dip"
-            android:textColor="#ffffff"
+            android:textColor="#303030"
             android:textSize="13sp" />
     </LinearLayout>
 
@@ -39,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:textColor="#ffffff"
+            android:textColor="#000000"
             android:textSize="22sp" />
     </LinearLayout>
 

@@ -31,7 +31,9 @@
         android:layout_width="match_parent"
         android:layout_height="224dp"
         android:layout_marginTop="20dp"
-        android:layout_weight="0.02" >
+        android:layout_weight="0.02" 
+        android:cacheColorHint="#00000000">
+        <!-- This is to prevent the background become black when scroll -->
     </ListView>
 
     <EditText
