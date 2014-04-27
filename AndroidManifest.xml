@@ -77,7 +77,6 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -98,6 +97,8 @@
         </activity>
         <activity android:name="edu.cmu.smartphone.telemedicine.UserInfoActivity" >
         </activity>
+        <activity android:name="edu.cmu.smartphone.telemedicine.VideoActivity" android:launchMode="singleTask" android:configChanges="orientation|screenSize">
+        </activity>
         
         <!-- Added by Yu Zhang fro display the tabs. -->
         <!-- add this to make the tab not rise when keyboard exit. -->
@@ -112,6 +113,8 @@
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <!-- Added by Yu Zhang fro display the tabs. end -->
+        
+        
         
         <service android:name="com.parse.PushService" />
         

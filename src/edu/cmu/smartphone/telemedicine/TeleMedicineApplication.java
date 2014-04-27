@@ -8,12 +8,12 @@ import com.parse.PushService;
 
 import android.app.Application;
 
-public class TeleMedicineApplication extends Application {
+public class TeleMedicineApplication extends com.openclove.ovx.OVX {
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-
+		
 		// Add your initialization code here
 		Parse.initialize(this, "L8Xc3uTHMYHbwGyhwVyi5L9nUJtRtLvYIHGOJa0V", "KlrarH9V0OWEkCr0FjIBpqiKaVfs6o9supWTt2wc");
 
