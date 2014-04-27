@@ -34,7 +34,7 @@
 
     <ImageButton
         android:id="@+id/userinfoAddFriendButton"
-        style="@color/white"
+        style="@color/White"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/userinfoListView"

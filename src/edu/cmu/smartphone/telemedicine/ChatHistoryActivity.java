@@ -39,8 +39,8 @@ public class ChatHistoryActivity extends ListActivity {
         datalist = getData();
         
         adapter = new SimpleAdapter(this, datalist, R.layout.chat_item_view,
-                new String[]{"title","info","img"},
-                new int[]{R.id.title,R.id.info,R.id.img});
+                new String[]{"title","info","img","time"},
+                new int[]{R.id.title,R.id.recent_chat,R.id.img, R.id.recent_chat_time});
         setListAdapter(adapter);
         
         // get the view which show the list of chat.
@@ -108,25 +108,26 @@ public class ChatHistoryActivity extends ListActivity {
  
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("title", "G1");
-        map.put("info", "google 1");
+        map.put("info", "Do you want to have lunch now?");
         map.put("img", R.drawable.contact_head1);
+        map.put("time", "Yesterday");
         list.add(map);
  
         map = new HashMap<String, Object>();
         map.put("title", "G2");
-        map.put("info", "google 2");
+        map.put("info", "I want to have a rest.");
         map.put("img", R.drawable.contact_head2);
         list.add(map);
  
         map = new HashMap<String, Object>();
         map.put("title", "G3");
-        map.put("info", "google 3");
+        map.put("info", "Hi! Which company do you like?");
         map.put("img", R.drawable.contact_head3);
         list.add(map);
         
         map = new HashMap<String, Object>();
         map.put("title", "G3");
-        map.put("info", "google 3");
+        map.put("info", "Can you introduce some university to me? I want to company.");
         map.put("img", R.drawable.contact_head3);
         list.add(map);
         
