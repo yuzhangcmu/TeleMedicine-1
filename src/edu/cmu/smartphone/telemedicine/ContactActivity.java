@@ -196,6 +196,7 @@ public class ContactActivity extends Activity{
             }
         });
         
+        // long tap the contact item, display a delete window.
         contactsListView.setOnCreateContextMenuListener(new OnCreateContextMenuListener()
         {
             @Override

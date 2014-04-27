@@ -5,16 +5,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.cmu.smartphone.telemedicine.adapt.BuildContact;
 import edu.cmu.smartphone.telemedicine.entities.Contact;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 
 // extends ListActivity to get the features.
@@ -22,12 +28,17 @@ public class ChatHistoryActivity extends ListActivity {
     
     private ListView chatListView;
     
+    List<Map<String, Object>> datalist;
+    SimpleAdapter adapter;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_history_view);
         
-        SimpleAdapter adapter = new SimpleAdapter(this,getData(),R.layout.chat_item_view,
+        datalist = getData();
+        
+        adapter = new SimpleAdapter(this, datalist, R.layout.chat_item_view,
                 new String[]{"title","info","img"},
                 new int[]{R.id.title,R.id.info,R.id.img});
         setListAdapter(adapter);
@@ -54,6 +65,42 @@ public class ChatHistoryActivity extends ListActivity {
             }
         });
         
+        // long tap the chat item, display a delete window.
+        chatListView.setOnCreateContextMenuListener(new OnCreateContextMenuListener()
+        {
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo)
+            {
+                menu.setHeaderTitle("Chat Session Menu");   
+                menu.add(0, 0, 0, "Delete session");
+                menu.add(0, 1, 0, "Cancel");   
+            }
+            
+        });
+        
+    }
+    
+    @Override
+    public boolean onContextItemSelected(MenuItem item)
+    {
+        //setTitle("点击了长按菜单里面的第"+item.getItemId()+"个项目"); 
+        
+        // get which line is pressed.
+        int selectedPosition = ((AdapterContextMenuInfo) item.getMenuInfo()).position;
+        
+        if (item.getItemId() == 0) {
+            Map<String, Object> map = datalist.get(selectedPosition);
+            //String userID = contact.getUserID();
+            
+            datalist.remove(selectedPosition);//选择行的位置
+            adapter.notifyDataSetChanged();
+            chatListView.invalidate();
+            
+            // delete the session from the database.
+            
+        }
+        
+        return super.onContextItemSelected(item);
     }
     
     private List<Map<String, Object>> getData() {
