@@ -120,7 +120,8 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     
     public Cursor addContactToArrayList(List<Contact> contacts) {
         
-        String sql = "SELECT * FROM " + TABLE_CONTACT;
+        String sql = "SELECT " + KEY_NAME + "," + KEY_USERID +
+                " FROM " + TABLE_CONTACT + " ORDER BY " + KEY_NAME;
         Log.e(LOG, sql);
         
         Cursor c = myDB.rawQuery(sql, null);
@@ -128,13 +129,14 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (c.moveToFirst()) {
             do {
-                String name = c.getString(c.getColumnIndex("Name"));
-                String userID = c.getString(c.getColumnIndex("UserID"));
+                String name = c.getString(c.getColumnIndex(KEY_NAME));
+                String userID = c.getString(c.getColumnIndex(KEY_USERID));
                 
                 Contact contact = new Contact(name, userID);
                 
                 contact.setName(name);
-                contact.setSortKey(name);
+                String sortKey = ContactActivity.getSortKey(name);
+                contact.setSortKey(sortKey);
                 
                 // adding to contact list.
                 contacts.add(contact);
