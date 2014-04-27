@@ -318,7 +318,7 @@ public class ContactActivity extends Activity{
     
     
     
-    private String getSortKey(String sortKeyString) {
+    public static String getSortKey(String sortKeyString) {
         String key = sortKeyString.substring(0, 1).toUpperCase();
         if (key.matches("[A-Z]")) {
             return key;
