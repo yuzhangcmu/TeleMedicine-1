@@ -22,6 +22,7 @@ public class InfoActivity extends Activity {
 	
 	ImageButton menuInfoButton;
 	
+	
 	public void contactMenu(View v) {
 	    
 	}
@@ -37,9 +38,9 @@ public class InfoActivity extends Activity {
 		
 		menuInfoButton = (ImageButton)findViewById(R.id.menuInfoButton);
 		
-		String username = getIntent().getStringExtra("username");
-        String fullname = getIntent().getStringExtra("fullname");
-        String email = getIntent().getStringExtra("email");
+		final String username = getIntent().getStringExtra("username");
+        final String fullname = getIntent().getStringExtra("fullname");
+        final String email = getIntent().getStringExtra("email");
         
         String[] mStrings = {"FullName: " + fullname, "User Name: " + username,
                 "Email: " + email};
@@ -68,6 +69,9 @@ public class InfoActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(InfoActivity.this, ChatActivity.class);
+				intent.putExtra("callee_username", username);
+                intent.putExtra("fullname", fullname);
+                intent.putExtra("email", email);
 				startActivity(intent);
 			}
 		});
@@ -77,6 +81,9 @@ public class InfoActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(InfoActivity.this, VideoActivity.class);
+				intent.putExtra("callee_username", username);
+                intent.putExtra("fullname", fullname);
+                intent.putExtra("email", email);
 				startActivity(intent);
 			}
 		});
@@ -86,6 +93,9 @@ public class InfoActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(InfoActivity.this, VideoActivity.class);
+				intent.putExtra("callee_username", username);
+                intent.putExtra("fullname", fullname);
+                intent.putExtra("email", email);
 				startActivity(intent);
 			}
 		});

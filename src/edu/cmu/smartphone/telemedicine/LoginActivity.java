@@ -61,7 +61,6 @@ public class LoginActivity extends Activity implements DataLoadCallback{
 		// fix bug: should set to loginView, not register view.
 		setContentView(R.layout.loginview);
 
-		
 		loginUsernameEditText = (EditText) findViewById(R.id.loginUsername);
 		loginPasswordEditText = (EditText) findViewById(R.id.loginPassword);
 
@@ -75,8 +74,7 @@ public class LoginActivity extends Activity implements DataLoadCallback{
             
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this,
-                        RegisterActivity.class);
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -88,14 +86,11 @@ public class LoginActivity extends Activity implements DataLoadCallback{
 		    
 			@Override
 			public void onClick(View v) {
-			    username = loginUsernameEditText.getEditableText()
-	                    .toString();
-	            password = loginPasswordEditText.getEditableText()
-	                    .toString();
+			    username = loginUsernameEditText.getEditableText().toString();
+	            password = loginPasswordEditText.getEditableText().toString();
 	            
 	            // hide the keyboard.
-                InputMethodManager imm = (InputMethodManager)getSystemService(
-                        Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(loginUsernameEditText.getWindowToken(), 0);
 			    
 				ParseUser.logInInBackground(username, password,

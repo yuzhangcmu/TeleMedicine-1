@@ -37,9 +37,13 @@ import android.widget.TextView.OnEditorActionListener;
 import com.openclove.ovx.OVXCallListener;
 import com.openclove.ovx.OVXException;
 import com.openclove.ovx.OVXView;
+import com.parse.ParseUser;
+
+import edu.cmu.smartphone.telemedicine.ws.remote.Notification;
 
 public class VideoActivity extends Activity {
 
+	private static final String tag = "VideoActivity";
 	private OVXView ovxView;
 //	protected RelativeLayout media_control;
 	private Dialog dialog;
@@ -55,7 +59,16 @@ public class VideoActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.videoview);
-
+		
+		final String currentUserName = ParseUser.getCurrentUser().getUsername();
+		final String caller_username = getIntent().getStringExtra("caller_username");
+		final String callee_username = getIntent().getStringExtra("callee_username");
+		final String callee_fullname = getIntent().getStringExtra("fullname");
+		final String callee_email = getIntent().getStringExtra("email");
+		
+		Log.d(tag, "caller_username:" + caller_username);
+		Log.d(tag, "callee_username:" + callee_username);
+		
 		// Comments provided for ovx sdk code
 		Log.d("INDUS", "onCreate");
 
@@ -77,7 +90,15 @@ public class VideoActivity extends Activity {
 			 * the same group id will end up in a video conference. You can use own logic to 
 			 * share this group id, for example via links as invite to another user to join conference.    
 			 */
-			ovxView.setOvxGroupId(UUID.randomUUID().toString().replaceAll("-", ""));
+//			ovxView.setOvxGroupId(UUID.randomUUID().toString().replaceAll("-", ""));
+			
+			if(currentUserName.equals(callee_username)) {
+				ovxView.setOvxGroupId(caller_username + "-" + callee_username);
+			} else {
+				ovxView.setOvxGroupId(currentUserName + "-" + callee_username);
+			}
+			
+			
 
 			/* This refers to the Theme of video frames, background, etc. of
 			* the video room.
@@ -131,7 +152,10 @@ public class VideoActivity extends Activity {
 				public void onClick(View v) {
 					if (!ovxView.isCallOn()) //Checks if the call is on 
 						try {
-							ovxView.call(); // Initiates call and starts a session with the specified OVX group id and other parameters set earlier. 
+							ovxView.call(); // Initiates call and starts a session with the specified OVX group id and other parameters set earlier.
+							// Send push notification to the other user to receive the call
+							 Notification notify = new Notification(VideoActivity.this);
+							 notify.sendInComingCallPush(currentUserName, callee_username, "msg1");
 						} catch (OVXException e) {
 							e.printStackTrace();
 						}
@@ -139,7 +163,6 @@ public class VideoActivity extends Activity {
 						CharSequence[] ch = { "Call is already on" };
 						showDialog("Warning", ch);
 					}
-
 				}
 			});
 

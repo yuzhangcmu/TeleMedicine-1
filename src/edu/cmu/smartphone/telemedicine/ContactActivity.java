@@ -96,7 +96,7 @@ public class ContactActivity extends Activity{
     
     // add a item to the current view list, and refresh the view.
     private void addItem(Contact contact)  
-    {  
+    {
         if (contact == null) {
             return;
         }
@@ -115,7 +115,7 @@ public class ContactActivity extends Activity{
             adapter.notifyDataSetChanged();  
             contactsListView.invalidate();
         }
-    }  
+    }
     
     private void loadContact() {
         adapter = new ContactAdapter(this, R.layout.contact_item, contacts);

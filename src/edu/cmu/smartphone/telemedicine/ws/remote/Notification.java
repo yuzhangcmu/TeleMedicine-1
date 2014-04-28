@@ -57,5 +57,38 @@ public class Notification {
         push.setData(obj);
         push.sendInBackground();
     }
+    
+    
+    public void sendInComingCallPush(String caller_username, String callee_username, String message) {
+    	// send a notification to add the contact.
+    	JSONObject obj=new JSONObject();
+    	try {
+    		obj.put("action","edu.cmu.smartphone.telemedicine.INCOMING_CALL");
+    		
+    		// tell friend your user id.
+    		obj.put("caller_username", caller_username);
+    		obj.put("callee_username", callee_username);
+    		obj.put("message", message);
+    		
+    	} catch (JSONException e) {
+    		e.printStackTrace();
+    		
+    		Toast toast = Toast.makeText(contest,
+    				"Internal error!", Toast.LENGTH_LONG);
+    		toast.setGravity(Gravity.CENTER, 0, 0);
+    		LinearLayout toastView = (LinearLayout) toast.getView();
+    		ImageView imageCodeProject = new ImageView(contest);
+    		imageCodeProject.setImageResource(R.drawable.ic_action_accept);
+    		toastView.addView(imageCodeProject, 0);
+    		toast.show();
+    		return;      
+    	}
+    	
+    	ParsePush push = new ParsePush();
+    	push.setChannel(callee_username);
+    	push.setData(obj);
+    	push.sendInBackground();
+    }
+    
 
 }
