@@ -10,6 +10,15 @@ public class ChatRecord {
     private Boolean direction;
     private int messageType;
     
+    public ChatRecord() {
+        message = null;
+        status = false;
+        date = null;
+        chatUserID = null;
+        direction = true;
+        messageType = 0;
+    }
+    
     
     
     public String getMessage() {

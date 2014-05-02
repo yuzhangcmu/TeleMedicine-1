@@ -1,6 +1,7 @@
 package edu.cmu.smartphone.telemedicine.DBLayout;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.LinkedList;
@@ -64,7 +65,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     private static final String KEY_STATUS = "status";
     private static final String KEY_RECORD_TIME = "time";
     private static final String KEY_DIRECTION = "direction";
-    private static final String KEY_MESSAGETYPE = "message_type_iD";
+    private static final String KEY_MESSAGETYPE = "message_type_id";
     
     // when show by page, the size of every page.
     static final int PAGE_SIZE = 10;
@@ -82,6 +83,8 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     private Context context;
     
     SQLiteDatabase myDB;
+    
+    
     
     public Dao_Sqlite(Context context, String name, CursorFactory factory,
             int version) {
@@ -310,7 +313,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
                     + KEY_DIRECTION + ", "
                     + KEY_MESSAGETYPE + 
                     ") "           
-                    + "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s');",
+                    + "VALUES ('%s', '%s', '%s', '%s', '%s');",
                     TABLE_CHATRECORD,
                     record.getMessage(),
                     record.getStatus(),
@@ -352,7 +355,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
         private static final String KEY_DIRECTION = "direction";
         private static final String KEY_MESSAGETYPE = "message_type_iD";
      * */
-    public void getChatRecord(String userID, ArrayList<ChatRecord> chatRecordArray, int pageID) {
+    public void getChatRecord(String userID, ArrayList<ChatRecord> chatRecordList, int pageID) {
         String sql= "select * from " + TABLE_CHATRECORD +     
                 " Limit "+String.valueOf(PAGE_SIZE)+ " Offset " +String.valueOf(pageID*PAGE_SIZE);    
         Cursor rec = myDB.rawQuery(sql, null);    
@@ -370,7 +373,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
                 // set the status.
                 record.setStatus(status);
                 
-                chatRecordArray.add(record);
+                chatRecordList.add(record);
             } while (rec.moveToNext());
         }
     
@@ -446,24 +449,35 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
             // TODO
             
             // create chatRecord table.
+//            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CHATRECORD
+//                    + " (" 
+//                    + KEY_ID + " INTEGER AUTOINCREMENT, "
+//                    + KEY_MESSAGE + " varchar(max), "
+//                    + KEY_STATUS + " bit, "
+//                    + KEY_RECORD_TIME + " datetime, "
+//                    + KEY_USERID + " integer,"
+//                    + KEY_DIRECTION + " bit,"
+//                    + KEY_MESSAGETYPE + " integer, "
+//                    + "PRIMARY KEY ( " + KEY_ID + " ), FOREIGN KEY (" + KEY_USERID + ") REFERENCES " 
+//                    + TABLE_CONTACT + "(" + KEY_USERID + ") ON DELETE CASCADE);");
+            
             myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CHATRECORD
                     + " (" 
-                    + KEY_ID + " INTEGER not NULL AUTO_INCREMENT, "
-                    + KEY_MESSAGE + " varchar(max), "
+                    + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + KEY_MESSAGE + " varchar(255), "
                     + KEY_STATUS + " bit, "
                     + KEY_RECORD_TIME + " datetime, "
                     + KEY_USERID + " integer,"
                     + KEY_DIRECTION + " bit,"
-                    + KEY_MESSAGETYPE + " integer, "
-                    + "PRIMARY KEY ( " + KEY_ID + " )), FOREIGN KEY (" + KEY_USERID + ") REFERENCES " 
-                    + TABLE_CONTACT + "(" + KEY_USERID + ") ON DELETE CASCADE;");
+                    + KEY_MESSAGETYPE + " integer"
+                    + ");");
             
-            // create recentChat table.
-            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_RECENTCHAT
-                    + " (id INTEGER not NULL AUTO_INCREMENT, "
-                    + "userid integer, Time datetime"
-                    + "PRIMARY KEY ( Id )), FOREIGN KEY (userid) REFERENCES " 
-                    + TABLE_CONTACT + "(id) ON DELETE CASCADE;");
+//            // create recentChat table.
+//            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_RECENTCHAT
+//                    + " (id INTEGER not NULL AUTO_INCREMENT, "
+//                    + "userid integer, Time datetime"
+//                    + "PRIMARY KEY ( Id )), FOREIGN KEY (userid) REFERENCES " 
+//                    + TABLE_CONTACT + "(id) ON DELETE CASCADE;");
 //            
 //            // create patient table.
 //            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_PATIENT
