@@ -33,6 +33,7 @@ public class ChatRecord {
     }
     
     public Date getDate() {
+        //return null;
         return date;
     }
     

@@ -32,6 +32,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
+
+
 // reference: http://www.androidhive.info/2013/09/android-sqlite-database-with-multiple-tables/
 public class Dao_Sqlite extends SQLiteOpenHelper {
     // Logcat tag
@@ -295,40 +297,27 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
      * 
      * */
     public void addChatRecord(ChatRecord record) {
-        //String message, Boolean status, String userID, Boolean direction,
-        //int messageType
-        String tableContact = TABLE_CONTACT;
-        
         try {
-            // Get the database if database is not exists create new database 
-            // Database name is " test " 
-            
             StringBuilder sb = new StringBuilder();
             
-            // Send all output to the Appendable object sb
             Formatter formatter = new Formatter(sb, Locale.US);
             
             // Explicit argument indices may be used to re-order output.
-//            formatter.format("REPLACE INTO %s (Type, email, phone, name, userid, intro,"
-//                    + "HeadPortrait, Age, Password) "
-//                    + "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s');",
-//                    tableContact,
-//                    contact.getType(),
-//                    contact.getEmail(),
-//                    contact.getPhone(),
-//                    contact.getName(),
-//                    contact.getUserID(),
-//                    contact.getIntro(),
-//                    contact.getHeadPortrait(),
-//                    contact.getAge(),
-//                    contact.getPassword()
-//                    );
-//            
-//            formatter.format("REPLACE INTO %s (name, userid) VALUES ('%s', '%s');",
-//                    tableContact,
-//                    contact.getName(),
-//                    contact.getUserID()
-//                    );
+            formatter.format("REPLACE INTO %s (" 
+                    + KEY_MESSAGE + ", " 
+                    + KEY_STATUS + ", "
+                    + KEY_RECORD_TIME + ", "
+                    + KEY_DIRECTION + ", "
+                    + KEY_MESSAGETYPE + 
+                    ") "           
+                    + "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s');",
+                    TABLE_CHATRECORD,
+                    record.getMessage(),
+                    record.getStatus(),
+                    record.getDate(),
+                    record.getDirection(),
+                    record.getMessageType()
+                    );
             
             formatter.close();
             String sql = sb.toString();
@@ -469,7 +458,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
             
             // create recentChat table.
             myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_RECENTCHAT
-                    + " (Id INTEGER not NULL AUTO_INCREMENT, "
+                    + " (id INTEGER not NULL AUTO_INCREMENT, "
                     + "userid integer, Time datetime"
                     + "PRIMARY KEY ( Id )), FOREIGN KEY (userid) REFERENCES " 
                     + TABLE_CONTACT + "(id) ON DELETE CASCADE;");
