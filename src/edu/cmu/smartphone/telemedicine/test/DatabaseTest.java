@@ -8,11 +8,13 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import edu.cmu.smartphone.telemedicine.DBLayout.Dao_Sqlite;
 import edu.cmu.smartphone.telemedicine.entities.ChatRecord;
+import edu.cmu.smartphone.telemedicine.entities.Contact;
 
 public class DatabaseTest {
     public static void databaseChatRecordTest(Context context) {
         Dao_Sqlite dao = new Dao_Sqlite(context, "y", null, 1);
         ChatRecord record = new ChatRecord();
+        
         
         String date_s = "2011-01-18 00:00:00.0";
 

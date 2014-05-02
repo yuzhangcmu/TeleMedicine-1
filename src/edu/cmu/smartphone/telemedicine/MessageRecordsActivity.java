@@ -8,12 +8,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,9 +27,13 @@ public class MessageRecordsActivity extends Activity {
 
 	public final static int OTHER = 1;
 	public final static int ME = 0;
+	
+	private static int page = 0;
 
 	protected ListView chatListView = null;
 	protected TextView chat_contact_name = null;
+	protected Button chat_bottom_prevbutton = null;
+	protected Button chat_bottom_nextbutton = null;
 
 	protected MyChatAdapter adapter = null;
 
@@ -42,20 +45,58 @@ public class MessageRecordsActivity extends Activity {
 		chatList = new ArrayList<HashMap<String, Object>>();
 		chatListView = (ListView) findViewById(R.id.chat_list);
 		chat_contact_name = (TextView) findViewById(R.id.chat_contact_name);
-
-		loadMessageRecordsFromLocalDB();
-		
-		// chat_contact_name.setText();
+		chat_bottom_prevbutton = (Button)findViewById(R.id.chat_bottom_prevbutton);
+		chat_bottom_nextbutton = (Button)findViewById(R.id.chat_bottom_nextbutton);		
 
 		adapter = new MyChatAdapter(this, chatList, layout, from, to);
 		chatListView.setAdapter(adapter);
+		
+		loadMessageRecordsFromLocalDB();
+		
+		chat_bottom_prevbutton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if(page > 0) {
+					page--;
+					loadMessageRecordsFromLocalDB();
+				}
+			}
+		});
+
+		chat_bottom_nextbutton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				page++;
+				loadMessageRecordsFromLocalDB();
+			}
+		});
+		
+		// chat_contact_name.setText();
+
+		
 	}
 	
 	protected void loadMessageRecordsFromLocalDB() {
-		addTextToList("不管你是谁", ME);
-		addTextToList("群发的我不回\n  ^_^", OTHER);
-		addTextToList("哈哈哈哈", ME);
-		addTextToList("新年快乐！", OTHER);
+		if(page%2 == 0) {
+			chatList.clear();
+			addTextToList("不管你是谁", ME);
+			addTextToList("群发的我不回\n  ^_^", OTHER);
+			addTextToList("哈哈哈哈", ME);
+			addTextToList("新年快乐！", OTHER);
+			adapter.notifyDataSetChanged();
+		} else {
+			chatList.clear();
+			addTextToList("hehe", ME);
+			addTextToList("xixi\n  ^_^", OTHER);
+			addTextToList("ping", ME);
+			addTextToList("pong！", OTHER);
+			adapter.notifyDataSetChanged();
+		}
+		chatListView.invalidate();
 	}
 
 	protected void addTextToList(String text, int who) {
