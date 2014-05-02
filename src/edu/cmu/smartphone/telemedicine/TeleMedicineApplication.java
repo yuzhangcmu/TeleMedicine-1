@@ -6,6 +6,8 @@ import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 import com.parse.PushService;
 
+import edu.cmu.smartphone.telemedicine.constants.Constant;
+
 import android.app.Application;
 
 public class TeleMedicineApplication extends com.openclove.ovx.OVX {
@@ -15,7 +17,7 @@ public class TeleMedicineApplication extends com.openclove.ovx.OVX {
 		super.onCreate();
 		
 		// Add your initialization code here
-		Parse.initialize(this, "L8Xc3uTHMYHbwGyhwVyi5L9nUJtRtLvYIHGOJa0V", "KlrarH9V0OWEkCr0FjIBpqiKaVfs6o9supWTt2wc");
+		Parse.initialize(this, Constant.PARSE_ID, Constant.PARSE_KEY);
 
 		ParseUser.enableAutomaticUser();
 		ParseACL defaultACL = new ParseACL();
