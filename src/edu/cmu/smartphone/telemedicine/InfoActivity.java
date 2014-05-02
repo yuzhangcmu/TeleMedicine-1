@@ -63,7 +63,6 @@ public class InfoActivity extends Activity {
         listview.setAdapter(adapter);  
 		
 		textInfoButton.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(InfoActivity.this, ChatActivity.class);
@@ -76,10 +75,8 @@ public class InfoActivity extends Activity {
 		
 		
 		videoInfoButton.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
-//				Intent intent = new Intent(InfoActivity.this, VideoActivity.class);
 				Intent intent = new Intent(InfoActivity.this, ChatActivity.class);
 				intent.putExtra("callee_username", username);
                 intent.putExtra("fullname", fullname);

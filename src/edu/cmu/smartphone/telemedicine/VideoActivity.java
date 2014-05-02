@@ -190,9 +190,11 @@ public class VideoActivity extends Activity {
 						 * display the data any way he wants.   
 						 */
 						ovxView.sendData("chat", ovx_text.getText().toString());
-						chat_box.append("\n" + ovxView.getOvxUserName() + " : "
-								+ ovx_text.getText().toString());
+						chat_box.append("\n" + ovxView.getOvxUserName() + " : " + ovx_text.getText().toString());
 						ovx_text.setText("");
+						
+						//TODO: Adding logic insert to DB
+						
 						focusOnText();
 					} 
 					return true;
