@@ -1,5 +1,6 @@
 package edu.cmu.smartphone.telemedicine.DBLayout;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.LinkedList;
@@ -31,6 +32,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
+
+
 // reference: http://www.androidhive.info/2013/09/android-sqlite-database-with-multiple-tables/
 public class Dao_Sqlite extends SQLiteOpenHelper {
     // Logcat tag
@@ -57,14 +60,14 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     
     // Chat record Table - column names
     private static final String KEY_ID = "id";
-    private static final String KEY_MESSAGE = "Message";
-    private static final String KEY_STATUS = "Status";
+    private static final String KEY_MESSAGE = "message";
+    private static final String KEY_STATUS = "status";
     private static final String KEY_RECORD_TIME = "time";
     private static final String KEY_DIRECTION = "direction";
     private static final String KEY_MESSAGETYPE = "message_type_iD";
     
     // when show by page, the size of every page.
-    static final int PageSize = 10;
+    static final int PAGE_SIZE = 10;
     
     // parse.com database.
     public static final String KEY_FULLNAME = "fullname";
@@ -286,52 +289,92 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
      // create chatRecord table.
      myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CHATRECORD
                     + " (Id INTEGER not NULL AUTO_INCREMENT, "
-                    + "Message varchar(max), Status bit, Time datetime, userid integer,"
+                    + "message varchar(max), status bit, Time datetime, userid integer,"
                     + "Direction bit,"
                     + "MessageTypeID integer, "
                     + "PRIMARY KEY ( Id )), FOREIGN KEY (userid) REFERENCES " 
                     + TABLE_CONTACT + "(id) ON DELETE CASCADE;");
      * 
      * */
-    public void addChatRecord(String message, Boolean status, String userID, Boolean direction,
-            int messageType) {
-        
-        
+    public void addChatRecord(ChatRecord record) {
+        try {
+            StringBuilder sb = new StringBuilder();
+            
+            Formatter formatter = new Formatter(sb, Locale.US);
+            
+            // Explicit argument indices may be used to re-order output.
+            formatter.format("REPLACE INTO %s (" 
+                    + KEY_MESSAGE + ", " 
+                    + KEY_STATUS + ", "
+                    + KEY_RECORD_TIME + ", "
+                    + KEY_DIRECTION + ", "
+                    + KEY_MESSAGETYPE + 
+                    ") "           
+                    + "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s');",
+                    TABLE_CHATRECORD,
+                    record.getMessage(),
+                    record.getStatus(),
+                    record.getDate(),
+                    record.getDirection(),
+                    record.getMessageType()
+                    );
+            
+            formatter.close();
+            String sql = sb.toString();
+            myDB.execSQL(sql);
+            Log.d(LOG, sql);
+ 
+        } catch (Exception e) {
+            Log.e("Error", "Error", e);
+ 
+        }
         
     }
     
     public int getPageNumber(String userID) {
-        return 1;
+        return 10;
     }
     
+    // get a page of chat record.
+    /*
+     *  private String message;
+        private Boolean status;
+        private Date date;
+        private String chatUserID;
+        private Boolean direction;
+        private int messageType;
+        
+        // Chat record Table - column names
+        private static final String KEY_ID = "id";
+        private static final String KEY_MESSAGE = "message";
+        private static final String KEY_STATUS = "status";
+        private static final String KEY_RECORD_TIME = "time";
+        private static final String KEY_DIRECTION = "direction";
+        private static final String KEY_MESSAGETYPE = "message_type_iD";
+     * */
     public void getChatRecord(String userID, ArrayList<ChatRecord> chatRecordArray, int pageID) {
         String sql= "select * from " + TABLE_CHATRECORD +     
-                " Limit "+String.valueOf(PageSize)+ " Offset " +String.valueOf(pageID*PageSize);    
-                Cursor rec = myDB.rawQuery(sql, null);    
-            
-                //setTitle("当前分页的数据总数:"+String.valueOf(rec.getCount()));    
-                    
-                // 取得字段名称    
-                String title = "";    
-                int colCount = rec.getColumnCount();    
-                for (int i = 0; i < colCount; i++)    
-                    title = title + rec.getColumnName(i) + "     ";    
-            
-                    
-                // 列举出所有数据    
-                String content="";    
-                int recCount=rec.getCount();    
-                for (int i = 0; i < recCount; i++) {//定位到一条数据    
-                    rec.moveToPosition(i);    
-                    for(int ii=0;ii<colCount;ii++)//定位到一条数据中的每个字段    
-                    {    
-                        content=content+rec.getString(ii)+"     ";    
-                    }    
-                    content=content+"/r/n";    
-                }    
-                    
-                //edtSQL.setText(title+"/r/n"+content);//显示出来    
-                rec.close();    
+                " Limit "+String.valueOf(PAGE_SIZE)+ " Offset " +String.valueOf(pageID*PAGE_SIZE);    
+        Cursor rec = myDB.rawQuery(sql, null);    
+    
+        // looping through all rows and adding to list
+        if (rec.moveToFirst()) {
+            do {
+                ChatRecord record = new ChatRecord();
+                
+                record.setMessage(rec.getString(rec.getColumnIndex(KEY_MESSAGE)));
+                
+                // get the status.
+                Boolean status = rec.getInt(rec.getColumnIndex(KEY_STATUS)) > 0;
+                
+                // set the status.
+                record.setStatus(status);
+                
+                chatRecordArray.add(record);
+            } while (rec.moveToNext());
+        }
+    
+        rec.close();    
     }
     
     public void addContact(Contact contact) { 
@@ -417,7 +460,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
             
             // create recentChat table.
             myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_RECENTCHAT
-                    + " (Id INTEGER not NULL AUTO_INCREMENT, "
+                    + " (id INTEGER not NULL AUTO_INCREMENT, "
                     + "userid integer, Time datetime"
                     + "PRIMARY KEY ( Id )), FOREIGN KEY (userid) REFERENCES " 
                     + TABLE_CONTACT + "(id) ON DELETE CASCADE;");

@@ -10,6 +10,8 @@ public class ChatRecord {
     private Boolean direction;
     private int messageType;
     
+    
+    
     public String getMessage() {
         return message;
     }
@@ -31,7 +33,12 @@ public class ChatRecord {
     }
     
     public Date getDate() {
+        //return null;
         return date;
+    }
+    
+    public void setDate(Date date) {
+        this.date = date;
     }
     
     public String getChatUserID() {
