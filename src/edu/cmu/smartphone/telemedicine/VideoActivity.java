@@ -179,6 +179,7 @@ public class VideoActivity extends Activity {
 				ovx_text.setEnabled(true);
 				ovx_text.setHint("Enter Message:");
 			}
+			
 			ovx_text.setOnEditorActionListener(new OnEditorActionListener() {
 				@Override
 				public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -197,7 +198,7 @@ public class VideoActivity extends Activity {
 						//TODO: Adding logic insert to DB
 						
 						focusOnText();
-					} 
+					}
 					return true;
 				}
 			});

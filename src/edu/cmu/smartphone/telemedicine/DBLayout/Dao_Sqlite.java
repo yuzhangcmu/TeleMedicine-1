@@ -334,6 +334,8 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
                     + " (" + KEY_USERID + " VARCHAR PRIMARY KEY, Name VARCHAR);";
             DB.execSQL(sql);
             
+            // TODO
+            
 //            // create chatRecord table.
 //            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CHATRECORD
 //                    + " (Id INTEGER not NULL AUTO_INCREMENT, "
