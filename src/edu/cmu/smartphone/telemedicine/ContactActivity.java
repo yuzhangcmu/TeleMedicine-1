@@ -273,7 +273,6 @@ public class ContactActivity extends Activity{
     }
     
     
-    
     private void readDataFromLocalDb() {
         // the database is named by the userID.
         String userID = Contact.getCurrentUserID();

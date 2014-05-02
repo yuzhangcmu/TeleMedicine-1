@@ -529,7 +529,8 @@ public class VideoActivity extends Activity {
 		//and free the resources used by OVX context
 		ovxView.unregister();		
 
-		android.os.Process.killProcess(android.os.Process.myPid());
+		// Don't kill process when onDestroy
+//		android.os.Process.killProcess(android.os.Process.myPid());
 	}
 
 	// generic dialog used to display messages
