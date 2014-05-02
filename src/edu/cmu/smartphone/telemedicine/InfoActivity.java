@@ -18,9 +18,7 @@ public class InfoActivity extends Activity {
 
 	ImageButton textInfoButton;
 	ImageButton videoInfoButton;
-	
 	ImageButton menuInfoButton;
-	
 	
 	public void contactMenu(View v) {
 	    
@@ -65,7 +63,6 @@ public class InfoActivity extends Activity {
 		textInfoButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-//				Intent intent = new Intent(InfoActivity.this, ChatActivity.class);
 				Intent intent = new Intent(InfoActivity.this, MessageRecordsActivity.class);
 				intent.putExtra("callee_username", username);
                 intent.putExtra("fullname", fullname);

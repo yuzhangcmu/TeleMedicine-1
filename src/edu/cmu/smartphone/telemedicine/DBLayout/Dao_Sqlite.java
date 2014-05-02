@@ -37,7 +37,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     // Database Version
     private static final int DATABASE_VERSION = 1;
  
-    // Database Name
+    // Database name
     private static final String TABLE_CONTACT = "TableContact";
     private static final String TABLE_CHATRECORD = "TableChatRecord";
     private static final String TABLE_PATIENT = "TablePatient";
@@ -45,13 +45,32 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     private static final String TABLE_RECENTCHAT = "TableRecentChat";
     
     // contact Table - column names
-    private static final String KEY_TYPE = "Type";
-    private static final String KEY_EMAIL = "Email";
-    private static final String KEY_PHONE = "Phone";
-    private static final String KEY_NAME = "Name";
-    private static final String KEY_USERID = "UserID";
-    private static final String KEY_INTRO = "Intro";
+    private static final String KEY_TYPE = "type";
+    private static final String KEY_EMAIL = "email";
+    private static final String KEY_PHONE = "phone";
+    private static final String KEY_NAME = "name";
+    private static final String KEY_USERID = "userid";
+    private static final String KEY_INTRO = "intro";
     private static final String KEY_HEADPORTRAIT = "headportrait";
+    
+    /*
+     *       // create chatRecord table.
+            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CHATRECORD
+                    + " (Id INTEGER not NULL AUTO_INCREMENT, "
+                    + "Message varchar(max), Status bit, Time datetime, userid integer,"
+                    + "Direction bit,"
+                    + "MessageTypeID integer, "
+                    + "PRIMARY KEY ( Id )), FOREIGN KEY (userid) REFERENCES " 
+                    + TABLE_CONTACT + "(id) ON DELETE CASCADE;");
+     * 
+     * */
+    
+    // Chat record Table - column names
+    private static final String KEY_MESSAGE = "Message";
+    private static final String KEY_STATUS = "Status";
+    private static final String KEY_RECORD_TIME = "time";
+    private static final String KEY_DIRECTION = "direction";
+    private static final String KEY_MESSAGETYPE = "message_type_iD";
     
     // parse.com database.
     public static final String KEY_FULLNAME = "fullname";
@@ -92,8 +111,8 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (c.moveToFirst()) {
             do {
-                Contact contact = new Contact(c.getString(c.getColumnIndex("Name")), 
-                        c.getString(c.getColumnIndex("UserID")));
+                Contact contact = new Contact(c.getString(c.getColumnIndex("name")), 
+                        c.getString(c.getColumnIndex("userid")));
                 
                 // adding to contact list.
                 contactList.add(contact);
@@ -126,9 +145,9 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
         if (c.moveToFirst()) {
             do {
                 String name = c.getString(c.getColumnIndex(KEY_NAME));
-                String userID = c.getString(c.getColumnIndex(KEY_USERID));
+                String userid = c.getString(c.getColumnIndex(KEY_USERID));
                 
-                Contact contact = new Contact(name, userID);
+                Contact contact = new Contact(name, userid);
                 
                 // set the first character to be key.
                 String sortKey = ContactActivity.getSortKey(name);
@@ -162,13 +181,13 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
                     
                     for (ParseObject o: contactList) {
                         String name = o.getString(KEY_FULLNAME);
-                        String userID = o.getString(KEY_FRIEND_USER_NAME_CLOUD);
+                        String userid = o.getString(KEY_FRIEND_USER_NAME_CLOUD);
                         
-                        // because we need to check another table, just keep it to be userID now.
+                        // because we need to check another table, just keep it to be userid now.
                         // but later we need to modify it.
                         // later we should use "relation" to realize the feature.
-                        Contact contact = new Contact(userID, userID);
-                        contact.setSortKey(userID);
+                        Contact contact = new Contact(userid, userid);
+                        contact.setSortKey(userid);
                         
                         addContact(contact);
                     }
@@ -268,6 +287,24 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
         }
     }
     
+    /*
+     *       // create chatRecord table.
+            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CHATRECORD
+                    + " (Id INTEGER not NULL AUTO_INCREMENT, "
+                    + "Message varchar(max), Status bit, Time datetime, userid integer,"
+                    + "Direction bit,"
+                    + "MessageTypeID integer, "
+                    + "PRIMARY KEY ( Id )), FOREIGN KEY (userid) REFERENCES " 
+                    + TABLE_CONTACT + "(id) ON DELETE CASCADE;");
+     * 
+     * */
+    public void addChatRecord(String message, Boolean status, String userID, Boolean direction,
+            int messageType) {
+        
+        
+        
+    }
+    
     public void addContact(Contact contact) { 
         String tableContact = TABLE_CONTACT;
  
@@ -281,7 +318,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
             Formatter formatter = new Formatter(sb, Locale.US);
             
             // Explicit argument indices may be used to re-order output.
-//            formatter.format("REPLACE INTO %s (Type, Email, Phone, Name, UserID, Intro,"
+//            formatter.format("REPLACE INTO %s (Type, email, phone, name, userid, intro,"
 //                    + "HeadPortrait, Age, Password) "
 //                    + "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s');",
 //                    tableContact,
@@ -296,7 +333,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
 //                    contact.getPassword()
 //                    );
             
-            formatter.format("REPLACE INTO %s (Name, UserID) VALUES ('%s', '%s');",
+            formatter.format("REPLACE INTO %s (name, userid) VALUES ('%s', '%s');",
                     tableContact,
                     contact.getName(),
                     contact.getUserID()
@@ -313,9 +350,9 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
         }
     }
     
-    public void deleteContact(String UserID) { 
+    public void deleteContact(String userid) { 
         myDB.delete(TABLE_CONTACT, KEY_USERID + " = ?",
-                new String[] { UserID });                
+                new String[] { userid });                
     }
 
     @Override
@@ -324,44 +361,44 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
             // Create contact table
             /*
             myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CONTACT
-                    + " (UserID VARCHAR(50), Type VARCHAR(50), Email VARCHAR(255), Phone VARCHAR(30),"
+                    + " (userid VARCHAR(50), Type VARCHAR(50), email VARCHAR(255), phone VARCHAR(30),"
                     + "Nation VARCHAR(255), Province VARCHAR(255),"
-                    + "City VARCHAR(255), Name VARCHAR(255), "
-                    + "Intro VARCHAR(300), HeadPortrait VARCHAR(255), "
-                    + "Age integer, Password VARCHAR(255), PRIMARY KEY ( UserID ));");
+                    + "City VARCHAR(255), name VARCHAR(255), "
+                    + "intro VARCHAR(300), HeadPortrait VARCHAR(255), "
+                    + "Age integer, Password VARCHAR(255), PRIMARY KEY ( userid ));");
                     */
             String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_CONTACT
-                    + " (" + KEY_USERID + " VARCHAR PRIMARY KEY, Name VARCHAR);";
+                    + " (" + KEY_USERID + " VARCHAR PRIMARY KEY, name VARCHAR);";
             DB.execSQL(sql);
             
             // TODO
             
-//            // create chatRecord table.
-//            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CHATRECORD
-//                    + " (Id INTEGER not NULL AUTO_INCREMENT, "
-//                    + "Message varchar(max), Status bit, Time datetime, UserID integer,"
-//                    + "Direction bit,"
-//                    + "MessageTypeID integer, "
-//                    + "PRIMARY KEY ( Id )), FOREIGN KEY (UserID) REFERENCES " 
-//                    + TABLE_CONTACT + "(id) ON DELETE CASCADE;");
-//            
-//            // create recentChat table.
-//            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_RECENTCHAT
-//                    + " (Id INTEGER not NULL AUTO_INCREMENT, "
-//                    + "userID integer, Time datetime"
-//                    + "PRIMARY KEY ( Id )), FOREIGN KEY (userID) REFERENCES " 
-//                    + TABLE_CONTACT + "(id) ON DELETE CASCADE;");
+            // create chatRecord table.
+            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CHATRECORD
+                    + " (Id INTEGER not NULL AUTO_INCREMENT, "
+                    + "Message varchar(max), Status bit, Time datetime, userid integer,"
+                    + "Direction bit,"
+                    + "MessageTypeID integer, "
+                    + "PRIMARY KEY ( Id )), FOREIGN KEY (userid) REFERENCES " 
+                    + TABLE_CONTACT + "(id) ON DELETE CASCADE;");
+            
+            // create recentChat table.
+            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_RECENTCHAT
+                    + " (Id INTEGER not NULL AUTO_INCREMENT, "
+                    + "userid integer, Time datetime"
+                    + "PRIMARY KEY ( Id )), FOREIGN KEY (userid) REFERENCES " 
+                    + TABLE_CONTACT + "(id) ON DELETE CASCADE;");
 //            
 //            // create patient table.
 //            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_PATIENT
 //                    + " (Id INTEGER not NULL AUTO_INCREMENT, "
-//                    + "UserID integer, Symptom varchar(300),"
+//                    + "userid integer, Symptom varchar(300),"
 //                    + "PRIMARY KEY ( Id ));");
 //            
 //            // create doctor table.
 //            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_DOCTOR
 //                    + " (Id INTEGER not NULL AUTO_INCREMENT, "
-//                    + "UserID integer, Department varchar(255), Title varchar(255)"
+//                    + "userid integer, Department varchar(255), Title varchar(255)"
 //                    + "PRIMARY KEY ( Id ));");
             
  
