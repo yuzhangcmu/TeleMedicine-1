@@ -300,6 +300,10 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
         
     }
     
+    public int getPageNumber(String userID) {
+        return 1;
+    }
+    
     public void getChatRecord(String userID, ArrayList<ChatRecord> chatRecordArray, int pageID) {
         String sql= "select * from " + TABLE_CHATRECORD +     
                 " Limit "+String.valueOf(PageSize)+ " Offset " +String.valueOf(pageID*PageSize);    
