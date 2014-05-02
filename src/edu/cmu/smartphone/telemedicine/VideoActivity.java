@@ -85,6 +85,7 @@ public class VideoActivity extends Activity {
 			*the userId as long as it distinguishes your device from the other devices involved in the conference.    
 			*/
 			ovxView.setOvxUserId(ovxuserId);
+			ovxView.setOvxUserName(ParseUser.getCurrentUser().getUsername());
 
 			/*Here we set the OVX Group Id as a unique identifier. Users who initiate call with 
 			 * the same group id will end up in a video conference. You can use own logic to 
@@ -306,14 +307,12 @@ public class VideoActivity extends Activity {
 			public void callEnded() {
 				Log.d("INDUS", "Call Ended ");
 				chat_box.setText("");
-				chat_box.setHint("Welcome to openclove");
 			}
 
 			// invoked when the call fails due to some reasons.
 			@Override
 			public void callFailed() {
 				chat_box.clearComposingText();
-				chat_box.setHint("Welcome to openclove");
 			}
 
 			// invoked when the call has been established.
@@ -333,15 +332,17 @@ public class VideoActivity extends Activity {
 				String type = uri.getQueryParameter("type");
 				String data = uri.getQueryParameter("data");
 				String sender = uri.getQueryParameter("sender");
-				Log.d("INDUS", "Received message from ac_server:" + arg0);
-				chat_box.setMovementMethod(new ScrollingMovementMethod());
+				
+				if(sender!=null && sender.equals("OpenClove")) {
+					sender = "System";
+					chat_box.setMovementMethod(new ScrollingMovementMethod());
 
-				if (chat_box.getText().toString().equals("Welcome to openclove"))
-					chat_box.setText(sender + " : " + data);
-				else
 					chat_box.append("\n" + sender + " : " + data);
 
-				chat_box.setTextColor(Color.BLACK);
+					chat_box.setTextColor(Color.BLACK);
+				}
+				Log.d("INDUS", "Received message from ac_server:" + arg0);
+				
 				focusOnText();
 			}
 
@@ -349,7 +350,6 @@ public class VideoActivity extends Activity {
 			@Override
 			public void callTerminated(String arg0) {
 				chat_box.clearComposingText();
-				chat_box.setHint("Welcome to openclove");
 			}
 			
 			@Override 
