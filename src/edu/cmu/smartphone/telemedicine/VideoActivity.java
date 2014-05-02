@@ -213,7 +213,7 @@ public class VideoActivity extends Activity {
 						record.setDate(sqlDate);
 				        record.setMessage(message);
 				        record.setDirection(true);	// send to other people
-				        
+				        record.setChatUserID(callee_username);
 				        dao.addChatRecord(record);
 						
 						focusOnText();
