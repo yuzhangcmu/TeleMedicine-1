@@ -32,11 +32,30 @@ public class DatabaseTest {
         
         //Date date = "1985-10-29";
         record.setDate(null);
-        record.setMessage("I love you");
+        record.setStatus(status);
+        record.setMessage("I love you1");
         dao.addChatRecord(record);
         
+        record.setDate(null);
+        record.setMessage("I love you1");
+        dao.addChatRecord(record);
+
+        
+        record.setMessage("I love you2");
+        record.setMessage("I love you3");
+        record.setMessage("I love you4");
+        record.setMessage("I love you5");
+        record.setMessage("I love you6");
+        record.setMessage("I love you7");
+        record.setMessage("I love you8");
+        record.setMessage("I love you9");
+        record.setMessage("I love you10");
+        record.setMessage("I love you11");
+        
         ArrayList<ChatRecord> list = new ArrayList<ChatRecord>();
+        ArrayList<ChatRecord> list2 = new ArrayList<ChatRecord>();
         dao.getChatRecord("yuzhang", list, 0);
+        dao.getChatRecord("yuzhang", list2, 1);
         
         
     }

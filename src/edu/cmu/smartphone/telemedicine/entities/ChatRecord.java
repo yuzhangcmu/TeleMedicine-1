@@ -20,7 +20,7 @@ public class ChatRecord {
     }
     
     
-    
+           
     public String getMessage() {
         return message;
     }

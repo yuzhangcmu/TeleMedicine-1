@@ -68,7 +68,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     private static final String KEY_MESSAGETYPE = "message_type_id";
     
     // when show by page, the size of every page.
-    static final int PAGE_SIZE = 10;
+    static final int PAGE_SIZE = 3;
     
     // parse.com database.
     public static final String KEY_FULLNAME = "fullname";
