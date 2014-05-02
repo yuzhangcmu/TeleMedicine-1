@@ -23,6 +23,7 @@ import com.parse.PushService;
 import edu.cmu.smartphone.telemedicine.DBLayout.Dao_Sqlite;
 import edu.cmu.smartphone.telemedicine.DBLayout.DataLoadCallback;
 import edu.cmu.smartphone.telemedicine.entities.Contact;
+import edu.cmu.smartphone.telemedicine.test.DatabaseTest;
 
 public class LoginActivity extends Activity implements DataLoadCallback{
 
@@ -107,6 +108,9 @@ public class LoginActivity extends Activity implements DataLoadCallback{
 							        // logint from here.
 							        // load the contact list of the specific user to the database.
 							        dao.loadDataFromCloud(username, LoginActivity.this);
+							        
+							        // added by yu zhang. For testing.
+							        DatabaseTest.databaseChatRecordTest(LoginActivity.this);
 							        
 							        // modified by yuzhang. wait until the new activity to be load.
 							        // this is moved to the callback function to keep a screen to the user.

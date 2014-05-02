@@ -13,6 +13,8 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import edu.cmu.smartphone.telemedicine.test.DatabaseTest;
+
 // Loading Splash View
 public class MainActivity extends Activity {
 	Button welcomeButton;
@@ -46,7 +48,6 @@ public class MainActivity extends Activity {
 //						RegisterActivity.class);
 //				startActivity(intent);
 				
-				// added by yu zhang: for test the contact view.
                 Intent intent = new Intent(MainActivity.this,
                         LoginActivity.class);
                 startActivity(intent);
