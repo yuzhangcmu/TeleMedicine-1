@@ -17,7 +17,6 @@ import android.widget.TextView;
 public class InfoActivity extends Activity {
 
 	ImageButton textInfoButton;
-	ImageButton audioInfoButton;
 	ImageButton videoInfoButton;
 	
 	ImageButton menuInfoButton;
@@ -33,7 +32,6 @@ public class InfoActivity extends Activity {
 		setContentView(R.layout.infoview);
 		
 		textInfoButton = (ImageButton)findViewById(R.id.textInfoButton);
-		audioInfoButton = (ImageButton)findViewById(R.id.audioInfoButton);
 		videoInfoButton = (ImageButton)findViewById(R.id.videoInfoButton);
 		
 		menuInfoButton = (ImageButton)findViewById(R.id.menuInfoButton);
@@ -76,24 +74,12 @@ public class InfoActivity extends Activity {
 			}
 		});
 		
-		audioInfoButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(InfoActivity.this, VideoActivity.class);
-				intent.putExtra("callee_username", username);
-                intent.putExtra("fullname", fullname);
-                intent.putExtra("email", email);
-				startActivity(intent);
-			}
-		});
 		
 		videoInfoButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-//				Intent intent = new Intent(InfoActivity.this, VideoActivity.class);
-				Intent intent = new Intent(InfoActivity.this, ChatActivity.class);
+				Intent intent = new Intent(InfoActivity.this, VideoActivity.class);
 				intent.putExtra("callee_username", username);
                 intent.putExtra("fullname", fullname);
                 intent.putExtra("email", email);
@@ -108,9 +94,7 @@ public class InfoActivity extends Activity {
                 
             }
         });
-
-		
-		
+	
 	}
 
 }

@@ -11,8 +11,8 @@
     <string name="note_tm">Write note for the friend.</string>
     <string name="text_tm">text</string>
     
-    <string name="openclove">Welcome to openclove</string>
-    <string name="oc">Video Chat</string>
+    <string name="openclove"></string>
+    <string name="oc">Chat</string>
     <string name="ovxeg"></string>  
     <string name="openclove_desc">Click on the icon at the top right corner to start call</string>
     <string name="menu_settings">Settings</string>

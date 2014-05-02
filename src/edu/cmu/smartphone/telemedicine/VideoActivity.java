@@ -126,25 +126,15 @@ public class VideoActivity extends Activity {
 			*/ 
 			ovxView.setRemoteViewX(100);
 			ovxView.setRemoteViewY(100);
+			
+//			ovxView.setRemoteViewWidth(500);
+//			ovxView.setRemoteViewWidth(300);
 
 			/*We use a TextView for displaying the current GroupId set through the sdk.
 			 */
 			text_gid = (TextView) findViewById(R.id.app);
 			text_gid.setText("Current Group ID : " + ovxView.getOvxGroupId());
 
-			/* We can launch the OVX menu through the sdk by 
-			 * binding it to a buttons click event. We had earlier disabled 
-			 * the api to launch OVX menu on click of the video view to show case this feature.  
-			 */
-			Button ovx_call_menu = (Button) findViewById(R.id.call_menu);
-			ovx_call_menu.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					ovxView.showOVXMenu(); // Launches the OVX menu on click of the call_menu button
-				}
-			});
-
-			
 			// Bind the the call event to the click of start_call button  
 			Button ovx_call_button = (Button) findViewById(R.id.start_call);
 			ovx_call_button.setOnClickListener(new OnClickListener() {
@@ -177,177 +167,17 @@ public class VideoActivity extends Activity {
 				}
 			});
 
-			/* On click of switch_layer button a dialog is launched with an option to focus on a particular 
-			 * participant in the conference. 
-			 */
-			Button ovx_switch = (Button) findViewById(R.id.switch_layer);
-			ovx_switch.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (ovxView.isCallOn()) {
-						loadSwitchDialog(); // launches the dialog with switch layer options.  
-						
-					} else // shows a warning dialog if user tries to call
-					{
-						CharSequence[] ch = { "Start or join a call first" };
-						showDialog("Warning", ch);
-					}
-				}
-			});
-
-			// Dialog for Setting Group Id..
-			Button setgrpid = (Button) findViewById(R.id.setgrpid);
-			setgrpid.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					sharelayout();  //Enter the GroupId which u want to set in this dialog..
-				}
-			});
-
-			// Setting Audio Stream to other parties in the conference based on flag..
-			Button audio_mute = (Button) findViewById(R.id.audio_mute);
-			audio_mute.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (ovxView.isCallOn())
-						ovxView.setAudioMute(!ovxView.isAudioMuteOn()); // flag based on if muted ornot.
-					else {
-						CharSequence[] ch = { "Start or join a call first" };
-						showDialog("Warning", ch);
-					}
-				}
-			});
-
-
-			Button switchCamera = (Button) findViewById(R.id.switch_camera);
-			switchCamera.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					/*
-					 * This allows you to switch between the back and front camera and send video to the other
-					 *  participants in the video conference captured by either your back or front camera. 
-					 *  Switch is disabled in case device has single camera 
-					 */
-					if (ovxView.isCallOn())
-						ovxView.switchCamera();
-					else {
-						CharSequence[] ch = { "Start or join a call first" };
-						showDialog("Warning", ch);
-					}
-				}
-			});
-
-			
-
-			Button video_mute = (Button) findViewById(R.id.video_mute);
-			video_mute.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					/* checks if the video is muted and will mute if not muted or will undo mute if muted */
-					if (ovxView.isCallOn())
-						ovxView.setVideoMute(!ovxView.isVideoMuteOn());
-					else {
-						CharSequence[] ch = { "Start or join a call first" };
-						showDialog("Warning", ch);
-					}
-				}
-			});
-
-			
-			
-			
-			Button update_orient = (Button) findViewById(R.id.orientation);
-			update_orient.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					/*
-					 * Should be called to update the dimensions and position
-					 * of the video view that had been changed after the call was started or 
-					 * to resume the video stream if it had been paused while launching another activity.  
-					 */
-					if (ovxView.isCallOn())
-						ovxView.updateVideoOrientation();
-					else {
-						CharSequence[] ch = { "Start or join a call first" };
-						showDialog("Warning", ch);
-					}
-				}
-			});
-
-			 
-			/*
-			 * This feature allows you to dial an msisdn and 
-			 * add it to the existing conference.
-			 * 
-			 */
-			Button addFriends = (Button) findViewById(R.id.add_friends);
-			addFriends.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (ovxView.isCallOn())
-						/*Launches dialog to enter the msisdn.
-						 *  Look at method definition for further description  
-					     */ 
-						dialout_dialog();		
-					else {
-						CharSequence[] ch = { "Start or join a call first" };
-						showDialog("Warning", ch);
-					}
-				}
-			});
-
-			// Binding send message events to send_image button
-			Button send_image = (Button) findViewById(R.id.send_image);
-			send_image.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (ovxView.isCallOn()) {
-						/*
-						 * we can use this to send data to other parties in the conference. 
-						 * The first parameter is the message type which in this case is an image,
-						 * the second parameter contains the data.
-						 * It is up to the developer to 
-						 * render the link as an image on a view.   
-						 */
-						ovxView.sendData("image", "http://zkychat.com/img/openclove-color.png");
-						chat_box.append("\n" + ovxView.getOvxUserName() + " : "
-								+ "http://zkychat.com/img/openclove-color.png");
-						// Function for auto scrolling of text in TextView..
-						focusOnText();
-					} else {
-						CharSequence[] ch = { "Start or join a call first" };
-						showDialog("Warning", ch);
-					}
-				}
-			});
-
-			// For sharing URL
-			Button send_link = (Button) findViewById(R.id.send_link);
-			send_link.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (ovxView.isCallOn()) {
-						/*
-						 * We can use this to send data to other parties in the conference. 
-						 * The first parameter is the message type which in this case is a link,
-						 * the second parameter contains the data.
-						 * It is up to the developer to 
-						 * display the link any way he wants.   
-						 */
-						ovxView.sendData("link", "http://www.google.com");
-						// Appending link to the chat_box textView..
-						chat_box.append("\n" + ovxView.getOvxUserName() + " : " + "http://www.google.com");
-						focusOnText();
-					} else {
-						CharSequence[] ch = { "Start or join a call first" };
-						showDialog("Warning", ch);
-					}
-				}
-			});
 
 			// When performing action on EditText..
 			ovx_text = (EditText) findViewById(R.id.chat_text);
 			ovx_text.setTextColor(Color.BLACK);
+			if(!ovxView.isCallOn()) {
+				ovx_text.setEnabled(false);
+				ovx_text.setHint("Please start call before text!");
+			} else {
+				ovx_text.setEnabled(true);
+				ovx_text.setHint("Enter Message:");
+			}
 			ovx_text.setOnEditorActionListener(new OnEditorActionListener() {
 				@Override
 				public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -364,7 +194,7 @@ public class VideoActivity extends Activity {
 								+ ovx_text.getText().toString());
 						ovx_text.setText("");
 						focusOnText();
-					}
+					} 
 					return true;
 				}
 			});
@@ -406,98 +236,6 @@ public class VideoActivity extends Activity {
 
 	}
 
-	// Dialog for input of msisdn 
-	protected void dialout_dialog() {
-//		LayoutInflater factory = LayoutInflater.from(this);
-//		final View entry = factory.inflate(R.layout.shr, null);
-//		final EditText edit = (EditText) entry.findViewById(R.id.edt);
-//
-//		edit.setText("", TextView.BufferType.EDITABLE);
-//
-//		AlertDialog.Builder lmenu = new AlertDialog.Builder(this);
-//
-//		lmenu.setTitle("Telephone Number:").setView(entry);
-//
-//		lmenu.setPositiveButton("Dial-Out",
-//				new DialogInterface.OnClickListener() {
-//					public void onClick(DialogInterface dialog, int whichButton) {
-//						String msisdn = edit.getText().toString().trim();
-//
-//						if (msisdn != null && !msisdn.equals("")) {
-//							try {
-//								// Look at method definition for further description
-//								dialout(msisdn);
-//								Log.d("INDUS", "msisdn number::" + msisdn);
-//							} catch (Exception e) {
-//								e.printStackTrace();
-//							}
-//						} else {
-//							CharSequence[] ch = { "Please Enter the correct number to make call" };
-//							showDialog("Warning", ch);
-//							Log.d("INDUS", "msisdn number::" + msisdn);
-//						}
-//					}
-//				}).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//					public void onClick(DialogInterface dialog, int whichButton) {
-//						dialog.cancel();
-//					}
-//				});
-//		lmenu.show();
-	}
-
-	protected void dialout(String msisdn) {
-		Log.d("INDUS", "Calling  addOtherUserToGroupChat :" + msisdn);
-		try {
-			//checks if input string contains numbers else warning is displayed 
-			 Double.parseDouble(msisdn); 
-			// dial an msisdn and add to the existing video conference session.
-			 ovxView.addOtherUserToGroupChat("voice", "TEL", msisdn);
-		} 
-		 catch (NumberFormatException e) {
-			  // not an integer!
-			CharSequence[] ch = { "Please Enter the correct number to make call" };
-			showDialog("Warning", ch);
-			Log.d("INDUS", "msisdn number::" + msisdn);
-		}
-		catch (OVXException e) {
-			e.printStackTrace();
-		}
-	}
-
-	// An input dialog that allows you to input string to set OVX group id of your choice. 
-	protected void sharelayout() {
-//		LayoutInflater factory = LayoutInflater.from(this);
-//		final View entry = factory.inflate(R.layout.shr, null);
-//		final EditText edit = (EditText) entry.findViewById(R.id.edt);
-//
-//		edit.setText("", TextView.BufferType.EDITABLE);
-//
-//		AlertDialog.Builder lmenu = new AlertDialog.Builder(this);
-//
-//		lmenu.setTitle("Enter the GroupId :").setView(entry);
-//		lmenu.setPositiveButton("Set", new DialogInterface.OnClickListener() {
-//
-//			public void onClick(DialogInterface dialog, int whichButton) {
-//				groupid = edit.getText().toString().trim();
-//				if (groupid != null || !groupid.trim().equals("")) {
-//					try {
-//						// Sets the user input string as OVX group id. 
-//						ovxView.setOvxGroupId(groupid); 
-//					} catch (OVXException e) {
-//						e.printStackTrace();
-//					}
-//					text_gid.setText("Current Group ID : " + ovxView.getOvxGroupId());
-//				}
-//			}
-//		}).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//			public void onClick(DialogInterface dialog, int whichButton) {
-//				dialog.cancel();
-//			}
-//		});
-//		lmenu.show();
-	}
-
-	
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
@@ -552,200 +290,6 @@ public class VideoActivity extends Activity {
 		lmenu.show();
 	}
 
-	/* Opens the dialog with buttons containing composite layer and layers numbered 1-9. These correspond 
-	*to the users in the conference, click of the layered buttons will focus on a particular participant in the conference.
-	*Click of the composite layer button will show all the participants in the conference.   
-	*/
-	private void loadSwitchDialog() {
-//		dialog = new Dialog(this);
-//		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//		dialog.setContentView(R.layout.switch_dialog);
-//		dialog.setCancelable(false);
-//		dialog.setCanceledOnTouchOutside(true);
-//
-//		Button composite = (Button) dialog.findViewById(R.id.composite_layer);
-//		composite.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				if (ovxView.isCallOn())
-//					try {
-//						/* Switches to composite Layer which contains layers of the all participants in the conference,
-//						 * after switching the the video view will stream the video feed of all participants.
-//						 */
-//						ovxView.switchLayer("0"); 
-//					} catch (OVXException e) {
-//						e.printStackTrace();
-//					}
-//				dialog.dismiss();
-//			}
-//		});
-//
-//		Button layer1 = (Button) dialog.findViewById(R.id.layer1);
-//		layer1.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				if (ovxView.isCallOn())
-//					try {
-//						/*Switches to the first participant of the video conference and 
-//						after switching the video view will stream the video feed of only first participant.  
-//						*/
-//						ovxView.switchLayer("1");
-//					} catch (OVXException e) {
-//						e.printStackTrace();
-//					}
-//				dialog.dismiss();
-//			}
-//		});
-//
-//		Button layer2 = (Button) dialog.findViewById(R.id.layer2);
-//		layer2.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				if (ovxView.isCallOn())
-//					try {
-//						/*Switches to the second participant of the video conference and 
-//						after switching the video view will stream the video feed of only the second participant.  
-//						*/
-//						ovxView.switchLayer("2");
-//					} catch (OVXException e) {
-//						e.printStackTrace();
-//					}
-//				dialog.dismiss();
-//			}
-//		});
-//
-//		Button layer3 = (Button) dialog.findViewById(R.id.layer3);
-//		layer3.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				if (ovxView.isCallOn())
-//					try {
-//						/*Switches to the third participant of the video conference and 
-//						after switching the video view will stream the video feed of only the third participant.  
-//						*/
-//						ovxView.switchLayer("3");
-//					} catch (OVXException e) {
-//						e.printStackTrace();
-//					}
-//				dialog.dismiss();
-//			}
-//		});
-//
-//		Button layer4 = (Button) dialog.findViewById(R.id.layer4);
-//		layer4.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				if (ovxView.isCallOn())
-//					try {
-//						/*Switches to the fourth participant of the video conference and 
-//						after switching the video view will stream the video feed of only the fourth participant.  
-//						*/
-//						ovxView.switchLayer("4");
-//					} catch (OVXException e) {
-//						e.printStackTrace();
-//					}
-//				dialog.dismiss();
-//			}
-//		});
-//
-//		Button layer5 = (Button) dialog.findViewById(R.id.layer5);
-//		layer5.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				if (ovxView.isCallOn())
-//					try {
-//						/*Switches to the fifth participant of the video conference and 
-//						after switching the video view will stream the video feed of only the fifth participant.  
-//						*/
-//						ovxView.switchLayer("5");
-//					} catch (OVXException e) {
-//						e.printStackTrace();
-//					}
-//				dialog.dismiss();
-//			}
-//		});
-//
-//		Button layer6 = (Button) dialog.findViewById(R.id.layer6);
-//		layer6.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				if (ovxView.isCallOn())
-//					try {
-//						/*Switches to the sixth participant of the video conference and 
-//						after switching the video view will stream the video feed of only the sixth participant.  
-//						*/
-//						ovxView.switchLayer("6");
-//					} catch (OVXException e) {
-//						e.printStackTrace();
-//					}
-//				dialog.dismiss();
-//			}
-//		});
-//
-//		Button layer7 = (Button) dialog.findViewById(R.id.layer7);
-//		layer7.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				if (ovxView.isCallOn())
-//					try {
-//						/*Switches to the seventh participant of the video conference and 
-//						after switching the video view will stream the video feed of only the seventh participant.  
-//						*/
-//						ovxView.switchLayer("7");
-//					} catch (OVXException e) {
-//						e.printStackTrace();
-//					}
-//				dialog.dismiss();
-//			}
-//		});
-//
-//		Button layer8 = (Button) dialog.findViewById(R.id.layer8);
-//		layer8.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				if (ovxView.isCallOn())
-//					try {
-//						/*Switches to the eigth participant of the video conference and 
-//						after switching the video view will stream the video feed of only the eigth participant.  
-//						*/
-//						ovxView.switchLayer("8");
-//					} catch (OVXException e) {
-//						e.printStackTrace();
-//					}
-//				dialog.dismiss();
-//			}
-//		});
-//
-//		Button layer9 = (Button) dialog.findViewById(R.id.layer9);
-//		layer9.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				if (ovxView.isCallOn())
-//					try {
-//						/*Switches to the ninth participant of the video conference and 
-//						after switching the video view will stream the video feed of only the ninth participant.  
-//						*/
-//						ovxView.switchLayer("9");
-//					} catch (OVXException e) {
-//						e.printStackTrace();
-//					}
-//				dialog.dismiss();
-//			}
-//		});
-//
-//		// To Cancel the switch Dialog..
-//		View cancelBtn = dialog.findViewById(R.id.cancel);
-//		cancelBtn.setOnClickListener(new View.OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				dialog.dismiss();
-//			}
-//		});
-//
-//		dialog.show();
-	}
-
-	
 	 /* 
 	 * We can listen to call related events like call started , call ended , call failed and perform appropriate actions 
 	 * in these callback functions, we can also receive messages sent from the other parties in the conference using the call listener. 
@@ -774,6 +318,8 @@ public class VideoActivity extends Activity {
 			@Override
 			public void callStarted() {
 				Log.d("INDUS", "Call Started");
+				ovx_text.setEnabled(true);
+				ovx_text.setHint("Enter Message:");
 			}
 
 			/* Invoked when messages are sent from other parties in the conference and 
