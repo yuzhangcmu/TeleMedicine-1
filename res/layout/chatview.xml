@@ -2,16 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#ffffff" >
+    android:background="#ffffff"
+    android:orientation="vertical" >
 
-    <ListView
-        android:id="@+id/listView1"
+    <TextView
+        android:id="@+id/chatview_chat_box"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-         >
-    </ListView>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/chat_text"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_weight="1.0"
+        android:autoLink="all"
+        android:background="#C0C0C0"
+        android:scrollbars="vertical"
+        android:textColor="#0000" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -31,10 +37,8 @@
             android:id="@+id/chatSendButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button"
             android:layout_alignParentRight="true"
-             />
-
+            android:text="Send" />
     </RelativeLayout>
 
 </LinearLayout>
