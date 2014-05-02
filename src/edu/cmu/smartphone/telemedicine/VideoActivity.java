@@ -8,6 +8,7 @@
 
 package edu.cmu.smartphone.telemedicine;
 
+import java.sql.Date;
 import java.util.UUID;
 
 import android.app.Activity;
@@ -39,6 +40,9 @@ import com.openclove.ovx.OVXException;
 import com.openclove.ovx.OVXView;
 import com.parse.ParseUser;
 
+import edu.cmu.smartphone.telemedicine.DBLayout.Dao_Sqlite;
+import edu.cmu.smartphone.telemedicine.entities.ChatRecord;
+import edu.cmu.smartphone.telemedicine.entities.Contact;
 import edu.cmu.smartphone.telemedicine.ws.remote.Notification;
 
 public class VideoActivity extends Activity {
@@ -53,12 +57,17 @@ public class VideoActivity extends Activity {
 	private TextView text_gid;
 //	private OVXChat currentActivity;
 //	private String gid;
+	
+	String currentUserId = Contact.getCurrentUserID();
 
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.videoview);
+		
+		currentUserId = Contact.getCurrentUserID();
+		final Dao_Sqlite dao = new Dao_Sqlite(VideoActivity.this, currentUserId, null, 1);
 		
 		final String currentUserName = ParseUser.getCurrentUser().getUsername();
 		final String caller_username = getIntent().getStringExtra("caller_username");
@@ -179,6 +188,7 @@ public class VideoActivity extends Activity {
 				ovx_text.setEnabled(true);
 				ovx_text.setHint("Enter Message:");
 			}
+			
 			ovx_text.setOnEditorActionListener(new OnEditorActionListener() {
 				@Override
 				public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -190,14 +200,24 @@ public class VideoActivity extends Activity {
 						 * It is up to the developer to 
 						 * display the data any way he wants.   
 						 */
-						ovxView.sendData("chat", ovx_text.getText().toString());
-						chat_box.append("\n" + ovxView.getOvxUserName() + " : " + ovx_text.getText().toString());
+						String message = ovx_text.getText().toString();
+						ovxView.sendData("chat", message);
+						chat_box.append("\n" + ovxView.getOvxUserName() + " : " + message);
 						ovx_text.setText("");
 						
 						//TODO: Adding logic insert to DB
+						ChatRecord record = new ChatRecord();
+						java.util.Calendar cal = java.util.Calendar.getInstance();
+						java.util.Date utilDate = cal.getTime();
+						java.sql.Date sqlDate = new Date(utilDate.getTime());
+						record.setDate(sqlDate);
+				        record.setMessage(message);
+				        record.setDirection(true);	// send to other people
+				        
+				        dao.addChatRecord(record);
 						
 						focusOnText();
-					} 
+					}
 					return true;
 				}
 			});

@@ -97,6 +97,8 @@
         </activity>
         <activity android:name="edu.cmu.smartphone.telemedicine.UserInfoActivity" >
         </activity>
+        <activity android:name="edu.cmu.smartphone.telemedicine.MessageRecordsActivity" >
+        </activity>
         <activity android:name="edu.cmu.smartphone.telemedicine.VideoActivity"  android:configChanges="orientation|screenSize">
         </activity>
         

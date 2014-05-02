@@ -19,9 +19,51 @@ public class ChatRecord {
         messageType = 0;
     }
     
+<<<<<<< HEAD
     
            
     public String getMessage() {
+=======
+
+
+
+
+
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
+
+
+
+
+
+
+	public void setChatUserID(String chatUserID) {
+		this.chatUserID = chatUserID;
+	}
+
+
+
+
+
+
+	public void setDirection(Boolean direction) {
+		this.direction = direction;
+	}
+
+
+
+
+
+
+	public void setMessageType(int messageType) {
+		this.messageType = messageType;
+	}
+
+
+
+	public String getMessage() {
+>>>>>>> FETCH_HEAD
         return message;
     }
     
