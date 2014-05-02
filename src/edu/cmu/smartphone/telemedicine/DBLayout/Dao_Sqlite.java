@@ -1,5 +1,6 @@
 package edu.cmu.smartphone.telemedicine.DBLayout;
 
+import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +17,7 @@ import edu.cmu.smartphone.telemedicine.ContactActivity;
 import edu.cmu.smartphone.telemedicine.InfoActivity;
 import edu.cmu.smartphone.telemedicine.LoginActivity;
 import edu.cmu.smartphone.telemedicine.UserInfoActivity;
+import edu.cmu.smartphone.telemedicine.entities.ChatRecord;
 import edu.cmu.smartphone.telemedicine.entities.Contact;
 import android.content.ContentValues;
 import android.content.Context;
@@ -53,24 +55,16 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     private static final String KEY_INTRO = "intro";
     private static final String KEY_HEADPORTRAIT = "headportrait";
     
-    /*
-     *       // create chatRecord table.
-            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CHATRECORD
-                    + " (Id INTEGER not NULL AUTO_INCREMENT, "
-                    + "Message varchar(max), Status bit, Time datetime, userid integer,"
-                    + "Direction bit,"
-                    + "MessageTypeID integer, "
-                    + "PRIMARY KEY ( Id )), FOREIGN KEY (userid) REFERENCES " 
-                    + TABLE_CONTACT + "(id) ON DELETE CASCADE;");
-     * 
-     * */
-    
     // Chat record Table - column names
+    private static final String KEY_ID = "id";
     private static final String KEY_MESSAGE = "Message";
     private static final String KEY_STATUS = "Status";
     private static final String KEY_RECORD_TIME = "time";
     private static final String KEY_DIRECTION = "direction";
     private static final String KEY_MESSAGETYPE = "message_type_iD";
+    
+    // when show by page, the size of every page.
+    static final int PageSize = 10;
     
     // parse.com database.
     public static final String KEY_FULLNAME = "fullname";
@@ -79,6 +73,8 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     public static final String KEY_USERTABLE = "User"; // this table stored all the users.
     public static final String KEY_USERNAME_CLOUD = "username"; // the keyword of "username"
     public static final String KEY_FULLNAME_CLOUD = "fullname"; // the keyword of "username"
+    
+     
     
     private Context context;
     
@@ -165,10 +161,8 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
         myDB.close();
     }
     
-    
     // load a user's data to the database.
     public void loadDataFromCloud(String userName, final DataLoadCallback callback) {
-        
         ParseQuery<ParseObject> query = ParseQuery.getQuery(userName);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -288,8 +282,9 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     }
     
     /*
-     *       // create chatRecord table.
-            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CHATRECORD
+     *      
+     // create chatRecord table.
+     myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CHATRECORD
                     + " (Id INTEGER not NULL AUTO_INCREMENT, "
                     + "Message varchar(max), Status bit, Time datetime, userid integer,"
                     + "Direction bit,"
@@ -303,6 +298,36 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
         
         
         
+    }
+    
+    public void getChatRecord(String userID, ArrayList<ChatRecord> chatRecordArray, int pageID) {
+        String sql= "select * from " + TABLE_CHATRECORD +     
+                " Limit "+String.valueOf(PageSize)+ " Offset " +String.valueOf(pageID*PageSize);    
+                Cursor rec = myDB.rawQuery(sql, null);    
+            
+                //setTitle("当前分页的数据总数:"+String.valueOf(rec.getCount()));    
+                    
+                // 取得字段名称    
+                String title = "";    
+                int colCount = rec.getColumnCount();    
+                for (int i = 0; i < colCount; i++)    
+                    title = title + rec.getColumnName(i) + "     ";    
+            
+                    
+                // 列举出所有数据    
+                String content="";    
+                int recCount=rec.getCount();    
+                for (int i = 0; i < recCount; i++) {//定位到一条数据    
+                    rec.moveToPosition(i);    
+                    for(int ii=0;ii<colCount;ii++)//定位到一条数据中的每个字段    
+                    {    
+                        content=content+rec.getString(ii)+"     ";    
+                    }    
+                    content=content+"/r/n";    
+                }    
+                    
+                //edtSQL.setText(title+"/r/n"+content);//显示出来    
+                rec.close();    
     }
     
     public void addContact(Contact contact) { 
@@ -373,12 +398,16 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
             
             // create chatRecord table.
             myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CHATRECORD
-                    + " (Id INTEGER not NULL AUTO_INCREMENT, "
-                    + "Message varchar(max), Status bit, Time datetime, userid integer,"
-                    + "Direction bit,"
-                    + "MessageTypeID integer, "
-                    + "PRIMARY KEY ( Id )), FOREIGN KEY (userid) REFERENCES " 
-                    + TABLE_CONTACT + "(id) ON DELETE CASCADE;");
+                    + " (" 
+                    + KEY_ID + " INTEGER not NULL AUTO_INCREMENT, "
+                    + KEY_MESSAGE + " varchar(max), "
+                    + KEY_STATUS + " bit, "
+                    + KEY_RECORD_TIME + " datetime, "
+                    + KEY_USERID + " integer,"
+                    + KEY_DIRECTION + " bit,"
+                    + KEY_MESSAGETYPE + " integer, "
+                    + "PRIMARY KEY ( " + KEY_ID + " )), FOREIGN KEY (" + KEY_USERID + ") REFERENCES " 
+                    + TABLE_CONTACT + "(" + KEY_USERID + ") ON DELETE CASCADE;");
             
             // create recentChat table.
             myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_RECENTCHAT
