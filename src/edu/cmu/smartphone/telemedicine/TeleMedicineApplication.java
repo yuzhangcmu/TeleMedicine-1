@@ -1,14 +1,16 @@
 package edu.cmu.smartphone.telemedicine;
 
+import android.database.sqlite.SQLiteDatabase;
+
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 import com.parse.PushService;
 
+import edu.cmu.smartphone.telemedicine.DBLayout.Dao_Sqlite;
+import edu.cmu.smartphone.telemedicine.DBLayout.DatabaseManager;
 import edu.cmu.smartphone.telemedicine.constants.Constant;
-
-import android.app.Application;
 
 public class TeleMedicineApplication extends com.openclove.ovx.OVX {
 
@@ -32,6 +34,8 @@ public class TeleMedicineApplication extends com.openclove.ovx.OVX {
 		PushService.setDefaultPushCallback(this, ContactActivity.class);
 		ParseInstallation.getCurrentInstallation().saveInBackground();
 		// added by yu zhang begin for notification function. end
+
+		 DatabaseManager.initializeInstance(new Dao_Sqlite(getApplicationContext()));
 	}
 
 }

@@ -15,6 +15,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
@@ -240,6 +241,7 @@ public class ContactActivity extends Activity{
     }
     
     protected void onCreate(Bundle savedInstanceState) {
+    	Log.d(tag, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contactview);
         
@@ -272,8 +274,77 @@ public class ContactActivity extends Activity{
         loadContact();
     }
     
+    String tag = "ContactActivity";
     
-    private void readDataFromLocalDb() {
+    
+    @Override
+	protected void onRestart() {
+		// TODO Auto-generated method stub
+		super.onRestart();
+		Log.d(tag, "onRestart");
+        // load data to the view.
+        loadContact();
+	}
+    
+    
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onRestoreInstanceState(savedInstanceState);
+		Log.d(tag, "onRestoreInstanceState");
+	}
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onPostCreate(savedInstanceState);
+		Log.d(tag, "onPostCreate");
+	}
+
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		Log.d(tag, "onStart");
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		Log.d(tag, "onResume");
+	}
+
+	@Override
+	protected void onPostResume() {
+		// TODO Auto-generated method stub
+		super.onPostResume();
+		Log.d(tag, "onPostResume");
+	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		Log.d(tag, "onPause");
+	}
+
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		Log.d(tag, "onStop");
+	}
+
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		Log.d(tag, "onDestroy");
+	}
+
+	private void readDataFromLocalDb() {
         // the database is named by the userID.
         String userID = Contact.getCurrentUserID();
         

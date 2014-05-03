@@ -99,7 +99,7 @@
         </activity>
         <activity android:name="edu.cmu.smartphone.telemedicine.MessageRecordsActivity" >
         </activity>
-        <activity android:name="edu.cmu.smartphone.telemedicine.VideoActivity"  android:configChanges="orientation|screenSize">
+        <activity android:name="edu.cmu.smartphone.telemedicine.VideoActivity"  android:launchMode="singleTask" android:configChanges="orientation|screenSize">
         </activity>
         
         <!-- Added by Yu Zhang fro display the tabs. -->

@@ -43,6 +43,7 @@ import com.openclove.ovx.OVXView;
 import com.parse.ParseUser;
 
 import edu.cmu.smartphone.telemedicine.DBLayout.Dao_Sqlite;
+import edu.cmu.smartphone.telemedicine.DBLayout.DatabaseManager;
 import edu.cmu.smartphone.telemedicine.entities.ChatRecord;
 import edu.cmu.smartphone.telemedicine.entities.Contact;
 import edu.cmu.smartphone.telemedicine.ws.remote.Notification;
@@ -75,7 +76,8 @@ public class VideoActivity extends Activity {
 		setContentView(R.layout.videoview);
 		
 		currentUserId = Contact.getCurrentUserID();
-		dao = new Dao_Sqlite(VideoActivity.this, currentUserId, null, 1);
+		dao = new Dao_Sqlite(getApplicationContext(), currentUserId, null, 1);
+//		dao = (Dao_Sqlite) DatabaseManager.getSQLiteOpenHelper();
 		
 		currentUserName = ParseUser.getCurrentUser().getUsername();
 		caller_username = getIntent().getStringExtra("caller_username");
@@ -228,9 +230,9 @@ public class VideoActivity extends Activity {
 				        record.setChatUserID(callee_username);
 				        dao.addChatRecord(record);
 				        
-//				        ArrayList<ChatRecord> list = new ArrayList<ChatRecord>();
-//				        dao.getChatRecord("b", list, 0);
-//				        alert(VideoActivity.this, list.toString());
+				        ArrayList<ChatRecord> list = new ArrayList<ChatRecord>();
+				        dao.getChatRecord("b", list, 0);
+				        alert(VideoActivity.this, list.toString());
 						
 						focusOnText();
 					}
@@ -387,7 +389,12 @@ public class VideoActivity extends Activity {
 						record.setDate(sqlDate);
 				        record.setMessage(data);
 				        record.setDirection(false);	// receive msg from other people
-				        record.setChatUserID(callee_username);
+				        if(caller_username!=null && caller_username.equals(currentUserId)) {	// I'm caller and receive msg from other people
+				        	record.setChatUserID(callee_username);
+				        } else {		// I'm callee and receive msg from other people
+				        	record.setChatUserID(caller_username);
+				        }
+				        
 				        dao.addChatRecord(record);
 					} 
 				}

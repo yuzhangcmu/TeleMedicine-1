@@ -550,18 +550,24 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
         }
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
-        // on upgrade drop older tables
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACT);
-        
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CHATRECORD);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_RECENTCHAT);
-        
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PATIENT);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_DOCTOR);
- 
-        // create new tables
-        onCreate(db);
-    }
+	@Override
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		// TODO Auto-generated method stub
+		
+	}
+
+//    @Override
+//    public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
+//        // on upgrade drop older tables
+////        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACT);
+//        
+////        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CHATRECORD);
+////        db.execSQL("DROP TABLE IF EXISTS " + TABLE_RECENTCHAT);
+//        
+////        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PATIENT);
+////        db.execSQL("DROP TABLE IF EXISTS " + TABLE_DOCTOR);
+// 
+//        // create new tables
+//        onCreate(db);
+//    }
 }

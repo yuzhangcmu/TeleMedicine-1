@@ -1,0 +1,267 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#808080" >
+
+    <RelativeLayout
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/gradient_bar"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/openclove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/oc"
+            android:textColor="@android:color/black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/openclove"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:text="@string/ovxeg"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/scroll_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#808080" >
+
+            <RelativeLayout
+                android:id="@+id/chat_control"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+              
+                android:background="#808080"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/openclove_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@null"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/openclove_icon" />
+
+                 <EditText
+                    android:id="@+id/chat_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/openclove_icon"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:hint="Enter Message"
+                    android:imeOptions="actionSend"
+                    android:inputType="text"
+                    android:scrollbars="horizontal"
+                    android:textColor="#0000" />
+
+               
+
+                <TextView
+                    android:id="@+id/chat_text_box"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:layout_below="@+id/chat_text"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1.0"
+                    android:autoLink="all"
+                    android:background="#C0C0C0"
+                    android:hint="@string/openclove"
+                    android:scrollbars="vertical"
+                    android:textColor="#0000" />
+                <!-- /ScrollView -->
+
+                <TextView
+                    android:id="@+id/app"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_alignLeft="@+id/chat_text_box"
+                    android:layout_alignRight="@+id/chat_text_box"
+                    android:layout_below="@+id/chat_text_box"
+                    android:layout_marginTop="19dp"
+                    android:background="#C0C0C0"
+                    android:gravity="center_horizontal"
+                    android:textColor="#000000" />
+
+                
+            </RelativeLayout>
+       
+
+            <HorizontalScrollView
+                android:id="@+id/pscroll"
+                android:layout_width="fill_parent"
+                android:layout_height="110dp"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@id/chat_control"
+                android:layout_marginTop="30dp"
+                android:fillViewport="true"
+                android:orientation="horizontal"
+                android:scrollbarAlwaysDrawHorizontalTrack="true" >
+
+                <RelativeLayout
+                    android:id="@+id/media_control"
+                    android:layout_width="fill_parent"
+                    android:layout_height="110dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#808080"
+                    android:orientation="vertical" >
+
+                    <RelativeLayout
+                        android:id="@+id/control_bar1"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/gradient_bar"
+                        android:orientation="horizontal" >
+
+                        <Button
+                            android:id="@+id/call_menu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleType="fitXY"
+                            android:text="Call Menu" />
+
+                        <Button
+                            android:id="@+id/start_call"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/call_menu"
+                            android:scaleType="fitXY"
+                            android:text="Start Call" />
+
+                        <Button
+                            android:id="@+id/end_call"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/start_call"
+                            android:scaleType="fitXY"
+                            android:text="End Call" />
+
+                        <Button
+                            android:id="@+id/switch_layer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/end_call"
+                            android:scaleType="fitXY"
+                            android:text="Switch" />
+
+                       
+
+                        
+                       
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/control_bar2"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_below="@+id/control_bar1"
+                        android:background="@drawable/gradient_bar"
+                        android:orientation="horizontal" >
+
+                        <Button
+                            android:id="@+id/audio_mute"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleType="fitXY"
+                            android:text="Audio Mute" />
+
+                        <Button
+                            android:id="@+id/video_mute"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/audio_mute"
+                            android:scaleType="fitXY"
+                            android:text="Video Mute" />
+
+                        <Button
+                            android:id="@+id/orientation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/video_mute"
+                            android:scaleType="fitXY"
+                            android:text="Orientation" />
+                         <Button
+                            android:id="@+id/switch_camera"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/orientation"
+                            android:scaleType="fitXY"
+                            android:text="Switch Camera" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/control_bar3"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_below="@+id/control_bar2"
+                        android:background="@drawable/gradient_bar"
+                        android:orientation="horizontal" >
+
+                        <Button
+                            android:id="@+id/send_image"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleType="fitXY"
+                            android:text="Send Image" />
+
+                        <Button
+                            android:id="@+id/send_link"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/send_image"
+                            android:scaleType="fitXY"
+                            android:text="Send Link" />
+                        
+                         <Button
+                            android:id="@+id/setgrpid"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+     						android:layout_toRightOf="@+id/send_link"
+                            android:scaleType="fitXY"
+                            android:text="Set GroupID" />
+
+                        
+                        <Button
+                            android:id="@+id/add_friends"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/setgrpid"
+                            android:scaleType="fitXY"
+                            android:text="Add Friend" />
+                    </RelativeLayout>
+                </RelativeLayout>
+            </HorizontalScrollView>
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

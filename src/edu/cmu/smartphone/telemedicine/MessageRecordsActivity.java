@@ -103,6 +103,10 @@ public class MessageRecordsActivity extends Activity {
 	protected void loadMessageRecordsFromLocalDB() {
 		
 		// TODO
+//		ArrayList<ChatRecord> list = new ArrayList<ChatRecord>();
+//        dao.getChatRecord("b", list, 0);
+//        alert(VideoActivity.this, list.toString());
+		
         ArrayList<ChatRecord> list = new ArrayList<ChatRecord>();
         dao.getChatRecord(callee_username, list, 0);
         
