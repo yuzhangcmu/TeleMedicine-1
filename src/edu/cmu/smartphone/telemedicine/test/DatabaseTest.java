@@ -47,7 +47,7 @@ public class DatabaseTest {
 //        System.out.println(dt1.format(date));
         
         //Date date = "1985-10-29";
-        
+        record.setChatUserID("yuzhang");
         record.setDate(null);
         record.setStatus(true);
         record.setMessage("I love you1");

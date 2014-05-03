@@ -135,12 +135,15 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     }
     
     public Cursor getRecentContactCursor() {
-//        String sql = "SELECT " + KEY_USERID + "," + KEY_RECORD_TIME +
+//        String sql = "SELECT rowid _id, " + KEY_USERID + "," + KEY_RECORD_TIME +
 //                " FROM " + TABLE_CHATRECORD + " ORDER BY " + KEY_RECORD_TIME + " DESC;";
-//        Log.e(LOG, sql);
-//        
-//        Cursor c = myDB.rawQuery(sql, null);
-        return null;
+        String sql = "SELECT " + KEY_USERID + " AS _id, " + KEY_USERID + "," + KEY_RECORD_TIME +
+                " FROM " + TABLE_RECENTCHAT + " ORDER BY " + KEY_RECORD_TIME + " DESC;";
+        
+        Log.e(LOG, sql);
+        
+        Cursor c = myDB.rawQuery(sql, null);
+        return c;
     }
     
     public long getContactNumber() {
@@ -327,7 +330,6 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
                     "strftime('%Y-%m-%d %H:%M:%f', 'now', 'utc')"
                     );
             
-            
             formatter.close();
             String sql = sb.toString();
             myDB.execSQL(sql);
@@ -354,7 +356,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
             
             // Explicit argument indices may be used to re-order output.
             formatter.format("REPLACE INTO %s (" 
-                    + KEY_USERID + ", "
+                    + KEY_USERID + ", "                  
                     + KEY_RECORD_TIME
                     + ") "           
                     + "VALUES ('%s', %s);",
@@ -519,7 +521,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
                     + KEY_MESSAGE + " varchar(255), "
                     + KEY_STATUS + " bit, "
                     //+ KEY_RECORD_TIME + " datetime, "
-                    + KEY_USERID + " integer,"
+                    + KEY_USERID + " varchar(255),"
                     + KEY_DIRECTION + " bit,"
                     + KEY_MESSAGETYPE + " integer, "
                     + KEY_RECORD_TIME + " DATETIME DEFAULT CURRENT_TIMESTAMP"
@@ -528,7 +530,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
             // create recentChat table.
             myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_RECENTCHAT
                     + " (" 
-                    + KEY_USERID + " INTEGER PRIMARY KEY, " // userID as the primary key.
+                    + KEY_USERID + " varchar(255) PRIMARY KEY, " // userID as the primary key.
                     + KEY_RECORD_TIME + " DATETIME DEFAULT CURRENT_TIMESTAMP"
                     + ");");
 //            
