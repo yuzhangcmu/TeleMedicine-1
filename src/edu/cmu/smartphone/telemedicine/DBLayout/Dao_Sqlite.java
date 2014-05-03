@@ -135,8 +135,8 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     }
     
     public Cursor getRecentContactCursor() {
-        String sql = "SELECT " + KEY_NAME + "," + KEY_RECORD_TIME +
-                " FROM " + TABLE_CHATRECORD + " ORDER BY " + KEY_RECORD_TIME;
+        String sql = "SELECT " + KEY_USERID + "," + KEY_RECORD_TIME +
+                " FROM " + TABLE_CHATRECORD + " ORDER BY " + KEY_RECORD_TIME + " DESC;";
         Log.e(LOG, sql);
         
         Cursor c = myDB.rawQuery(sql, null);
