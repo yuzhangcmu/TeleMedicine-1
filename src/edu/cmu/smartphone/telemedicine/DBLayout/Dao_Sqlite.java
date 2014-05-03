@@ -78,13 +78,10 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     public static final String KEY_USERTABLE = "User"; // this table stored all the users.
     public static final String KEY_USERNAME_CLOUD = "username"; // the keyword of "username"
     public static final String KEY_FULLNAME_CLOUD = "fullname"; // the keyword of "username"
-    
-     
-    
+
     private Context context;
     
     SQLiteDatabase myDB;
-    
     
     
     public Dao_Sqlite(Context context, String name, CursorFactory factory,
@@ -304,7 +301,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     public void addChatRecord(ChatRecord record) {
         // refresh the recent chat list.
         RecentChat chat = new RecentChat(record.getChatUserID());
-//        addRecentContact(chat);
+        addRecentContact(chat);
         
         try {
             StringBuilder sb = new StringBuilder();
@@ -487,6 +484,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase DB) {
         try {
+            //onUpgrade(DB, 0, 0);
             // Create contact table
             /*
             myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CONTACT
@@ -515,7 +513,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
 //                    + "PRIMARY KEY ( " + KEY_ID + " ), FOREIGN KEY (" + KEY_USERID + ") REFERENCES " 
 //                    + TABLE_CONTACT + "(" + KEY_USERID + ") ON DELETE CASCADE);");
             
-            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CHATRECORD
+            DB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CHATRECORD
                     + " (" 
                     + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + KEY_MESSAGE + " varchar(255), "
@@ -528,7 +526,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
                     + ");");
             
             // create recentChat table.
-            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_RECENTCHAT
+            DB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_RECENTCHAT
                     + " (" 
                     + KEY_USERID + " varchar(255) PRIMARY KEY, " // userID as the primary key.
                     + KEY_RECORD_TIME + " DATETIME DEFAULT CURRENT_TIMESTAMP"

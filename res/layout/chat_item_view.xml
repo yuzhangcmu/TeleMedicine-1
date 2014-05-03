@@ -46,9 +46,9 @@
         android:id="@+id/recent_chat_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/title"
-        android:layout_alignBottom="@+id/title"
+        android:layout_alignLeft="@+id/recent_chat"
         android:layout_alignParentRight="true"
+        android:layout_below="@+id/recent_chat"
         android:text="@string/time_recent_chat"
         android:textColor="@color/Gray"
         android:textSize="13sp" />

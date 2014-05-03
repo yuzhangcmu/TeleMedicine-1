@@ -110,7 +110,7 @@ public class LoginActivity extends Activity implements DataLoadCallback{
 							        dao.loadDataFromCloud(username, LoginActivity.this);
 							        
 							        // added by yu zhang. For testing.
-							        //DatabaseTest.databaseChatRecordTest(LoginActivity.this);
+							        DatabaseTest.databaseChatRecordTest(LoginActivity.this);
 							        
 							        // modified by yuzhang. wait until the new activity to be load.
 							        // this is moved to the callback function to keep a screen to the user.

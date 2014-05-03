@@ -27,9 +27,6 @@ public class DatabaseTest {
         ChatRecord record = new ChatRecord();
         
         // Logcat tag
-        
-        
-        
         String date_s = "2011-01-18 00:00:00.0";
 
         // *** note that it's "yyyy-MM-dd hh:mm:ss" not "yyyy-mm-dd hh:mm:ss"  
@@ -73,6 +70,12 @@ public class DatabaseTest {
             dao.addChatRecord(recordi);
         }
         
+        for (int i = 0; i < 20; i++) {            
+            ChatRecord recordi = new ChatRecord("test message" + i, true, null, "binfeng", true, 0);
+            dao.addChatRecord(recordi);
+            
+        }
+        
         ArrayList<ChatRecord> list = new ArrayList<ChatRecord>();
         ArrayList<ChatRecord> list2 = new ArrayList<ChatRecord>();
         dao.getChatRecord("y", list, 0);
@@ -82,8 +85,6 @@ public class DatabaseTest {
         ArrayList<ChatRecord> list4 = new ArrayList<ChatRecord>();
         dao.getChatRecord("yuzhang", list3, 0);
         dao.getChatRecord("yuzhang", list4, 1);
-        String str1 = list.toString();
-        String str2 = list2.toString();
         
         Log.d(LOGTEST, "Print list1");
         for (int i = 0; i < list.size(); i++) {

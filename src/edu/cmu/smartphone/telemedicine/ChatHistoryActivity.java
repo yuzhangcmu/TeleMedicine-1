@@ -74,11 +74,15 @@ public class ChatHistoryActivity extends ListActivity {
                 // this is just for test. give a parameter to the next activity to chat.
                 Contact contact = new Contact("yuzhang", "yuzhang");
                 
-                // show the chatt window.
-                Intent intent = new Intent(ChatHistoryActivity.this, ChatActivity.class);
-                intent.putExtra("username", contact.getUserID());
-                intent.putExtra("fullname", contact.getName());
-                intent.putExtra("email", contact.getEmail());
+                Cursor cursor = (Cursor) parent.getItemAtPosition(position);
+                String name = cursor.getString(0);
+                //Toast.makeText(Activity2.this, name, Toast.LENGTH_SHORT).show();
+                
+                // show the profile window.
+                Intent intent = new Intent(ChatHistoryActivity.this, InfoActivity.class);
+                intent.putExtra("username", name);
+                intent.putExtra("fullname", name);
+                intent.putExtra("email", "null");
                 startActivity(intent);
             }
         });
