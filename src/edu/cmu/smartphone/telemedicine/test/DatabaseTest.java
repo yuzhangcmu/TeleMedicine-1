@@ -20,9 +20,14 @@ import edu.cmu.smartphone.telemedicine.entities.Contact;
 import edu.cmu.smartphone.telemedicine.ws.remote.Notification;
 
 public class DatabaseTest {
+    private static final String LOGTEST = "DatabaseTest";
+    
     public static void databaseChatRecordTest(Context context) {
         Dao_Sqlite dao = new Dao_Sqlite(context, "y", null, 1);
         ChatRecord record = new ChatRecord();
+        
+        // Logcat tag
+        
         
         
         String date_s = "2011-01-18 00:00:00.0";
@@ -80,13 +85,25 @@ public class DatabaseTest {
         String str1 = list.toString();
         String str2 = list2.toString();
         
-        Log.d(reportDate, str1);
-        Log.d(reportDate, str2);
+        Log.d(LOGTEST, "Print list1");
+        for (int i = 0; i < list.size(); i++) {
+            Log.d(LOGTEST, list.get(0).getTime().toString());
+        }
+        
+        for (int i = 0; i < list2.size(); i++) {
+            Log.d(LOGTEST, list2.get(0).getTime().toString());
+        }
+        
+        for (int i = 0; i < list3.size(); i++) {
+            Log.d(LOGTEST, list3.get(0).getTime().toString());
+        }
+        
+        for (int i = 0; i < list4.size(); i++) {
+            Log.d(LOGTEST, list4.get(0).getTime().toString());
+        }
         
         //alert(context, list.toString());
         //alert(context, list2.toString());
-        
-        
     }
     
     public static void alert(Context context, String message) {

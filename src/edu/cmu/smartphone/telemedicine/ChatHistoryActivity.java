@@ -5,11 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.cmu.smartphone.telemedicine.DBLayout.Dao_Sqlite;
 import edu.cmu.smartphone.telemedicine.adapt.BuildContact;
 import edu.cmu.smartphone.telemedicine.entities.Contact;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.Contacts.People;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,10 +21,12 @@ import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.SimpleCursorAdapter;
 
 // extends ListActivity to get the features.
 public class ChatHistoryActivity extends ListActivity {
@@ -36,11 +41,22 @@ public class ChatHistoryActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_history_view);
         
-        datalist = getData();
+//        datalist = getData();
+//        
+//        adapter = new SimpleAdapter(this, datalist, R.layout.chat_item_view,
+//                new String[]{"title","info","img","time"},
+//                new int[]{R.id.title,R.id.recent_chat,R.id.img, R.id.recent_chat_time});
+//        setListAdapter(adapter);
         
-        adapter = new SimpleAdapter(this, datalist, R.layout.chat_item_view,
-                new String[]{"title","info","img","time"},
-                new int[]{R.id.title,R.id.recent_chat,R.id.img, R.id.recent_chat_time});
+        Dao_Sqlite dao = new Dao_Sqlite(ChatHistoryActivity.this);
+        Cursor c = dao.getRecentContactCursor();
+        startManagingCursor(c);   
+        ListAdapter adapter = new SimpleCursorAdapter(this,    
+                    R.layout.chat_item_view,   
+                    c,    
+                    new String[] {Dao_Sqlite.KEY_USERID, null, null, Dao_Sqlite.KEY_RECORD_TIME} ,   
+                    new int[] {R.id.title,R.id.recent_chat,R.id.img, R.id.recent_chat_time});    
+         
         setListAdapter(adapter);
         
         // get the view which show the list of chat.
@@ -81,10 +97,9 @@ public class ChatHistoryActivity extends ListActivity {
     }
     
     @Override
+    // delete a recent contact from the recent list.
     public boolean onContextItemSelected(MenuItem item)
     {
-        //setTitle("点击了长按菜单里面的第"+item.getItemId()+"个项目"); 
-        
         // get which line is pressed.
         int selectedPosition = ((AdapterContextMenuInfo) item.getMenuInfo()).position;
         
@@ -92,12 +107,13 @@ public class ChatHistoryActivity extends ListActivity {
             Map<String, Object> map = datalist.get(selectedPosition);
             //String userID = contact.getUserID();
             
-            datalist.remove(selectedPosition);//选择行的位置
+            datalist.remove(selectedPosition); //get the position of the line and remove it.
             adapter.notifyDataSetChanged();
             chatListView.invalidate();
             
             // delete the session from the database.
-            
+            Dao_Sqlite dao = new Dao_Sqlite(ChatHistoryActivity.this);
+            //dao.delRecentContact(userID);
         }
         
         return super.onContextItemSelected(item);
