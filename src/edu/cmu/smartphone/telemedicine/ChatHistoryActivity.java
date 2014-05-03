@@ -1,10 +1,12 @@
 package edu.cmu.smartphone.telemedicine;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.support.v4.widget.SimpleCursorAdapter;
 import edu.cmu.smartphone.telemedicine.DBLayout.Dao_Sqlite;
 import edu.cmu.smartphone.telemedicine.adapt.BuildContact;
 import edu.cmu.smartphone.telemedicine.entities.Contact;
@@ -12,7 +14,6 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.Contacts.People;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +27,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.SimpleCursorAdapter;
+//import android.widget.SimpleCursorAdapter;
 
 // extends ListActivity to get the features.
 public class ChatHistoryActivity extends ListActivity {
@@ -41,23 +42,24 @@ public class ChatHistoryActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_history_view);
         
-        datalist = getData();
-        
-        adapter = new SimpleAdapter(this, datalist, R.layout.chat_item_view,
-                new String[]{"title","info","img","time"},
-                new int[]{R.id.title,R.id.recent_chat,R.id.img, R.id.recent_chat_time});
-        setListAdapter(adapter);
-        
-//        Dao_Sqlite dao = new Dao_Sqlite(ChatHistoryActivity.this);
-//        Cursor c = dao.getRecentContactCursor();
-//        startManagingCursor(c);   
-//        ListAdapter adapter = new SimpleCursorAdapter(this,    
-//                    R.layout.chat_item_view,   
-//                    c,    
-//                    new String[] {Dao_Sqlite.KEY_USERID, null, null, Dao_Sqlite.KEY_RECORD_TIME} ,   
-//                    new int[] {R.id.title,R.id.recent_chat,R.id.img, R.id.recent_chat_time});    
-//         
+//        datalist = getData();
+//        
+//        adapter = new SimpleAdapter(this, datalist, R.layout.chat_item_view,
+//                new String[]{"title","info","img","time"},
+//                new int[]{R.id.title,R.id.recent_chat,R.id.img, R.id.recent_chat_time});
 //        setListAdapter(adapter);
+        
+        Dao_Sqlite dao = new Dao_Sqlite(ChatHistoryActivity.this);
+        Cursor c = dao.getRecentContactCursor();
+        startManagingCursor(c);   
+        ListAdapter adapter = new SimpleCursorAdapter(this,    
+                    R.layout.chat_item_view,   
+                    c,    
+                    new String[] {Dao_Sqlite.KEY_USERID, Dao_Sqlite.KEY_RECORD_TIME} ,   
+                    new int[] {R.id.title, R.id.recent_chat_time},
+                    0);    
+         
+        setListAdapter(adapter);
         
         // get the view which show the list of chat.
         chatListView = (ListView) findViewById(android.R.id.list);
@@ -72,11 +74,15 @@ public class ChatHistoryActivity extends ListActivity {
                 // this is just for test. give a parameter to the next activity to chat.
                 Contact contact = new Contact("yuzhang", "yuzhang");
                 
-                // show the chatt window.
-                Intent intent = new Intent(ChatHistoryActivity.this, ChatActivity.class);
-                intent.putExtra("username", contact.getUserID());
-                intent.putExtra("fullname", contact.getName());
-                intent.putExtra("email", contact.getEmail());
+                Cursor cursor = (Cursor) parent.getItemAtPosition(position);
+                String name = cursor.getString(0);
+                //Toast.makeText(Activity2.this, name, Toast.LENGTH_SHORT).show();
+                
+                // show the profile window.
+                Intent intent = new Intent(ChatHistoryActivity.this, InfoActivity.class);
+                intent.putExtra("username", name);
+                intent.putExtra("fullname", name);
+                intent.putExtra("email", "null");
                 startActivity(intent);
             }
         });

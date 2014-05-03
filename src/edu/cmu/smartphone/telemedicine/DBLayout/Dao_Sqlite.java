@@ -78,13 +78,10 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     public static final String KEY_USERTABLE = "User"; // this table stored all the users.
     public static final String KEY_USERNAME_CLOUD = "username"; // the keyword of "username"
     public static final String KEY_FULLNAME_CLOUD = "fullname"; // the keyword of "username"
-    
-     
-    
+
     private Context context;
     
     SQLiteDatabase myDB;
-    
     
     
     public Dao_Sqlite(Context context, String name, CursorFactory factory,
@@ -135,12 +132,15 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     }
     
     public Cursor getRecentContactCursor() {
-//        String sql = "SELECT " + KEY_USERID + "," + KEY_RECORD_TIME +
+//        String sql = "SELECT rowid _id, " + KEY_USERID + "," + KEY_RECORD_TIME +
 //                " FROM " + TABLE_CHATRECORD + " ORDER BY " + KEY_RECORD_TIME + " DESC;";
-//        Log.e(LOG, sql);
-//        
-//        Cursor c = myDB.rawQuery(sql, null);
-        return null;
+        String sql = "SELECT " + KEY_USERID + " AS _id, " + KEY_USERID + "," + KEY_RECORD_TIME +
+                " FROM " + TABLE_RECENTCHAT + " ORDER BY " + KEY_RECORD_TIME + " DESC;";
+        
+        Log.e(LOG, sql);
+        
+        Cursor c = myDB.rawQuery(sql, null);
+        return c;
     }
     
     public long getContactNumber() {
@@ -301,7 +301,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     public void addChatRecord(ChatRecord record) {
         // refresh the recent chat list.
         RecentChat chat = new RecentChat(record.getChatUserID());
-//        addRecentContact(chat);
+        addRecentContact(chat);
         
         try {
             StringBuilder sb = new StringBuilder();
@@ -326,7 +326,6 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
                     record.getMessageType(),
                     "strftime('%Y-%m-%d %H:%M:%f', 'now', 'utc')"
                     );
-            
             
             formatter.close();
             String sql = sb.toString();
@@ -354,7 +353,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
             
             // Explicit argument indices may be used to re-order output.
             formatter.format("REPLACE INTO %s (" 
-                    + KEY_USERID + ", "
+                    + KEY_USERID + ", "                  
                     + KEY_RECORD_TIME
                     + ") "           
                     + "VALUES ('%s', %s);",
@@ -485,6 +484,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase DB) {
         try {
+            //onUpgrade(DB, 0, 0);
             // Create contact table
             /*
             myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CONTACT
@@ -513,22 +513,22 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
 //                    + "PRIMARY KEY ( " + KEY_ID + " ), FOREIGN KEY (" + KEY_USERID + ") REFERENCES " 
 //                    + TABLE_CONTACT + "(" + KEY_USERID + ") ON DELETE CASCADE);");
             
-            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CHATRECORD
+            DB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CHATRECORD
                     + " (" 
                     + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + KEY_MESSAGE + " varchar(255), "
                     + KEY_STATUS + " bit, "
                     //+ KEY_RECORD_TIME + " datetime, "
-                    + KEY_USERID + " integer,"
+                    + KEY_USERID + " varchar(255),"
                     + KEY_DIRECTION + " bit,"
                     + KEY_MESSAGETYPE + " integer, "
                     + KEY_RECORD_TIME + " DATETIME DEFAULT CURRENT_TIMESTAMP"
                     + ");");
             
             // create recentChat table.
-            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_RECENTCHAT
+            DB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_RECENTCHAT
                     + " (" 
-                    + KEY_USERID + " INTEGER PRIMARY KEY, " // userID as the primary key.
+                    + KEY_USERID + " varchar(255) PRIMARY KEY, " // userID as the primary key.
                     + KEY_RECORD_TIME + " DATETIME DEFAULT CURRENT_TIMESTAMP"
                     + ");");
 //            
