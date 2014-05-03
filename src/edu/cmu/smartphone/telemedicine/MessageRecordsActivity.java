@@ -3,9 +3,14 @@ package edu.cmu.smartphone.telemedicine;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.parse.ParseUser;
+
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,9 +21,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import edu.cmu.smartphone.telemedicine.DBLayout.Dao_Sqlite;
+import edu.cmu.smartphone.telemedicine.entities.ChatRecord;
+import edu.cmu.smartphone.telemedicine.entities.Contact;
 
 public class MessageRecordsActivity extends Activity {
 
+	String tag = "MessageRecordsActivity";
 	ArrayList<HashMap<String, Object>> chatList = null;
 	String[] from = { "image", "text" };
 	int[] to = { R.id.chatlist_image_me, R.id.chatlist_text_me, R.id.chatlist_image_other, R.id.chatlist_text_other };
@@ -36,12 +45,27 @@ public class MessageRecordsActivity extends Activity {
 	protected Button chat_bottom_nextbutton = null;
 
 	protected MyChatAdapter adapter = null;
+	Dao_Sqlite dao = null;
+	
+	String currentUserName = null;
+	String callee_username = null;
+	String callee_fullname = null;
+	String callee_email = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.message_records_view);
+		
+		currentUserName = ParseUser.getCurrentUser().getUsername();
+		callee_username = getIntent().getStringExtra("callee_username");
+		callee_fullname = getIntent().getStringExtra("fullname");
+		callee_email = getIntent().getStringExtra("email");
+		
+		
+		dao = new Dao_Sqlite(MessageRecordsActivity.this, Contact.getCurrentUserID(), null, 1);
+		
 		chatList = new ArrayList<HashMap<String, Object>>();
 		chatListView = (ListView) findViewById(R.id.chat_list);
 		chat_contact_name = (TextView) findViewById(R.id.chat_contact_name);
@@ -57,7 +81,6 @@ public class MessageRecordsActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				if(page > 0) {
 					page--;
 					loadMessageRecordsFromLocalDB();
@@ -69,33 +92,52 @@ public class MessageRecordsActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				page++;
 				loadMessageRecordsFromLocalDB();
 			}
 		});
 		
 		// chat_contact_name.setText();
-
-		
 	}
 	
 	protected void loadMessageRecordsFromLocalDB() {
-		if(page%2 == 0) {
-			chatList.clear();
-			addTextToList("不管你是谁", ME);
-			addTextToList("群发的我不回\n  ^_^", OTHER);
-			addTextToList("哈哈哈哈", ME);
-			addTextToList("新年快乐！", OTHER);
-			adapter.notifyDataSetChanged();
-		} else {
-			chatList.clear();
-			addTextToList("hehe", ME);
-			addTextToList("xixi\n  ^_^", OTHER);
-			addTextToList("ping", ME);
-			addTextToList("pong！", OTHER);
-			adapter.notifyDataSetChanged();
+		
+		// TODO
+        ArrayList<ChatRecord> list = new ArrayList<ChatRecord>();
+        dao.getChatRecord(callee_username, list, 0);
+        
+        chatList.clear();
+        
+        Log.d(tag, "callee_username:" + callee_username);
+        alert(MessageRecordsActivity.this, list.toString());
+        
+        for (ChatRecord chatRecord : list) {
+        	String msg = chatRecord.getMessage();
+        	if(chatRecord.getDirection()) {		// I send
+        		addTextToList(msg, ME);
+        	} else {		// I receive
+        		addTextToList(msg, OTHER);
+        	}
 		}
+        
+        
+//		if(page%2 == 0) {
+//			chatList.clear();
+//			addTextToList("不管你是谁", ME);
+//			addTextToList("群发的我不回\n  ^_^", OTHER);
+//			addTextToList("哈哈哈哈", ME);
+//			addTextToList("新年快乐！", OTHER);
+//			adapter.notifyDataSetChanged();
+//		} else {
+//			chatList.clear();
+//			addTextToList("hehe", ME);
+//			addTextToList("xixi\n  ^_^", OTHER);
+//			addTextToList("ping", ME);
+//			addTextToList("pong！", OTHER);
+//			adapter.notifyDataSetChanged();
+//		}
+		
+		adapter.notifyDataSetChanged();
 		chatListView.invalidate();
 	}
 
@@ -106,6 +148,29 @@ public class MessageRecordsActivity extends Activity {
 		map.put("text", text);
 		chatList.add(map);
 	}
+	
+	public static void alert(Context context, String message) {
+        new AlertDialog.Builder(context)
+        .setIcon(R.drawable.ic_launcher)
+        .// the icon
+        setTitle("Friend add request")
+        .// title
+        setMessage(message)
+        .// info
+        setPositiveButton("Yes", new DialogInterface.OnClickListener() {// ok
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        
+                        
+                    }
+                })
+        .setNegativeButton("No", new DialogInterface.OnClickListener() {// cancel
+                    @Override
+                    public void onClick(DialogInterface arg1, int witch) {
+                        
+                    }
+                }).show();
+    }
 
 	private class MyChatAdapter extends BaseAdapter {
 

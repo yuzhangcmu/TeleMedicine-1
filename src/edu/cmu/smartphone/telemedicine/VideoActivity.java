@@ -9,11 +9,13 @@
 package edu.cmu.smartphone.telemedicine;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -59,7 +61,13 @@ public class VideoActivity extends Activity {
 //	private String gid;
 	
 	String currentUserId = Contact.getCurrentUserID();
-
+	Dao_Sqlite dao = null;
+	
+	String currentUserName = null;
+	String caller_username = null;
+	String callee_username = null;
+	String callee_fullname = null;
+	String callee_email = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -67,13 +75,13 @@ public class VideoActivity extends Activity {
 		setContentView(R.layout.videoview);
 		
 		currentUserId = Contact.getCurrentUserID();
-		final Dao_Sqlite dao = new Dao_Sqlite(VideoActivity.this, currentUserId, null, 1);
+		dao = new Dao_Sqlite(VideoActivity.this, currentUserId, null, 1);
 		
-		final String currentUserName = ParseUser.getCurrentUser().getUsername();
-		final String caller_username = getIntent().getStringExtra("caller_username");
-		final String callee_username = getIntent().getStringExtra("callee_username");
-		final String callee_fullname = getIntent().getStringExtra("fullname");
-		final String callee_email = getIntent().getStringExtra("email");
+		currentUserName = ParseUser.getCurrentUser().getUsername();
+		caller_username = getIntent().getStringExtra("caller_username");
+		callee_username = getIntent().getStringExtra("callee_username");
+		callee_fullname = getIntent().getStringExtra("fullname");
+		callee_email = getIntent().getStringExtra("email");
 		
 		Log.d(tag, "caller_username:" + caller_username);
 		Log.d(tag, "callee_username:" + callee_username);
@@ -154,8 +162,13 @@ public class VideoActivity extends Activity {
 						try {
 							ovxView.call(); // Initiates call and starts a session with the specified OVX group id and other parameters set earlier.
 							// Send push notification to the other user to receive the call
-							 Notification notify = new Notification(VideoActivity.this);
-							 notify.sendInComingCallPush(currentUserName, callee_username, "msg1");
+							Log.d(tag, "caller_username:" + caller_username);
+							Log.d(tag, "callee_username:" + callee_username);
+							if(caller_username!=null && !caller_username.equals(callee_username)) {
+								Notification notify = new Notification(VideoActivity.this);
+								notify.sendInComingCallPush(currentUserName, callee_username, "msg1");
+							}
+							
 						} catch (OVXException e) {
 							e.printStackTrace();
 						}
@@ -173,7 +186,7 @@ public class VideoActivity extends Activity {
 				public void onClick(View v) {
 					if (ovxView.isCallOn()) { // 
 						ovxView.exitCall(); // ends the existing call and removes the user from the live conference.
-					} 
+					}
 				}
 			});
 
@@ -205,7 +218,7 @@ public class VideoActivity extends Activity {
 						chat_box.append("\n" + ovxView.getOvxUserName() + " : " + message);
 						ovx_text.setText("");
 						
-						//TODO: Adding logic insert to DB
+						//TODO: Adding chat msg to DB
 						ChatRecord record = new ChatRecord();
 						java.util.Calendar cal = java.util.Calendar.getInstance();
 						java.util.Date utilDate = cal.getTime();
@@ -215,6 +228,10 @@ public class VideoActivity extends Activity {
 				        record.setDirection(true);	// send to other people
 				        record.setChatUserID(callee_username);
 				        dao.addChatRecord(record);
+				        
+//				        ArrayList<ChatRecord> list = new ArrayList<ChatRecord>();
+//				        dao.getChatRecord("b", list, 0);
+//				        alert(VideoActivity.this, list.toString());
 						
 						focusOnText();
 					}
@@ -353,13 +370,27 @@ public class VideoActivity extends Activity {
 				String data = uri.getQueryParameter("data");
 				String sender = uri.getQueryParameter("sender");
 				
-				if(sender!=null && sender.equals("OpenClove")) {
-					sender = "System";
+				if(sender!=null) {
+					if(sender.equals("OpenClove")) {
+						sender = "System";
+					} 
+					
 					chat_box.setMovementMethod(new ScrollingMovementMethod());
-
 					chat_box.append("\n" + sender + " : " + data);
-
 					chat_box.setTextColor(Color.BLACK);
+					
+					// TODO
+					if(!sender.equals("System")) {
+						ChatRecord record = new ChatRecord();
+						java.util.Calendar cal = java.util.Calendar.getInstance();
+						java.util.Date utilDate = cal.getTime();
+						java.sql.Date sqlDate = new Date(utilDate.getTime());
+						record.setDate(sqlDate);
+				        record.setMessage(data);
+				        record.setDirection(false);	// receive msg from other people
+				        record.setChatUserID(callee_username);
+				        dao.addChatRecord(record);
+					} 
 				}
 				Log.d("INDUS", "Received message from ac_server:" + arg0);
 				
@@ -419,5 +450,29 @@ public class VideoActivity extends Activity {
 		else
 			chat_box.scrollTo(0, 0);
 	}
+	
+	
+	public static void alert(Context context, String message) {
+        new AlertDialog.Builder(context)
+        .setIcon(R.drawable.ic_launcher)
+        .// the icon
+        setTitle("Friend add request")
+        .// title
+        setMessage(message)
+        .// info
+        setPositiveButton("Yes", new DialogInterface.OnClickListener() {// ok
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        
+                        
+                    }
+                })
+        .setNegativeButton("No", new DialogInterface.OnClickListener() {// cancel
+                    @Override
+                    public void onClick(DialogInterface arg1, int witch) {
+                        
+                    }
+                }).show();
+    }
 
 }

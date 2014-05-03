@@ -64,10 +64,8 @@ public class DatabaseTest {
         
         
         for (int i = 0; i < 100; i++) {            
-            ChatRecord recordi = new ChatRecord("test message" + i, true, null,
-                    "yuzhang", true, 0);
+            ChatRecord recordi = new ChatRecord("test message" + i, true, null, "yuzhang", true, 0);
             dao.addChatRecord(recordi);
-            
         }
         
         ArrayList<ChatRecord> list = new ArrayList<ChatRecord>();

@@ -177,7 +177,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
                     Log.d("contacts", "Retrieved " + contactList.size() + " contacts");
                     
                     // delete the local database;
-                    onUpgrade(myDB, 0, 0);
+//                    onUpgrade(myDB, 0, 0);
                     
                     for (ParseObject o: contactList) {
                         String name = o.getString(KEY_FULLNAME);
