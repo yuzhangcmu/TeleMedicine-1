@@ -164,11 +164,10 @@ public class VideoActivity extends Activity {
 							// Send push notification to the other user to receive the call
 							Log.d(tag, "caller_username:" + caller_username);
 							Log.d(tag, "callee_username:" + callee_username);
-							if(caller_username!=null && !caller_username.equals(callee_username)) {
+							if(currentUserName!=null && !currentUserName.equals(callee_username)) {
 								Notification notify = new Notification(VideoActivity.this);
 								notify.sendInComingCallPush(currentUserName, callee_username, "msg1");
 							}
-							
 						} catch (OVXException e) {
 							e.printStackTrace();
 						}

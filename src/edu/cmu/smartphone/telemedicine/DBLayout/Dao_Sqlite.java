@@ -301,7 +301,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     public void addChatRecord(ChatRecord record) {
         // refresh the recent chat list.
         RecentChat chat = new RecentChat(record.getChatUserID());
-        addRecentContact(chat);
+//        addRecentContact(chat);
         
         try {
             StringBuilder sb = new StringBuilder();
@@ -363,7 +363,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
                     "strftime('%Y-%m-%d %H:%M:%f', 'now', 'utc')"
                     );
             
-            
+			Log.d(LOG, "sb:" + sb.toString());
             formatter.close();
             String sql = sb.toString();
             myDB.execSQL(sql);
@@ -394,7 +394,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
                 + " = '" + userID + "' "
                 + " order  by " 
                 + KEY_RECORD_TIME 
-                + " DESC "
+                + " ASC "
                 + " Limit "+String.valueOf(PAGE_SIZE)+ " Offset " +String.valueOf(pageID*PAGE_SIZE);
         
         Cursor rec = myDB.rawQuery(sql, null);    

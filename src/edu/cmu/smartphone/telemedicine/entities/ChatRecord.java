@@ -94,4 +94,14 @@ public class ChatRecord {
     public int getMessageType() {
         return messageType;
     }
+
+	@Override
+	public String toString() {
+		return "ChatRecord [message=" + message + ", status=" + status
+				+ ", date=" + date + ", time=" + time + ", chatUserID="
+				+ chatUserID + ", direction=" + direction + ", messageType="
+				+ messageType + "]";
+	}
+    
+    
 }
