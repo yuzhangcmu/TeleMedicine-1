@@ -41,23 +41,23 @@ public class ChatHistoryActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_history_view);
         
-//        datalist = getData();
-//        
-//        adapter = new SimpleAdapter(this, datalist, R.layout.chat_item_view,
-//                new String[]{"title","info","img","time"},
-//                new int[]{R.id.title,R.id.recent_chat,R.id.img, R.id.recent_chat_time});
-//        setListAdapter(adapter);
+        datalist = getData();
         
-        Dao_Sqlite dao = new Dao_Sqlite(ChatHistoryActivity.this);
-        Cursor c = dao.getRecentContactCursor();
-        startManagingCursor(c);   
-        ListAdapter adapter = new SimpleCursorAdapter(this,    
-                    R.layout.chat_item_view,   
-                    c,    
-                    new String[] {Dao_Sqlite.KEY_USERID, null, null, Dao_Sqlite.KEY_RECORD_TIME} ,   
-                    new int[] {R.id.title,R.id.recent_chat,R.id.img, R.id.recent_chat_time});    
-         
+        adapter = new SimpleAdapter(this, datalist, R.layout.chat_item_view,
+                new String[]{"title","info","img","time"},
+                new int[]{R.id.title,R.id.recent_chat,R.id.img, R.id.recent_chat_time});
         setListAdapter(adapter);
+        
+//        Dao_Sqlite dao = new Dao_Sqlite(ChatHistoryActivity.this);
+//        Cursor c = dao.getRecentContactCursor();
+//        startManagingCursor(c);   
+//        ListAdapter adapter = new SimpleCursorAdapter(this,    
+//                    R.layout.chat_item_view,   
+//                    c,    
+//                    new String[] {Dao_Sqlite.KEY_USERID, null, null, Dao_Sqlite.KEY_RECORD_TIME} ,   
+//                    new int[] {R.id.title,R.id.recent_chat,R.id.img, R.id.recent_chat_time});    
+//         
+//        setListAdapter(adapter);
         
         // get the view which show the list of chat.
         chatListView = (ListView) findViewById(android.R.id.list);
