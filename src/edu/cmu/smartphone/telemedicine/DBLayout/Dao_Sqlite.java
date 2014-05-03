@@ -68,7 +68,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     private static final String KEY_MESSAGETYPE = "message_type_id";
     
     // when show by page, the size of every page.
-    static final int PAGE_SIZE = 10;
+    static final int PAGE_SIZE = 3;
     
     // parse.com database.
     public static final String KEY_FULLNAME = "fullname";
@@ -287,18 +287,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
         }
     }
     
-    /*
-     *      
-     // create chatRecord table.
-     myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CHATRECORD
-                    + " (Id INTEGER not NULL AUTO_INCREMENT, "
-                    + "message varchar(max), status bit, Time datetime, userid integer,"
-                    + "Direction bit,"
-                    + "MessageTypeID integer, "
-                    + "PRIMARY KEY ( Id )), FOREIGN KEY (userid) REFERENCES " 
-                    + TABLE_CONTACT + "(id) ON DELETE CASCADE;");
-     * 
-     * */
+    // add a chat record.
     public void addChatRecord(ChatRecord record) {
         try {
             StringBuilder sb = new StringBuilder();
@@ -307,20 +296,23 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
             
             // Explicit argument indices may be used to re-order output.
             formatter.format("REPLACE INTO %s (" 
+                    + KEY_USERID + ", "
                     + KEY_MESSAGE + ", " 
                     + KEY_STATUS + ", "
-                    + KEY_RECORD_TIME + ", "
                     + KEY_DIRECTION + ", "
-                    + KEY_MESSAGETYPE + 
-                    ") "           
-                    + "VALUES ('%s', '%s', '%s', '%s', '%s');",
+                    + KEY_MESSAGETYPE + ", "
+                    + KEY_RECORD_TIME
+                    + ") "           
+                    + "VALUES ('%s', '%s', '%d', '%d', '%d', %s);",
                     TABLE_CHATRECORD,
+                    record.getChatUserID(),
                     record.getMessage(),
-                    record.getStatus(),
-                    record.getDate(),
-                    record.getDirection(),
-                    record.getMessageType()
+                    record.getStatus() ? 1: 0,
+                    record.getDirection() ? 1: 0,
+                    record.getMessageType(),
+                    "strftime('%Y-%m-%d %H:%M:%f', 'now', 'utc')"
                     );
+            
             
             formatter.close();
             String sql = sb.toString();
@@ -339,25 +331,15 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     }
     
     // get a page of chat record.
-    /*
-     *  private String message;
-        private Boolean status;
-        private Date date;
-        private String chatUserID;
-        private Boolean direction;
-        private int messageType;
-        
-        // Chat record Table - column names
-        private static final String KEY_ID = "id";
-        private static final String KEY_MESSAGE = "message";
-        private static final String KEY_STATUS = "status";
-        private static final String KEY_RECORD_TIME = "time";
-        private static final String KEY_DIRECTION = "direction";
-        private static final String KEY_MESSAGETYPE = "message_type_iD";
-     * */
     public void getChatRecord(String userID, ArrayList<ChatRecord> chatRecordList, int pageID) {
-        String sql= "select * from " + TABLE_CHATRECORD +     
-                " Limit "+String.valueOf(PAGE_SIZE)+ " Offset " +String.valueOf(pageID*PAGE_SIZE);    
+        String sql= "select * from " + TABLE_CHATRECORD 
+                + " WHERE "
+                + KEY_USERID
+                + " = '" + userID + "' "
+                + " order  by datetime(" 
+                + KEY_RECORD_TIME 
+                + ") DESC "
+                + " Limit "+String.valueOf(PAGE_SIZE)+ " Offset " +String.valueOf(pageID*PAGE_SIZE);    
         Cursor rec = myDB.rawQuery(sql, null);    
     
         // looping through all rows and adding to list
@@ -366,12 +348,25 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
                 ChatRecord record = new ChatRecord();
                 
                 record.setMessage(rec.getString(rec.getColumnIndex(KEY_MESSAGE)));
+                record.setChatUserID(rec.getString(rec.getColumnIndex(KEY_USERID)));
+                record.setMessageType(rec.getInt(rec.getColumnIndex(KEY_USERID)));
                 
                 // get the status.
                 Boolean status = rec.getInt(rec.getColumnIndex(KEY_STATUS)) > 0;
                 
                 // set the status.
                 record.setStatus(status);
+                
+                // get the direction.
+                Boolean direction = rec.getInt(rec.getColumnIndex(KEY_DIRECTION)) > 0;
+                
+                // set the status.
+                record.setDirection(direction);
+                
+                // set time.
+                // attention: no we just use string to store time.
+                String time = rec.getString(rec.getColumnIndex(KEY_RECORD_TIME));
+                record.setTime(time);
                 
                 chatRecordList.add(record);
             } while (rec.moveToNext());
@@ -466,10 +461,11 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
                     + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + KEY_MESSAGE + " varchar(255), "
                     + KEY_STATUS + " bit, "
-                    + KEY_RECORD_TIME + " datetime, "
+                    //+ KEY_RECORD_TIME + " datetime, "
                     + KEY_USERID + " integer,"
                     + KEY_DIRECTION + " bit,"
-                    + KEY_MESSAGETYPE + " integer"
+                    + KEY_MESSAGETYPE + " integer, "
+                    + KEY_RECORD_TIME + " DATETIME DEFAULT CURRENT_TIMESTAMP"
                     + ");");
             
 //            // create recentChat table.
