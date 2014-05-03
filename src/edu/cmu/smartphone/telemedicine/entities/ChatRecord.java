@@ -1,11 +1,14 @@
 package edu.cmu.smartphone.telemedicine.entities;
 
-import java.sql.Date;
+import java.util.Date;
+
 
 public class ChatRecord {
     private String message;
     private Boolean status;
     private Date date;
+    
+    private String time;
     private String chatUserID;
     private Boolean direction;
     private int messageType;
@@ -18,52 +21,43 @@ public class ChatRecord {
         direction = true;
         messageType = 0;
     }
-    
-<<<<<<< HEAD
-    
-           
-    public String getMessage() {
-=======
 
+	public String getTime() {
+        return time;
+    }
 
+    public void setTime(String time) {
+        this.time = time;
+    }
 
+    public ChatRecord(String message, Boolean status, Date date,
+            String chatUserID, Boolean direction, int messageType) {
+        super();
+        this.message = message;
+        this.status = status;
+        this.date = date;
+        this.chatUserID = chatUserID;
+        this.direction = direction;
+        this.messageType = messageType;
+    }
 
-
-	public void setStatus(Boolean status) {
+    public void setStatus(Boolean status) {
 		this.status = status;
 	}
-
-
-
-
-
 
 	public void setChatUserID(String chatUserID) {
 		this.chatUserID = chatUserID;
 	}
 
-
-
-
-
-
 	public void setDirection(Boolean direction) {
 		this.direction = direction;
 	}
-
-
-
-
-
 
 	public void setMessageType(int messageType) {
 		this.messageType = messageType;
 	}
 
-
-
 	public String getMessage() {
->>>>>>> FETCH_HEAD
         return message;
     }
     
