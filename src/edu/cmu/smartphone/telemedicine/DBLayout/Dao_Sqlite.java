@@ -21,6 +21,7 @@ import edu.cmu.smartphone.telemedicine.LoginActivity;
 import edu.cmu.smartphone.telemedicine.UserInfoActivity;
 import edu.cmu.smartphone.telemedicine.entities.ChatRecord;
 import edu.cmu.smartphone.telemedicine.entities.Contact;
+import edu.cmu.smartphone.telemedicine.entities.RecentChat;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -55,7 +56,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     private static final String KEY_EMAIL = "email";
     private static final String KEY_PHONE = "phone";
     private static final String KEY_NAME = "name";
-    private static final String KEY_USERID = "userid";
+    public static final String KEY_USERID = "userid";
     private static final String KEY_INTRO = "intro";
     private static final String KEY_HEADPORTRAIT = "headportrait";
     
@@ -63,7 +64,7 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     private static final String KEY_ID = "id";
     private static final String KEY_MESSAGE = "message";
     private static final String KEY_STATUS = "status";
-    private static final String KEY_RECORD_TIME = "time";
+    public static final String KEY_RECORD_TIME = "time";
     private static final String KEY_DIRECTION = "direction";
     private static final String KEY_MESSAGETYPE = "message_type_id";
     
@@ -127,6 +128,15 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     public Cursor getContactCursor() {
         String sql = "SELECT " + KEY_NAME + "," + KEY_USERID +
                 " FROM " + TABLE_CONTACT + " ORDER BY " + KEY_NAME;
+        Log.e(LOG, sql);
+        
+        Cursor c = myDB.rawQuery(sql, null);
+        return c;
+    }
+    
+    public Cursor getRecentContactCursor() {
+        String sql = "SELECT " + KEY_NAME + "," + KEY_RECORD_TIME +
+                " FROM " + TABLE_CHATRECORD + " ORDER BY " + KEY_RECORD_TIME;
         Log.e(LOG, sql);
         
         Cursor c = myDB.rawQuery(sql, null);
@@ -289,6 +299,10 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
     
     // add a chat record.
     public void addChatRecord(ChatRecord record) {
+        // refresh the recent chat list.
+        RecentChat chat = new RecentChat(record.getChatUserID());
+        addRecentContact(chat);
+        
         try {
             StringBuilder sb = new StringBuilder();
             
@@ -326,20 +340,63 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
         
     }
     
+    public void delRecentContact(String userID) {
+        myDB.delete(TABLE_RECENTCHAT, KEY_USERID + " = ?",
+                new String[] { userID });     
+    }
+    
+    // add a chat record.
+    public void addRecentContact(RecentChat record) {
+        try {
+            StringBuilder sb = new StringBuilder();
+            
+            Formatter formatter = new Formatter(sb, Locale.US);
+            
+            // Explicit argument indices may be used to re-order output.
+            formatter.format("REPLACE INTO %s (" 
+                    + KEY_USERID + ", "
+                    + KEY_RECORD_TIME
+                    + ") "           
+                    + "VALUES ('%s', %s);",
+                    TABLE_RECENTCHAT,
+                    record.getUserID(),
+                    "strftime('%Y-%m-%d %H:%M:%f', 'now', 'utc')"
+                    );
+            
+            
+            formatter.close();
+            String sql = sb.toString();
+            myDB.execSQL(sql);
+            Log.d(LOG, sql);
+ 
+        } catch (Exception e) {
+            Log.e("Error", "Error", e);
+        }
+    }
+    
     public int getPageNumber(String userID) {
         return 10;
     }
     
     // get a page of chat record.
     public void getChatRecord(String userID, ArrayList<ChatRecord> chatRecordList, int pageID) {
+//        String sql= "select * from " + TABLE_CHATRECORD 
+//                + " WHERE "
+//                + KEY_USERID
+//                + " = '" + userID + "' "
+//                + " order  by datetime(" 
+//                + KEY_RECORD_TIME 
+//                + ") DESC "
+//                + " Limit "+String.valueOf(PAGE_SIZE)+ " Offset " +String.valueOf(pageID*PAGE_SIZE);    
         String sql= "select * from " + TABLE_CHATRECORD 
                 + " WHERE "
                 + KEY_USERID
                 + " = '" + userID + "' "
-                + " order  by datetime(" 
+                + " order  by " 
                 + KEY_RECORD_TIME 
-                + ") DESC "
-                + " Limit "+String.valueOf(PAGE_SIZE)+ " Offset " +String.valueOf(pageID*PAGE_SIZE);    
+                + " DESC "
+                + " Limit "+String.valueOf(PAGE_SIZE)+ " Offset " +String.valueOf(pageID*PAGE_SIZE);
+        
         Cursor rec = myDB.rawQuery(sql, null);    
     
         // looping through all rows and adding to list
@@ -468,12 +525,12 @@ public class Dao_Sqlite extends SQLiteOpenHelper {
                     + KEY_RECORD_TIME + " DATETIME DEFAULT CURRENT_TIMESTAMP"
                     + ");");
             
-//            // create recentChat table.
-//            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_RECENTCHAT
-//                    + " (id INTEGER not NULL AUTO_INCREMENT, "
-//                    + "userid integer, Time datetime"
-//                    + "PRIMARY KEY ( Id )), FOREIGN KEY (userid) REFERENCES " 
-//                    + TABLE_CONTACT + "(id) ON DELETE CASCADE;");
+            // create recentChat table.
+            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_RECENTCHAT
+                    + " (" 
+                    + KEY_USERID + " INTEGER PRIMARY KEY, " // userID as the primary key.
+                    + KEY_RECORD_TIME + " DATETIME DEFAULT CURRENT_TIMESTAMP"
+                    + ");");
 //            
 //            // create patient table.
 //            myDB.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_PATIENT
