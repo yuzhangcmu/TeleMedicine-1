@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.4" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true">  
+  <class id="1" language="java" name="edu.cmu.smartphone.telemedicine.UserInfoActivity" project="TeleMedicine" 
+    file="/TeleMedicine/src/edu/cmu/smartphone/telemedicine/UserInfoActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="152" width="237" x="65" y="-107"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="edu.cmu.smartphone.telemedicine.TeleMedicineApplication" project="TeleMedicine" 
+    file="/TeleMedicine/src/edu/cmu/smartphone/telemedicine/TeleMedicineApplication.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="98" width="194" x="342" y="-107"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="edu.cmu.smartphone.telemedicine.MyCustomReceiver" project="TeleMedicine" 
+    file="/TeleMedicine/src/edu/cmu/smartphone/telemedicine/MyCustomReceiver.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="152" width="293" x="576" y="-107"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="edu.cmu.smartphone.telemedicine.ChatHistoryActivity" project="TeleMedicine" 
+    file="/TeleMedicine/src/edu/cmu/smartphone/telemedicine/ChatHistoryActivity.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="188" width="263" x="909" y="-107"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="edu.cmu.smartphone.telemedicine.InfoActivity" project="TeleMedicine" 
+    file="/TeleMedicine/src/edu/cmu/smartphone/telemedicine/InfoActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="170" width="187" x="1212" y="-107"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="edu.cmu.smartphone.telemedicine.LoginActivity" project="TeleMedicine" 
+    file="/TeleMedicine/src/edu/cmu/smartphone/telemedicine/LoginActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="206" width="204" x="1439" y="-107"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="edu.cmu.smartphone.telemedicine.MessageRecordsActivity" project="TeleMedicine" 
+    file="/TeleMedicine/src/edu/cmu/smartphone/telemedicine/MessageRecordsActivity.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="476" width="273" x="1683" y="-107"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="edu.cmu.smartphone.telemedicine.VideoActivity" project="TeleMedicine" 
+    file="/TeleMedicine/src/edu/cmu/smartphone/telemedicine/VideoActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="494" width="273" x="1996" y="-107"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="edu.cmu.smartphone.telemedicine.MessageRecordsActivity.MyChatAdapter" 
+    project="TeleMedicine" file="/TeleMedicine/src/edu/cmu/smartphone/telemedicine/MessageRecordsActivity.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="242" width="448" x="1683" y="427"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="edu.cmu.smartphone.telemedicine.MainActivity" project="TeleMedicine" 
+    file="/TeleMedicine/src/edu/cmu/smartphone/telemedicine/MainActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="134" width="169" x="2309" y="-107"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="edu.cmu.smartphone.telemedicine.MessageRecordsActivity.MyChatAdapter.ViewHolder" 
+    project="TeleMedicine" file="/TeleMedicine/src/edu/cmu/smartphone/telemedicine/MessageRecordsActivity.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="116" width="169" x="1683" y="709"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="edu.cmu.smartphone.telemedicine.ContactActivity" project="TeleMedicine" 
+    file="/TeleMedicine/src/edu/cmu/smartphone/telemedicine/ContactActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="404" width="263" x="3451" y="-107"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="edu.cmu.smartphone.telemedicine.RegisterActivity" project="TeleMedicine" 
+    file="/TeleMedicine/src/edu/cmu/smartphone/telemedicine/RegisterActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="206" width="175" x="2518" y="-107"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="14" language="java" name="edu.cmu.smartphone.telemedicine.ContactAdapter" project="TeleMedicine" 
+    file="/TeleMedicine/src/edu/cmu/smartphone/telemedicine/ContactAdapter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="152" width="255" x="3451" y="427"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="15" language="java" name="edu.cmu.smartphone.telemedicine.SettingActivity" project="TeleMedicine" 
+    file="/TeleMedicine/src/edu/cmu/smartphone/telemedicine/SettingActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="152" width="202" x="2733" y="-107"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="16" language="java" name="edu.cmu.smartphone.telemedicine.AddActivity" project="TeleMedicine" 
+    file="/TeleMedicine/src/edu/cmu/smartphone/telemedicine/AddActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="134" width="226" x="2975" y="-107"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="17" language="java" name="edu.cmu.smartphone.telemedicine.ChatActivity" project="TeleMedicine" 
+    file="/TeleMedicine/src/edu/cmu/smartphone/telemedicine/ChatActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="134" width="170" x="3241" y="-107"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="18" language="java" name="edu.cmu.smartphone.telemedicine.TabWidget" project="TeleMedicine" 
+    file="/TeleMedicine/src/edu/cmu/smartphone/telemedicine/TabWidget.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="98" width="169" x="3754" y="-107"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="19" language="java" name="edu.cmu.smartphone.telemedicine.IncomingCallReceiver" project="TeleMedicine" 
+    file="/TeleMedicine/src/edu/cmu/smartphone/telemedicine/IncomingCallReceiver.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="134" width="318" x="3963" y="-107"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <package id="20" language="java" name="edu.cmu.smartphone.telemedicine.ws.remote" project="TeleMedicine" 
+    file="/TeleMedicine/src/edu/cmu/smartphone/telemedicine/ws/remote" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="378" y="728"/>    
+    <display autosize="true" stereotype="true" accessors="true"/>  
+  </package>  
+  <package id="21" language="java" name="edu.cmu.smartphone.telemedicine.DBLayout" project="TeleMedicine" 
+    file="/TeleMedicine/src/edu/cmu/smartphone/telemedicine/DBLayout" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="751" y="728"/>    
+    <display autosize="true" stereotype="true" accessors="true"/>  
+  </package>  
+  <package id="22" language="java" name="edu.cmu.smartphone.telemedicine.adapt" project="TeleMedicine" 
+    file="/TeleMedicine/src/edu/cmu/smartphone/telemedicine/adapt" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1108" y="728"/>    
+    <display autosize="true" stereotype="true" accessors="true"/>  
+  </package>  
+  <package id="23" language="java" name="edu.cmu.smartphone.telemedicine.test" project="TeleMedicine" 
+    file="/TeleMedicine/src/edu/cmu/smartphone/telemedicine/test" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1445" y="728"/>    
+    <display autosize="true" stereotype="true" accessors="true"/>  
+  </package>  
+  <package id="24" language="java" name="edu.cmu.smartphone.telemedicine.ws.local" project="TeleMedicine" 
+    file="/TeleMedicine/src/edu/cmu/smartphone/telemedicine/ws/local" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2518" y="728"/>    
+    <display autosize="true" stereotype="true" accessors="true"/>  
+  </package>  
+  <package id="25" language="java" name="edu.cmu.smartphone.telemedicine.entities" project="TeleMedicine" 
+    file="/TeleMedicine/src/edu/cmu/smartphone/telemedicine/entities" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2160" y="728"/>    
+    <display autosize="true" stereotype="true" accessors="true"/>  
+  </package>  
+  <package id="26" language="java" name="edu.cmu.smartphone.telemedicine.constants" project="TeleMedicine" 
+    file="/TeleMedicine/src/edu/cmu/smartphone/telemedicine/constants" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1796" y="728"/>    
+    <display autosize="true" stereotype="true" accessors="true"/>  
+  </package>  
+  <association id="27">    
+    <end type="SOURCE" refId="12" navigable="false">      
+      <attribute id="28" name="adapter"/>      
+      <multiplicity id="29" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="14" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="30">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="9"/>  
+  </nesting>  
+  <nesting id="31">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="11"/>  
+  </nesting>  
+  <association id="32">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="33" name="adapter"/>      
+      <multiplicity id="34" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
